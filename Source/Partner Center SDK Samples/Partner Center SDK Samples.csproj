@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AC93E5CC-549C-4F13-9675-A86860918C2B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Store.PartnerCenter.Samples</RootNamespace>
+    <AssemblyName>Microsoft.Store.PartnerCenter.Samples</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Microsoft.Store.PartnerCenter.Samples.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\Microsoft.Store.PartnerCenter.Samples.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.29.0.1078, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.29.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.29.0.1078, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.29.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agreements\CreateCustomerAgreement.cs" />
+    <Compile Include="Agreements\GetAgreementDetails.cs" />
+    <Compile Include="Agreements\GetCustomerAgreements.cs" />
+    <Compile Include="Analytics\GetPartnerLicensesDeploymentAnalytics.cs" />
+    <Compile Include="Analytics\GetPartnerLicensesUsageAnalytics.cs" />
+    <Compile Include="Auditing\QueryAuditRecords.cs" />
+    <Compile Include="Auditing\SearchAuditRecords.cs" />
+    <Compile Include="Auditing\SearchAuditRecordsByCustomerId.cs" />
+    <Compile Include="Auditing\SearchAuditRecordsByResourceType.cs" />
+    <Compile Include="Carts\CheckoutCart.cs" />
+    <Compile Include="Carts\CreateCart.cs" />
+    <Compile Include="Carts\UpdateCart.cs" />
+    <Compile Include="Configuration\ApplicationAuthenticationSection.cs" />
+    <Compile Include="Configuration\ScenarioSettingsSection.cs" />
+    <Compile Include="Configuration\UserAuthenticationSection.cs" />
+    <Compile Include="Configuration\PartnerServiceSettingsSection.cs" />
+    <Compile Include="Configuration\Section.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Context\ScenarioContext.cs" />
+    <Compile Include="CustomerDirectoryRoles\AddUserMemberToDirectoryRole.cs" />
+    <Compile Include="CustomerDirectoryRoles\GetCustomerDirectoryRoles.cs" />
+    <Compile Include="CustomerDirectoryRoles\GetCustomerDirectoryRoleUserMembers.cs" />
+    <Compile Include="CustomerDirectoryRoles\RemoveCustomerUserMemberFromDirectoryRole.cs" />
+    <Compile Include="CustomerProducts\GetCustomerAvailability.cs" />
+    <Compile Include="CustomerProducts\GetCustomerAvailabilities.cs" />
+    <Compile Include="CustomerProducts\GetCustomerAvailabilitiesByTargetSegment.cs" />
+    <Compile Include="CustomerProducts\GetCustomerProduct.cs" />
+    <Compile Include="CustomerProducts\GetCustomerProducts.cs" />
+    <Compile Include="CustomerProducts\GetCustomerProductsByTargetSegment.cs" />
+    <Compile Include="CustomerProducts\GetCustomerSku.cs" />
+    <Compile Include="CustomerProducts\GetCustomerSkuDownloadOptions.cs" />
+    <Compile Include="CustomerProducts\GetCustomerSkus.cs" />
+    <Compile Include="CustomerProducts\GetCustomerSkusByTargetSegment.cs" />
+    <Compile Include="CustomerServiceCosts\GetCustomerServiceCostsLineItems.cs" />
+    <Compile Include="CustomerServiceCosts\GetCustomerServiceCostsSummary.cs" />
+    <Compile Include="CustomerSubscribedSkus\GetCustomerSubscribedSkus.cs" />
+    <Compile Include="Analytics\GetCustomerLicensesDeploymentAnalytics.cs" />
+    <Compile Include="Analytics\GetCustomerLicensesUsageAnalytics.cs" />
+    <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
+    <Compile Include="Customers\GetCustomerQualification.cs" />
+    <Compile Include="Customers\UpdateCustomerQualification.cs" />
+    <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
+    <Compile Include="Customers\GetCustomerManagedServices.cs" />
+    <Compile Include="Customers\FilterCustomers.cs" />
+    <Compile Include="Customers\GetPagedCustomers.cs" />
+    <Compile Include="Customers\DeleteCustomerFromTipAccount.cs" />
+    <Compile Include="Customers\GetCustomerRelationshipRequest.cs" />
+    <Compile Include="Customers\GetCustomerDetails.cs" />
+    <Compile Include="Customers\CheckDomainAvailability.cs" />
+    <Compile Include="Customers\CreateCustomer.cs" />
+    <Compile Include="Customers\ValidateCustomerAddress.cs" />
+    <Compile Include="CustomerUser\CreateCustomerUser.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignedGroup1AndGroup2Licenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignedGroup1Licenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignedGroup2Licenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignedLicenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignGroup1Licenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignLicenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserAssignGroup2Licenses.cs" />
+    <Compile Include="CustomerUser\CustomerUserRestore.cs" />
+    <Compile Include="CustomerUser\DeleteCustomerUser.cs" />
+    <Compile Include="CustomerUser\GetCustomerInactiveUsers.cs" />
+    <Compile Include="CustomerUser\GetCustomerUserCollection.cs" />
+    <Compile Include="CustomerUser\GetCustomerUserDetails.cs" />
+    <Compile Include="CustomerUser\GetCustomerUserDirectoryRoles.cs" />
+    <Compile Include="CustomerUser\GetPagedCustomerUsers.cs" />
+    <Compile Include="CustomerUser\SortCustomerUsers.cs" />
+    <Compile Include="CustomerUser\UpdateCustomerUser.cs" />
+    <Compile Include="DevicesDeployment\UpdateDevicesPolicy.cs" />
+    <Compile Include="DevicesDeployment\UpdateConfigurationPolicy.cs" />
+    <Compile Include="DevicesDeployment\GetDevicesBatches.cs" />
+    <Compile Include="DevicesDeployment\GetDevices.cs" />
+    <Compile Include="DevicesDeployment\GetBatchUploadStatus.cs" />
+    <Compile Include="DevicesDeployment\GetAllConfigurationPolicies.cs" />
+    <Compile Include="DevicesDeployment\DeleteDevice.cs" />
+    <Compile Include="DevicesDeployment\DeleteConfigurationPolicy.cs" />
+    <Compile Include="DevicesDeployment\CreateDevices.cs" />
+    <Compile Include="DevicesDeployment\CreateDeviceBatch.cs" />
+    <Compile Include="DevicesDeployment\CreateConfigurationPolicy.cs" />
+    <Compile Include="Entitlements\GetEntitlements.cs" />
+    <Compile Include="Helpers\ConsoleHelper.cs" />
+    <Compile Include="IndirectModel\CreateCustomerForIndirectReseller.cs" />
+    <Compile Include="IndirectModel\GetCustomersOfIndirectReseller.cs" />
+    <Compile Include="IndirectModel\GetIndirectResellers.cs" />
+    <Compile Include="IndirectModel\GetIndirectResellersOfCustomer.cs" />
+    <Compile Include="IndirectModel\PlaceOrderForCustomer.cs" />
+    <Compile Include="IndirectModel\GetSubscriptionsByMpnId.cs" />
+    <Compile Include="IndirectModel\VerifyPartnerMpnId.cs" />
+    <Compile Include="BasePartnerScenario.cs" />
+    <Compile Include="AggregatePartnerScenario.cs" />
+    <Compile Include="Invoice\GetAccountBalance.cs" />
+    <Compile Include="Invoice\GetInvoice.cs" />
+    <Compile Include="Invoice\GetInvoiceLineItems.cs" />
+    <Compile Include="Invoice\GetInvoiceStatement.cs" />
+    <Compile Include="Invoice\GetInvoiceSummaries.cs" />
+    <Compile Include="Invoice\GetPagedInvoices.cs" />
+    <Compile Include="Offers\GetCustomerOfferCategories.cs" />
+    <Compile Include="Offers\GetCustomerOffers.cs" />
+    <Compile Include="Offers\GetOffer.cs" />
+    <Compile Include="Offers\GetOfferCategories.cs" />
+    <Compile Include="Offers\GetOffers.cs" />
+    <Compile Include="Offers\GetPagedOffers.cs" />
+    <Compile Include="Orders\CreateAzureReservationOrder.cs" />
+    <Compile Include="Orders\GetOrderDetails.cs" />
+    <Compile Include="Orders\GetOrderProvisioningStatus.cs" />
+    <Compile Include="Orders\GetOrders.cs" />
+    <Compile Include="Orders\CreateOrder.cs" />
+    <Compile Include="Orders\GetOrdersByBillingCycleType.cs" />
+    <Compile Include="Orders\UpdateOrder.cs" />
+    <Compile Include="Products\GetAvailabilitiesByTargetSegment.cs" />
+    <Compile Include="Products\GetAvailabilities.cs" />
+    <Compile Include="Products\GetAvailability.cs" />
+    <Compile Include="Products\CheckInventory.cs" />
+    <Compile Include="Products\GetSkuDownloadOptions.cs" />
+    <Compile Include="Products\GetSku.cs" />
+    <Compile Include="Products\GetProduct.cs" />
+    <Compile Include="Products\GetSkusByTargetSegment.cs" />
+    <Compile Include="Products\GetSkus.cs" />
+    <Compile Include="Products\GetProductsByTargetSegment.cs" />
+    <Compile Include="Products\GetProducts.cs" />
+    <Compile Include="Profile\GetBillingProfile.cs" />
+    <Compile Include="Profile\GetlegalBusinessProfile.cs" />
+    <Compile Include="Profile\GetOrganizationProfile.cs" />
+    <Compile Include="Profile\GetMPNProfile.cs" />
+    <Compile Include="Profile\GetSupportProfile.cs" />
+    <Compile Include="Profile\UpdateBillingProfile.cs" />
+    <Compile Include="Profile\UpdateLegalBusinessProfile.cs" />
+    <Compile Include="Profile\UpdateOrganizationProfile.cs" />
+    <Compile Include="Profile\UpdateSupportProfile.cs" />
+    <Compile Include="RateCards\GetAzureRateCard.cs" />
+    <Compile Include="RateCards\GetAzureSharedRateCard.cs" />
+    <Compile Include="RatedUsage\GetCustomerSubscriptionsUsage.cs" />
+    <Compile Include="RatedUsage\GetSubscriptionResourceUsage.cs" />
+    <Compile Include="RatedUsage\GetCustomerUsageSummary.cs" />
+    <Compile Include="ScenarioExecution\PromptExecutionStrategy.cs" />
+    <Compile Include="ScenarioExecution\AggregateScenarioExecutionStrategy.cs" />
+    <Compile Include="ScenarioExecution\IScenarioExecutionStrategy.cs" />
+    <Compile Include="IScenarioContext.cs" />
+    <Compile Include="IPartnerScenario.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceIncidents\GetServiceIncidents.cs" />
+    <Compile Include="ServiceRequests\CreatePartnerServiceRequest.cs" />
+    <Compile Include="ServiceRequests\GetCustomerServiceRequests.cs" />
+    <Compile Include="ServiceRequests\GetPagedPartnerServiceRequests.cs" />
+    <Compile Include="ServiceRequests\GetPartnerServiceRequestDetails.cs" />
+    <Compile Include="ServiceRequests\GetServiceRequestSupportTopics.cs" />
+    <Compile Include="ServiceRequests\UpdatePartnerServiceRequest.cs" />
+    <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
+    <Compile Include="Subscriptions\GetSubscription.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionsByOrder.cs" />
+    <Compile Include="Subscriptions\GetSubscriptions.cs" />
+    <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
+    <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\UpgradeSubscription.cs" />
+    <Compile Include="Subscriptions\UpdateSubscription.cs" />
+    <Compile Include="Subscriptions\AddSubscriptionAddOn.cs" />
+    <Compile Include="Utilization\GetAzureSubscriptionUtilization.cs" />
+    <Compile Include="Validations\AddressValidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Visual-StyleCop.MSBuild.4.7.59.0\build\Visual-StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\Visual-StyleCop.MSBuild.4.7.59.0\build\Visual-StyleCop.MSBuild.Targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Visual-StyleCop.MSBuild.4.7.59.0\build\Visual-StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Visual-StyleCop.MSBuild.4.7.59.0\build\Visual-StyleCop.MSBuild.Targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
