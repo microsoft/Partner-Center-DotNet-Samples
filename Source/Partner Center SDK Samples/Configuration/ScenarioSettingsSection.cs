@@ -399,5 +399,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
                 return this.ConfigurationSection["DefaultBillingCycle"];
             }
         }
+
+        /// <summary>
+        /// Gets the customer agreements file name.
+        /// </summary>
+        public string DefaultCustomerAgreementCsvFileName
+        {
+            get
+            {
+                return this.ConfigurationSection["DefaultCustomerAgreementCsvFileName"];
+            }
+        }
     }
 }

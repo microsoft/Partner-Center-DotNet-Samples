@@ -40,7 +40,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
             this.ExecutionStrategy = executionStrategy ?? new PromptExecutionStrategy();
             this.Children = childScenarios;
         }
-        
+
         /// <summary>
         /// Gets the scenario title.
         /// </summary>
@@ -255,7 +255,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 string.IsNullOrWhiteSpace(promptMessage) ? "Enter the MPN ID" : promptMessage,
                 "The MPN ID can't be empty");
         }
-        
+
         /// <summary>
         /// Obtains an offer ID to work with from the configuration if set there or prompts the user to enter it.
         /// </summary>
@@ -476,7 +476,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// Runs the scenario logic. This is delegated to the implementing sub class.
         /// </summary>
         protected abstract void RunScenario();
-        
+
         /// <summary> 
         /// Obtain billing cycle type to work with the configuration if set there or prompts the user to enter it. 
         /// </summary> 
@@ -489,6 +489,20 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 "Billing cycle type",
                 string.IsNullOrWhiteSpace(promptMessage) ? "Enter the billing cycle type" : promptMessage,
                 "The billing cycle type can't be empty");
+        }
+
+        /// <summary> 
+        /// Obtain customers' agreements csv file name to work with the configuration if set there or prompts the user to enter it. 
+        /// </summary> 
+        /// <param name="promptMessage">An optional custom prompt message</param> 
+        /// <returns>Billing cycle type</returns> 
+        protected string ObtainCustomersAgreementCsvFileName(string promptMessage = default(string))
+        {
+            return this.ObtainValue(
+                this.Context.Configuration.Scenario.DefaultCustomerAgreementCsvFileName,
+                "Customer Agreements CSV file name",
+                string.IsNullOrWhiteSpace(promptMessage) ? "Enter the Customer Agreements CSV file name (eg:CustomerAgreements.csv)" : promptMessage,
+                "The Customer Agreements CSV file name can't be empty");
         }
 
         /// <summary>
