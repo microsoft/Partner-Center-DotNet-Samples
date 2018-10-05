@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Agreements\CreateCustomerAgreement.cs" />
     <Compile Include="Agreements\GetAgreementDetails.cs" />
+    <Compile Include="Agreements\GetAllCustomersAgreements.cs" />
     <Compile Include="Agreements\GetCustomerAgreements.cs" />
     <Compile Include="Analytics\GetPartnerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetPartnerLicensesUsageAnalytics.cs" />

@@ -19,7 +19,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// Initializes a new instance of the <see cref="GetCustomerAgreements"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
-        public GetCustomerAgreements(IScenarioContext context) : base("Get all customer agreements.", context)
+        public GetCustomerAgreements(IScenarioContext context) : base("Get agreements for a customer.", context)
         {
         }
 
@@ -29,9 +29,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         protected override void RunScenario()
         {
             var partnerOperations = this.Context.UserPartnerOperations;
-            string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to create the agreement for");
+            string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get agreement for");
 
-            this.Context.ConsoleHelper.StartProgress("Retrieving customer's agreements");
+            this.Context.ConsoleHelper.StartProgress("Retrieving agreements of the customer");
 
             ResourceCollection<Agreement> customerAgreements = partnerOperations.Customers.ById(selectedCustomerId)
                 .Agreements.Get();
@@ -40,7 +40,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 
             if (!customerAgreements.Items.Any())
             {
-                Console.WriteLine("No Service requests found for the given customer.");
+                Console.WriteLine("No agreements found for the given customer.");
             }
             else
             {

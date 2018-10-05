@@ -151,6 +151,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
             {
                 new GetAgreementDetails(context),
                 new GetCustomerAgreements(context),
+                new GetAllCustomersAgreements(context),
                 new CreateCustomerAgreement(context), 
             };
 
