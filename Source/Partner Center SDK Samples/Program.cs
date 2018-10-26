@@ -152,7 +152,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetAgreementDetails(context),
                 new GetCustomerAgreements(context),
                 new GetAllCustomersAgreements(context),
-                new CreateCustomerAgreement(context), 
+                new CreateCustomerAgreement(context),
+                new ImportCustomersAgreement(context)
             };
 
             return new AggregatePartnerScenario("Agreements", agreementsScenario, context);

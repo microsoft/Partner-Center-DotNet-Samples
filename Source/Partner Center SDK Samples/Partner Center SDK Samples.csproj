@@ -74,6 +74,7 @@
     <Compile Include="Agreements\GetAgreementDetails.cs" />
     <Compile Include="Agreements\GetAllCustomersAgreements.cs" />
     <Compile Include="Agreements\GetCustomerAgreements.cs" />
+    <Compile Include="Agreements\ImportCustomersAgreement.cs" />
     <Compile Include="Analytics\GetPartnerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetPartnerLicensesUsageAnalytics.cs" />
     <Compile Include="Auditing\QueryAuditRecords.cs" />
