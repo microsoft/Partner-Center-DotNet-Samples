@@ -60,20 +60,22 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                     try
                     {
                         // Fetch customer agreements
-                        this.Context.ConsoleHelper.WriteObject($"#{++count} Tenant: {customer?.CompanyProfile?.TenantId ?? customer?.Id}, Domain: {customer?.CompanyProfile?.Domain ?? "Domain not avaialble." }", "Customer");
+                        this.Context.ConsoleHelper.WriteObject($"#{++count} Tenant: {customer?.CompanyProfile?.TenantId ?? customer?.Id}, Domain: {customer?.CompanyProfile?.Domain ?? "Domain not available." }", "Customer");
                         ResourceCollection<Agreement> customerAgreements = partnerOperations.Customers.ById(customer.Id).Agreements.Get();
 
                         if (!customerAgreements.Items.Any())
                         {
                             this.Context.ConsoleHelper.WriteObject(noAgreements, "Agreement", 1);
-                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id}, {customer?.CompanyProfile?.Domain ?? "Domain not avaialble." }{Environment.NewLine}");
+                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id}, {customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
                         }
                         else
                         {
-                            foreach (var customerAgreement in customerAgreements.Items)
+                            // Fetch more recent customer agreement, if there are more
+                            var customerAgreement = customerAgreements.Items.OrderByDescending(x => x.DateAgreed).FirstOrDefault();
+                            if (customerAgreement != null)
                             {
                                 this.Context.ConsoleHelper.WriteObject($"Date: {customerAgreement.DateAgreed}, First Name: {customerAgreement.PrimaryContact.FirstName}, Last Name: {customerAgreement.PrimaryContact.LastName}, Phone: {customerAgreement.PrimaryContact.PhoneNumber}, Email: {customerAgreement.PrimaryContact.Email}", "Agreement", 1);
-                                File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id},{customer?.CompanyProfile?.Domain ?? "Domain not avaialble." },{customerAgreement.DateAgreed},{customerAgreement.PrimaryContact.FirstName},{customerAgreement.PrimaryContact.LastName},{customerAgreement.PrimaryContact.PhoneNumber},{customerAgreement.PrimaryContact.Email}{Environment.NewLine}");
+                                File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id},{customer?.CompanyProfile?.Domain ?? "Domain not available." },{customerAgreement.DateAgreed},{customerAgreement.PrimaryContact.FirstName},{customerAgreement.PrimaryContact.LastName},{customerAgreement.PrimaryContact.PhoneNumber},{customerAgreement.PrimaryContact.Email}{Environment.NewLine}");
                             }
                         }
                     }
@@ -82,7 +84,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                         if (partnerException.ServiceErrorPayload.ErrorCode.Equals("600009", StringComparison.InvariantCultureIgnoreCase))
                         {
                             this.Context.ConsoleHelper.WriteObject(noAgreements, "Agreement", 1);
-                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id},{customer?.CompanyProfile?.Domain ?? "Domain not avaialble."}{Environment.NewLine}");
+                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id},{customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
                         }
                     }
                 }
