@@ -57,7 +57,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             // Process each line
-            foreach(var customerAgreement in customerAgreements)
+            foreach (var customerAgreement in customerAgreements)
             {
                 this.Context.ConsoleHelper.WriteObject($"Processing #{++count} {customerAgreement.Source}");
 
@@ -109,7 +109,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             // Check if Agreement data is same.
             return !extistingAgreement.PrimaryContact.FirstName.Equals(importAgreement.PrimaryContact.FirstName) ||
                    !extistingAgreement.PrimaryContact.LastName.Equals(importAgreement.PrimaryContact.LastName) ||
-                   !(extistingAgreement.PrimaryContact.PhoneNumber ?? string.Empty).Equals(importAgreement.PrimaryContact.PhoneNumber ?? string.Empty)  ||
+                   !(extistingAgreement.PrimaryContact.PhoneNumber ?? string.Empty).Equals(importAgreement.PrimaryContact.PhoneNumber ?? string.Empty) ||
                    !extistingAgreement.PrimaryContact.Email.Equals(importAgreement.PrimaryContact.Email);
         }
 
