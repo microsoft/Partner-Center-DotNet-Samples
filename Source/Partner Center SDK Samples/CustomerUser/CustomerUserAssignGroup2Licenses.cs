@@ -9,7 +9,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Models.Licenses;
+    using Microsoft.Store.PartnerCenter.Models.Licenses;
 
     /// <summary>
     /// Assign customer user a Group2 license

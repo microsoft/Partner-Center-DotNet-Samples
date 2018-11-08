@@ -44,7 +44,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             var selectedUserId = this.ObtainUserMemberId("Enter the user ID of the partner to create customer's agreement");
-
+            
             this.Context.ConsoleHelper.WriteColored($"{Environment.NewLine}Use GetAllCustomersAgreements scenario's output csv file format to import agreements.", ConsoleColor.DarkGray);
             var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
             var customerAgreements = this.ParseCustomerAgreements(csvFilePath, errorFilePath);
@@ -57,7 +57,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             // Process each line
-            foreach (var customerAgreement in customerAgreements)
+            foreach(var customerAgreement in customerAgreements)
             {
                 this.Context.ConsoleHelper.WriteObject($"Processing #{++count} {customerAgreement.Source}");
 
@@ -109,7 +109,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             // Check if Agreement data is same.
             return !extistingAgreement.PrimaryContact.FirstName.Equals(importAgreement.PrimaryContact.FirstName) ||
                    !extistingAgreement.PrimaryContact.LastName.Equals(importAgreement.PrimaryContact.LastName) ||
-                   !(extistingAgreement.PrimaryContact.PhoneNumber ?? string.Empty).Equals(importAgreement.PrimaryContact.PhoneNumber ?? string.Empty) ||
+                   !(extistingAgreement.PrimaryContact.PhoneNumber ?? string.Empty).Equals(importAgreement.PrimaryContact.PhoneNumber ?? string.Empty)  ||
                    !extistingAgreement.PrimaryContact.Email.Equals(importAgreement.PrimaryContact.Email);
         }
 

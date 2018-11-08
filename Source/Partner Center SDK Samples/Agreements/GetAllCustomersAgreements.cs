@@ -42,7 +42,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             var partnerOperations = this.Context.UserPartnerOperations;
 
             var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
-            File.WriteAllText(csvFilePath, $"TenantId,Domain,Date,First Name,Last Name,Phone,Email {Environment.NewLine}");
+            File.WriteAllText(csvFilePath, $"TenantId,Domain,Date,First Name,Last Name,Phone,Email{Environment.NewLine}");
 
             // query the customers, get the first page if a page size was set, otherwise get all customers
             var customersPage = (this.customerPageSize <= 0) ? partnerOperations.Customers.Get() : partnerOperations.Customers.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerPageSize));
@@ -66,7 +66,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                         if (!customerAgreements.Items.Any())
                         {
                             this.Context.ConsoleHelper.WriteObject(noAgreements, "Agreement", 1);
-                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id}, {customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
+                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id},{customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
                         }
                         else
                         {

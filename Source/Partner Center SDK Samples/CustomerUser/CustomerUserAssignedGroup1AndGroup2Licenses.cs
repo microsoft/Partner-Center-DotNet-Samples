@@ -3,7 +3,6 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
 namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
 {
     using System.Collections.Generic;

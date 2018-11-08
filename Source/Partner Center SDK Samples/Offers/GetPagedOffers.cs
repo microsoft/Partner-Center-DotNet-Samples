@@ -8,7 +8,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
 {
     using System;
     using System.Globalization;
-
+    
     /// <summary>
     /// Gets a partner offers in pages.
     /// </summary>
