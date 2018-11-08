@@ -75,6 +75,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetAddressValidationsScenarios(context),
                 Program.GetDevicesScenarios(context),
                 Program.GetCartScenarios(context),
+                Program.GetCartWithAddonItemsScenarios(context),
                 Program.GetEntitlementScenarios(context)
             };
 
@@ -126,14 +127,14 @@ namespace Microsoft.Store.PartnerCenter.Samples
             {
                 new CreateConfigurationPolicy(context),
                 new GetAllConfigurationPolicies(context),
-                new UpdateConfigurationPolicy(context),                
+                new UpdateConfigurationPolicy(context),
                 new DeleteConfigurationPolicy(context),
                 new CreateDeviceBatch(context),
                 new GetDevicesBatches(context),
                 new CreateDevices(context),
                 new GetDevices(context),
                 new UpdateDevicesPolicy(context),
-                new DeleteDevice(context),                
+                new DeleteDevice(context),
                 new GetBatchUploadStatus(context)
             };
 
@@ -233,6 +234,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerDetails(context),
                 new GetCustomerQualification(context),
                 new UpdateCustomerQualification(context),
+                new UpdateCustomerQualificationWithGCC(context),
                 new DeleteCustomerFromTipAccount(context),
                 new GetCustomerManagedServices(context),
                 new GetCustomerRelationshipRequest(context),
@@ -583,6 +585,23 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Cart Scenarios", cartScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the cart with add on items scenarios of create and checkout
+        /// </summary>
+        /// <param name="context">A scenario context</param>
+        /// <returns>The cart with add on items scenarios.</returns>
+        private static IPartnerScenario GetCartWithAddonItemsScenarios(IScenarioContext context)
+        {
+            var cartScenarios = new IPartnerScenario[]
+            {
+                new CreateCartWithAddons(context),
+                new CheckoutCart(context),
+                new CreateCartAddonWithExistingSubscription(context)
+            };
+
+            return new AggregatePartnerScenario("Cart With Addon Items Scenarios", cartScenarios, context);
         }
     }
 }
