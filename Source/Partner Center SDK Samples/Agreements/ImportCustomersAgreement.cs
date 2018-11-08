@@ -44,7 +44,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             var selectedUserId = this.ObtainUserMemberId("Enter the user ID of the partner to create customer's agreement");
-            
+
             this.Context.ConsoleHelper.WriteColored($"{Environment.NewLine}Use GetAllCustomersAgreements scenario's output csv file format to import agreements.", ConsoleColor.DarkGray);
             var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
             var customerAgreements = this.ParseCustomerAgreements(csvFilePath, errorFilePath);
