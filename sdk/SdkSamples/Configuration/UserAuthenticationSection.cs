@@ -53,27 +53,5 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
                 return new Uri(this.ConfigurationSection["RedirectUrl"]);
             }
         }
-
-        /// <summary>
-        /// Gets AAD user name.
-        /// </summary>
-        public string UserName
-        {
-            get
-            {
-                return this.ConfigurationSection["UserName"];
-            }
-        }
-
-        /// <summary>
-        /// Gets AAD password.
-        /// </summary>
-        public string Password
-        {
-            get
-            {
-                return this.ConfigurationSection["Password"];
-            }
-        }
     }
 }
