@@ -33,10 +33,11 @@ Perform the following task to correctly configure the Azure AD application for u
 
 ### PartnerServiceSettings
 
+If you are connecting to one of the sovereign clouds you will need to modify the values below. These values should not be modified if you are connecting to the commercial cloud.
+
 - PartnerServiceApiEndpoint
 - AuthenticationAuthorityEndpoint
 - GraphEndpoint
-- CommonDomain
 
 All thees settings are necessary for the sample API calls to properly function.
 
