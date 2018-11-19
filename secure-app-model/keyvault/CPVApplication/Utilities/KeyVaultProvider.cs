@@ -20,7 +20,7 @@ namespace CPVApplication.Utilities
     {
         private readonly string KeyVaultClientId = ConfigurationManager.AppSettings["ida:KeyVaultClientId"];
         private readonly string KeyVaultClientSecret = ConfigurationManager.AppSettings["ida:KeyVaultClientSecret"];
-        private readonly string BaseUrl = @"https://cpvkeyvault.vault.azure.net";
+        private readonly string BaseUrl = ConfigurationManager.AppSettings["KeyVaultEndpoint"];
 
         public async Task<string> GetSecretAsync(string key)
         {
