@@ -47,17 +47,18 @@
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.29.0.1078, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.29.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.9.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -83,6 +84,8 @@
     <Compile Include="Auditing\SearchAuditRecordsByResourceType.cs" />
     <Compile Include="Carts\CheckoutCart.cs" />
     <Compile Include="Carts\CreateCart.cs" />
+    <Compile Include="Carts\CreateCartAddonWithExistingSubscription.cs" />
+    <Compile Include="Carts\CreateCartWithAddons.cs" />
     <Compile Include="Carts\UpdateCart.cs" />
     <Compile Include="Configuration\ApplicationAuthenticationSection.cs" />
     <Compile Include="Configuration\ScenarioSettingsSection.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="Customers\GetCustomerDetails.cs" />
     <Compile Include="Customers\CheckDomainAvailability.cs" />
     <Compile Include="Customers\CreateCustomer.cs" />
+    <Compile Include="Customers\UpdateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\ValidateCustomerAddress.cs" />
     <Compile Include="CustomerUser\CreateCustomerUser.cs" />
     <Compile Include="CustomerUser\CustomerUserAssignedGroup1AndGroup2Licenses.cs" />

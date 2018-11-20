@@ -66,7 +66,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                         if (!customerAgreements.Items.Any())
                         {
                             this.Context.ConsoleHelper.WriteObject(noAgreements, "Agreement", 1);
-                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id}, {customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
+                            File.AppendAllText(csvFilePath, $"{customer?.CompanyProfile?.TenantId ?? customer?.Id} ,{customer?.CompanyProfile?.Domain ?? "Domain not available."},,,,,{Environment.NewLine}");
                         }
                         else
                         {
