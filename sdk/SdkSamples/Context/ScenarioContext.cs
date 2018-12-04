@@ -9,10 +9,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
     using System;
     using System.Threading.Tasks;
     using Configuration;
+    using Extensions;
     using Helpers;
     using IdentityModel.Clients.ActiveDirectory;
-    using Store.PartnerCenter;
-    using Store.PartnerCenter.Extensions;
 
     /// <summary>
     /// Scenario context implementation class.
@@ -20,10 +19,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
     public class ScenarioContext : IScenarioContext
     {
         /// <summary>
+        /// The redirect URI used when performing app + user authentication.
+        /// </summary>
+        private static readonly Uri redirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+
+        /// <summary>
         /// A lazy reference to an user based partner operations.
         /// </summary>
         private IAggregatePartner userPartnerOperations = null;
-        
+
         /// <summary>
         /// A lazy reference to an application based partner operations.
         /// </summary>
@@ -50,11 +54,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
                     this.ConsoleHelper.StartProgress("Authenticating application");
 
                     IPartnerCredentials appCredentials = PartnerCredentials.Instance.GenerateByApplicationCredentials(
-                    this.Configuration.ApplicationAuthentication.ApplicationId,
-                    this.Configuration.ApplicationAuthentication.ApplicationSecret,
-                    this.Configuration.ApplicationAuthentication.Domain,
-                    this.Configuration.PartnerService.AuthenticationAuthorityEndpoint.OriginalString,
-                    this.Configuration.PartnerService.GraphEndpoint.OriginalString);
+                        this.Configuration.ApplicationAuthentication.ApplicationId,
+                        this.Configuration.ApplicationAuthentication.ApplicationSecret,
+                        this.Configuration.ApplicationAuthentication.Domain,
+                        this.Configuration.PartnerService.AuthenticationAuthorityEndpoint.OriginalString,
+                        this.Configuration.PartnerService.GraphEndpoint.OriginalString);
 
                     this.ConsoleHelper.StopProgress();
                     this.ConsoleHelper.Success("Authenticated!");
@@ -69,24 +73,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
         /// <summary>
         /// Gets a configuration instance.
         /// </summary>
-        public ConfigurationManager Configuration
-        {
-            get
-            {
-                return ConfigurationManager.Instance;
-            }
-        }
+        public ConfigurationManager Configuration => ConfigurationManager.Instance;
 
         /// <summary>
         /// Gets a console helper instance.
         /// </summary>
-        public ConsoleHelper ConsoleHelper
-        {
-            get
-            {
-                return ConsoleHelper.Instance;
-            }
-        }
+        public ConsoleHelper ConsoleHelper => ConsoleHelper.Instance;
 
         /// <summary>
         /// Gets a partner operations instance which is user based authenticated.
@@ -98,7 +90,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
                 if (this.userPartnerOperations == null)
                 {
                     this.ConsoleHelper.StartProgress("Authenticating user");
-                    var aadAuthenticationResult = this.LoginUserToAad();
+
+                    AuthenticationResult aadAuthenticationResult = this.LoginUserToAad();
 
                     // Authenticate by user context with the partner service
                     IPartnerCredentials userCredentials = PartnerCredentials.Instance.GenerateByUserCredentials(
@@ -110,7 +103,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
                         {
                             // token has expired, re-Login to Azure Active Directory
                             this.ConsoleHelper.StartProgress("Token expired. Re-authenticating user");
-                            var aadToken = this.LoginUserToAad();
+                            AuthenticationResult aadToken = this.LoginUserToAad();
                             this.ConsoleHelper.StopProgress();
 
                             // give the partner SDK the new add token information
@@ -133,21 +126,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
         /// <returns>The user authentication result.</returns>
         private AuthenticationResult LoginUserToAad()
         {
-            var addAuthority = new UriBuilder(this.Configuration.PartnerService.AuthenticationAuthorityEndpoint)
+            UriBuilder addAuthority = new UriBuilder(this.Configuration.PartnerService.AuthenticationAuthorityEndpoint)
             {
                 Path = this.Configuration.PartnerService.CommonDomain
             };
 
-            UserCredential userCredentials = new UserCredential(
-                this.Configuration.UserAuthentication.UserName,
-                this.Configuration.UserAuthentication.Password);
-
             AuthenticationContext authContext = new AuthenticationContext(addAuthority.Uri.AbsoluteUri);
 
-            return authContext.AcquireToken(
-                this.Configuration.UserAuthentication.ResourceUrl.OriginalString,
-                this.Configuration.UserAuthentication.ApplicationId,
-                userCredentials);
+            return Task.Run(() => authContext.AcquireTokenAsync(
+                Configuration.UserAuthentication.ResourceUrl.OriginalString,
+                Configuration.UserAuthentication.ApplicationId,
+                redirectUri,
+                new PlatformParameters(PromptBehavior.Always),
+                UserIdentifier.AnyUser)).Result;
         }
     }
 }
