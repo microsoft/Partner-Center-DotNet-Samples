@@ -23,7 +23,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         }
 
         /// <summary>
-        /// executes the get invoice summaries scenario.
+        /// executes the get invoice tax receipt scenario.
         /// </summary>
         protected override void RunScenario()
         {
