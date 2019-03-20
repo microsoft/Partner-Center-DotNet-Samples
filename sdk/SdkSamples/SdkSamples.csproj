@@ -45,14 +45,14 @@
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=4.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.4.4.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.11.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.11.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.11.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -171,6 +171,7 @@
     <Compile Include="Invoice\GetInvoiceLineItems.cs" />
     <Compile Include="Invoice\GetInvoiceStatement.cs" />
     <Compile Include="Invoice\GetInvoiceSummaries.cs" />
+    <Compile Include="Invoice\GetInvoiceTaxReceiptStatement.cs" />
     <Compile Include="Invoice\GetPagedInvoices.cs" />
     <Compile Include="Offers\GetCustomerOfferCategories.cs" />
     <Compile Include="Offers\GetCustomerOffers.cs" />

@@ -413,7 +413,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetInvoiceLineItems(context, context.Configuration.Scenario.InvoicePageSize),
                 new GetPagedInvoices(context, context.Configuration.Scenario.InvoicePageSize),
                 new GetInvoiceSummaries(context),
-                new GetInvoiceStatement(context)
+                new GetInvoiceStatement(context),
+                new GetInvoiceTaxReceiptStatement(context)
             };
 
             return new AggregatePartnerScenario("Invoice samples", invoiceScenarios, context);
