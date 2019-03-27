@@ -105,7 +105,6 @@
     <Compile Include="CustomerProducts\GetCustomerProducts.cs" />
     <Compile Include="CustomerProducts\GetCustomerProductsByTargetSegment.cs" />
     <Compile Include="CustomerProducts\GetCustomerSku.cs" />
-    <Compile Include="CustomerProducts\GetCustomerSkuDownloadOptions.cs" />
     <Compile Include="CustomerProducts\GetCustomerSkus.cs" />
     <Compile Include="CustomerProducts\GetCustomerSkusByTargetSegment.cs" />
     <Compile Include="CustomerServiceCosts\GetCustomerServiceCostsLineItems.cs" />
@@ -189,7 +188,6 @@
     <Compile Include="Products\GetAvailabilities.cs" />
     <Compile Include="Products\GetAvailability.cs" />
     <Compile Include="Products\CheckInventory.cs" />
-    <Compile Include="Products\GetSkuDownloadOptions.cs" />
     <Compile Include="Products\GetSku.cs" />
     <Compile Include="Products\GetProduct.cs" />
     <Compile Include="Products\GetSkusByTargetSegment.cs" />
