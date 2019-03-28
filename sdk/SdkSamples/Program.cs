@@ -328,7 +328,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new CreateAzureReservationOrder(context),
                 new GetOrdersByBillingCycleType(context),
                 new GetOrderProvisioningStatus(context),
-                new UpdateOrder(context)
+                new UpdateOrder(context),
+                new GetLineItemActivationLink(context)
             };
 
             return new AggregatePartnerScenario("Order samples", orderScenarios, context);
@@ -353,6 +354,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new UpgradeSubscription(context),
                 new AddSubscriptionAddOn(context),
                 new ConvertTrialSubscription(context),
+                new CancelSaaSSubscription(context),
+                new ToggleSubscriptionAutoRenew(context)
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
