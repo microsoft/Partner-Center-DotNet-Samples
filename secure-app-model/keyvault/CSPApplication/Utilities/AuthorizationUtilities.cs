@@ -15,34 +15,6 @@ namespace CSPApplication.Utilities
     public static class AuthorizationUtilities
     {
         /// <summary>
-        /// Gets AAD token in refresh token flow
-        /// </summary>
-        /// <param name="authority">AAD authority</param>
-        /// <param name="audience">Token audience</param>
-        /// <param name="clientId">Marketplace application id </param>
-        /// <param name="clientSecret">Marketplace application secret</param>
-        /// <param name="refreshToken">refresh token</param>
-        /// <returns></returns>
-        public static async Task<JObject> GetAADTokenFromRefreshToken(string authority, string audience, string clientId, string clientSecret, string refreshToken)
-        {
-            string loginUrl = string.Format("{0}/oauth2/token", authority);
-
-            WebRequest request = WebRequest.Create(loginUrl);
-
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            string content = string.Format(
-                "resource={0}&client_id={1}&client_secret={2}&grant_type=refresh_token&refresh_token={3}&scope=openid",
-                HttpUtility.UrlEncode(audience),
-                HttpUtility.UrlEncode(clientId),
-                HttpUtility.UrlEncode(clientSecret),
-                HttpUtility.UrlEncode(refreshToken));
-
-            return await GetResponse(request, content);
-        }
-
-        /// <summary>
         /// Gets AAD token in application only token in non-interactive service principal flow
         /// </summary>
         /// <param name="authority">AAD authority</param>
