@@ -6,7 +6,9 @@
 
 namespace PartnerConsent.Controllers
 {
+    using System.Security.Claims;
     using System.Web.Mvc;
+    using System.Linq;
 
     [Authorize]
     public class HomeController : Controller
@@ -17,7 +19,9 @@ namespace PartnerConsent.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            ClaimsIdentity identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            return View(identity.Claims.Where(m => m.Type.Equals(@"http://schemas.microsoft.com/claims/authnmethodsreferences")));
         }
 
         /// <summary>

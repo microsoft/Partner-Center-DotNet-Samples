@@ -281,7 +281,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetSkus(context),
                 new GetSkusByTargetSegment(context),
                 new GetSku(context),
-                new GetSkuDownloadOptions(context),
                 new GetAvailabilities(context),
                 new GetAvailabilitiesByTargetSegment(context),
                 new GetAvailability(context),
@@ -306,7 +305,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerSkus(context),
                 new GetCustomerSkusByTargetSegment(context),
                 new GetCustomerSku(context),
-                new GetCustomerSkuDownloadOptions(context),
                 new GetCustomerAvailabilities(context),
                 new GetCustomerAvailabilitiesByTargetSegment(context),
                 new GetCustomerAvailability(context)

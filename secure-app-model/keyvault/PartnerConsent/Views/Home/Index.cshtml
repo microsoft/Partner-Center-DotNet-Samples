@@ -1,4 +1,6 @@
-﻿@inherits System.Web.Mvc.WebViewPage
+﻿@using System.Collections.Generic;
+@using System.Linq
+@using System.Security.Claims
 
 <div>
     <h1>Partner Consent</h1>
@@ -14,6 +16,20 @@
         </p>
         <p>
             <a href="javascript:window.open('','_self').close();">close</a>
+        </p>
+        <p>
+
+            @{ 
+                IEnumerable<Claim> claims = Model;
+                Claim mfaClaim = claims.FirstOrDefault(c => c.Value.Equals("mfa", StringComparison.InvariantCultureIgnoreCase));
+
+                if (mfaClaim == null)
+                {
+                    <p>
+                        <strong style="color: red;">Warning</strong> You have not authenticated using multi-factor authentication.
+                    </p>
+                }
+            }
         </p>
     </div>
 </div>
