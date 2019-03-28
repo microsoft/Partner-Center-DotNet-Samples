@@ -9,7 +9,7 @@ using System;
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
     /// <summary>
-    /// A scenario that retrieves a customer orders.
+    /// A scenario that retrieves an activation link from a customer order.
     /// </summary>
     public class GetLineItemActivationLink : BasePartnerScenario
     {

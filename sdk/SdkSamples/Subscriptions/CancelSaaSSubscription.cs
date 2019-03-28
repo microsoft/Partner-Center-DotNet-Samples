@@ -7,7 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
     /// <summary>
-    /// A scenario that updates an existing customer subscription.
+    /// A scenario that cancels an existing customer subscription.
     /// </summary>
     public class CancelSaaSSubscription : BasePartnerScenario
     {

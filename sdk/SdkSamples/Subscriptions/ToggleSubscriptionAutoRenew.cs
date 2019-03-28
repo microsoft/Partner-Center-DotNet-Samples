@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ToggleSubscriptionAutoRenew.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
+    /// <summary>
+    /// A scenario that toggles autorenew for an existing subscription.
+    /// </summary>
     class ToggleSubscriptionAutoRenew : BasePartnerScenario
-
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CancelSaaSSubscription"/> class.
+        /// </summary>
+        /// <param name="context">The scenario context.</param>
         public ToggleSubscriptionAutoRenew(IScenarioContext context) : base("Toggle Subcription Autorenew", context)
         {
         }
