@@ -166,12 +166,16 @@
     <Compile Include="BasePartnerScenario.cs" />
     <Compile Include="AggregatePartnerScenario.cs" />
     <Compile Include="Invoice\GetAccountBalance.cs" />
+    <Compile Include="Invoice\GetBillingLineItemsForOpenPeriodPaging.cs" />
+    <Compile Include="Invoice\GetEstimatesLinks.cs" />
     <Compile Include="Invoice\GetInvoice.cs" />
     <Compile Include="Invoice\GetInvoiceLineItems.cs" />
     <Compile Include="Invoice\GetInvoiceStatement.cs" />
     <Compile Include="Invoice\GetInvoiceSummaries.cs" />
     <Compile Include="Invoice\GetInvoiceTaxReceiptStatement.cs" />
     <Compile Include="Invoice\GetPagedInvoices.cs" />
+    <Compile Include="Invoice\GetUsageLineItemsForClosePeriodPaging.cs" />
+    <Compile Include="Invoice\GetUsageLineItemsForOpenPeriodPaging.cs" />
     <Compile Include="Offers\GetCustomerOfferCategories.cs" />
     <Compile Include="Offers\GetCustomerOffers.cs" />
     <Compile Include="Offers\GetOffer.cs" />
