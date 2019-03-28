@@ -43,7 +43,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             if (string.IsNullOrWhiteSpace(curencyCode))
             {
                 // prompt the user the enter the currency code
-                curencyCode = this.Context.ConsoleHelper.ReadNonEmptyString("Please enter 3 digit currency code to retrieve the unbilled recon line items ", "The currency code can't be empty");
+                curencyCode = this.Context.ConsoleHelper.ReadNonEmptyString("Please enter 3 digit currency code to retrieve the unbilled reconciliation line items ", "The currency code can't be empty");
             }
             else
             {
@@ -54,6 +54,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             var period = "current";
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
+            this.Context.ConsoleHelper.StartProgress("Getting unbilled reconciliation line items");
 
             var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("all", "billinglineitems", curencyCode, period, pageMaxSizeReconLineItems).Get();
 
