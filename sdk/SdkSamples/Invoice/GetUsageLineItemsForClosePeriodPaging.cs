@@ -65,6 +65,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             var period = "current";
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
+            
+            this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");            
+            // Retrieving billed consumption line items
             var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", curencyCode, period, pageMaxSizeReconciliationLineItems).Get();
 
             var fetchNext = true;
