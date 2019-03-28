@@ -205,6 +205,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
             }
         }
 
+        /// <summary>
+        /// Gets the configured Receipt ID.
+        /// </summary>
         public string DefaultReceiptId
         {
             get
