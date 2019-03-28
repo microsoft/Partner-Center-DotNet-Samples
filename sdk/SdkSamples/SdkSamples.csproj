@@ -170,6 +170,7 @@
     <Compile Include="Invoice\GetInvoiceLineItems.cs" />
     <Compile Include="Invoice\GetInvoiceStatement.cs" />
     <Compile Include="Invoice\GetInvoiceSummaries.cs" />
+    <Compile Include="Invoice\GetInvoiceTaxReceiptStatement.cs" />
     <Compile Include="Invoice\GetPagedInvoices.cs" />
     <Compile Include="Offers\GetCustomerOfferCategories.cs" />
     <Compile Include="Offers\GetCustomerOffers.cs" />
