@@ -410,5 +410,17 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
                 return this.ConfigurationSection["DefaultCustomerAgreementCsvFileName"];
             }
         }
+        
+        
+        /// <summary>
+        /// Gets the configured Currency code.
+        /// </summary>
+        public string DefaultCurrencyCode
+        {
+            get
+            {
+                return this.ConfigurationSection["DefaultCurrencyCode"];
+            }
+        }
     }
 }
