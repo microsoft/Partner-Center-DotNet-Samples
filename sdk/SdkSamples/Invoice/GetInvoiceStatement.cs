@@ -27,8 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         protected override void RunScenario()
         {
             var partnerOperations = this.Context.UserPartnerOperations;
-            this.Context.ConsoleHelper.StartProgress("Getting Invoice Statement");
-
+            
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
             if (string.IsNullOrWhiteSpace(invoiceId))
             {
@@ -39,7 +38,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             {
                 Console.WriteLine("Found Invoice ID: {0} in configuration.", invoiceId);
             }
-
+            
+            this.Context.ConsoleHelper.StartProgress("Getting Invoice Statement");
             // // Retrieving invoice statement for an invoice id
             var invoiceStatement = partnerOperations.Invoices.ById(invoiceId).Documents.Statement.Get();
 
