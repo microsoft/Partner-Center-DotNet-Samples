@@ -179,6 +179,7 @@
     <Compile Include="Offers\GetOffers.cs" />
     <Compile Include="Offers\GetPagedOffers.cs" />
     <Compile Include="Orders\CreateAzureReservationOrder.cs" />
+    <Compile Include="Orders\GetLineItemActivationLink.cs" />
     <Compile Include="Orders\GetOrderDetails.cs" />
     <Compile Include="Orders\GetOrderProvisioningStatus.cs" />
     <Compile Include="Orders\GetOrders.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="ServiceRequests\GetPartnerServiceRequestDetails.cs" />
     <Compile Include="ServiceRequests\GetServiceRequestSupportTopics.cs" />
     <Compile Include="ServiceRequests\UpdatePartnerServiceRequest.cs" />
+    <Compile Include="Subscriptions\CancelSaaSSubscription.cs" />
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
     <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\UpgradeSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscription.cs" />
