@@ -96,7 +96,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                     {
                         if (seekBasedResourceCollection.Links.Next.Headers != null && seekBasedResourceCollection.Links.Next.Headers.Any())
                         {
-                            seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("all", "billinglineitems", curencyCode, period, pageMaxSizeReconciliationLineItems).Seek(seekBasedResourceCollection.ContinuationToken, SeekOperation.Next);
+                            seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("marketplace", "usagelineitems", curencyCode, period, pageMaxSizeReconciliationLineItems).Seek(seekBasedResourceCollection.ContinuationToken, SeekOperation.Next);
                         }
                     }
                 }
