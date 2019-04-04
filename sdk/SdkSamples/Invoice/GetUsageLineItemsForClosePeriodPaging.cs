@@ -65,8 +65,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 
             var itemNumber = 1;
 
-            Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
-            Console.Out.WriteLine("\tPeriod: " + period);
+            Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());            
 
             if (seekBasedResourceCollection.Items.Count() > 0)
             {
