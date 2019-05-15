@@ -1,0 +1,35 @@
+﻿@using System.Collections.Generic;
+@using System.Linq
+@using System.Security.Claims
+
+<div>
+    <h1>Partner Consent</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Consent successful</h2>
+        <p>
+            Partner consent to application has been granted.
+            For more information on how to manage the application in your Active directory tenant, please check <a href="https://go.microsoft.com/fwlink/?LinkId=301865">here</a>
+            You can manage applications at <a href="https://myapps.microsoft.com">https://myapps.microsoft.com</a>
+        </p>
+        <p>
+            <a href="javascript:window.open('','_self').close();">close</a>
+        </p>
+        <p>
+
+            @{ 
+                IEnumerable<Claim> claims = Model;
+                Claim mfaClaim = claims.FirstOrDefault(c => c.Value.Equals("mfa", StringComparison.InvariantCultureIgnoreCase));
+
+                if (mfaClaim == null)
+                {
+                    <p>
+                        <strong style="color: red;">Warning</strong> You have not authenticated using multi-factor authentication.
+                    </p>
+                }
+            }
+        </p>
+    </div>
+</div>
