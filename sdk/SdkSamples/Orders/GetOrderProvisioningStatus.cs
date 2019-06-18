@@ -24,24 +24,24 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their order provisioning details");
             string orderId = this.ObtainOrderID("Enter the ID of order to retrieve");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer order provisioning status");
-            var customerOrder = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
-            var provisioningStatusList = partnerOperations.Customers.ById(customerId).Orders.ById(customerOrder.Id).ProvisioningStatus.Get();
+            Models.Orders.Order customerOrder = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
+            Models.ResourceCollection<Models.Orders.OrderLineItemProvisioningStatus> provisioningStatusList = partnerOperations.Customers.ById(customerId).Orders.ById(customerOrder.Id).ProvisioningStatus.Get();
 
             this.Context.ConsoleHelper.StopProgress();
-            
-            foreach (var provisioningStatus in provisioningStatusList.Items)
+
+            foreach (Models.Orders.OrderLineItemProvisioningStatus provisioningStatus in provisioningStatusList.Items)
             {
-                foreach (var orderItem in customerOrder.LineItems)
+                foreach (Models.Orders.OrderLineItem orderItem in customerOrder.LineItems)
                 {
                     if (orderItem.LineItemNumber == provisioningStatus.LineItemNumber)
                     {
-                        this.Context.ConsoleHelper.WriteObject(provisioningStatus.Status, "Customer order provisioning status"); 
+                        this.Context.ConsoleHelper.WriteObject(provisioningStatus.Status, "Customer order provisioning status");
                     }
                 }
             }

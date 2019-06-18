@@ -29,9 +29,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
-            var customerToCreate = new Customer()
+            Customer customerToCreate = new Customer()
             {
                 CompanyProfile = new CustomerCompanyProfile()
                 {
@@ -60,7 +60,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             this.Context.ConsoleHelper.WriteObject(customerToCreate, "New user Information");
             this.Context.ConsoleHelper.StartProgress("Creating user");
 
-            var newCustomer = partnerOperations.Customers.Create(customerToCreate);
+            Customer newCustomer = partnerOperations.Customers.Create(customerToCreate);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Success!");

@@ -26,10 +26,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Analytics
         {
             string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving customer licenses usage analytics");
 
-            var customerLicensesDeploymentAnalytics = partnerOperations.Customers.ById(customerIdToRetrieve).Analytics.Licenses.Usage.Get();
+            Models.ResourceCollection<Models.Analytics.CustomerLicensesUsageInsights> customerLicensesDeploymentAnalytics = partnerOperations.Customers.ById(customerIdToRetrieve).Analytics.Licenses.Usage.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerLicensesDeploymentAnalytics, "Customer licenses usage analytics");

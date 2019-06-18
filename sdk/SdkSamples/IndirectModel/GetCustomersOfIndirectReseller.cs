@@ -29,27 +29,27 @@ namespace Microsoft.Store.PartnerCenter.Samples.IndirectModel
         /// </summary>
         protected override void RunScenario()
         {
-            var indirectResellerId = this.ObtainIndirectResellerId("Enter the ID of the indirect reseller: ");
+            string indirectResellerId = this.ObtainIndirectResellerId("Enter the ID of the indirect reseller: ");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting customers of the indirect reseller");
 
             // Create a simple field filter.
-            var filter = new SimpleFieldFilter(
-                CustomerSearchField.IndirectReseller.ToString(), 
-                FieldFilterOperation.StartsWith, 
+            SimpleFieldFilter filter = new SimpleFieldFilter(
+                CustomerSearchField.IndirectReseller.ToString(),
+                FieldFilterOperation.StartsWith,
                 indirectResellerId);
 
             // Create an iQuery object to pass to the Query method.
-            var myQuery = QueryFactory.Instance.BuildSimpleQuery(filter);
+            IQuery myQuery = QueryFactory.Instance.BuildSimpleQuery(filter);
 
             // Get the collection of matching customers.
-            var customersPage = partnerOperations.Customers.Query(myQuery);
+            Models.SeekBasedResourceCollection<Customer> customersPage = partnerOperations.Customers.Query(myQuery);
 
             this.Context.ConsoleHelper.StopProgress();
 
             // Create a customer enumerator which will aid us in traversing the customer pages.
-            var customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<Customer>> customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
             int pageNumber = 1;
 
             Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "Customers of indirect reseller: {0}", indirectResellerId));

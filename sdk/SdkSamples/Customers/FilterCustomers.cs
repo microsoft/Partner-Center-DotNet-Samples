@@ -35,19 +35,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string searchPrefix = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the prefix to search for", "The entered prefix is empty");
 
             this.Context.ConsoleHelper.StartProgress("Filtering");
 
-            var fieldFilter = new SimpleFieldFilter(
+            SimpleFieldFilter fieldFilter = new SimpleFieldFilter(
                 this.customerSearchField.ToString(),
                 FieldFilterOperation.StartsWith,
                 searchPrefix);
 
-            var myQuery = QueryFactory.Instance.BuildSimpleQuery(fieldFilter);
-            
-            var customers = partnerOperations.Customers.Query(myQuery);
+            IQuery myQuery = QueryFactory.Instance.BuildSimpleQuery(fieldFilter);
+
+            Models.SeekBasedResourceCollection<Customer> customers = partnerOperations.Customers.Query(myQuery);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customers, "Customer matches");

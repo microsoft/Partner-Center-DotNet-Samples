@@ -34,7 +34,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Utilization
             // retrieve the first 100 utilization records for the last 12 months
             this.Context.ConsoleHelper.StartProgress("Retrieving Azure subscription utilization records");
 
-            var utilizationRecords = this.Context.UserPartnerOperations.Customers[customerId].Subscriptions[subscriptionId].Utilization.Azure.Query(
+            Models.ResourceCollection<Models.Utilizations.AzureUtilizationRecord> utilizationRecords = this.Context.UserPartnerOperations.Customers[customerId].Subscriptions[subscriptionId].Utilization.Azure.Query(
                 DateTimeOffset.Now.AddYears(-1),
                 DateTimeOffset.Now,
                 size: 100);
@@ -42,7 +42,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Utilization
             this.Context.ConsoleHelper.StopProgress();
 
             // create an Azure utilization enumerator which will aid us in traversing the utilization pages
-            var utilizationRecordEnumerator = this.Context.UserPartnerOperations.Enumerators.Utilization.Azure.Create(utilizationRecords);
+            Enumerators.IResourceCollectionEnumerator<Models.ResourceCollection<Models.Utilizations.AzureUtilizationRecord>> utilizationRecordEnumerator = this.Context.UserPartnerOperations.Enumerators.Utilization.Azure.Create(utilizationRecords);
             int pageNumber = 1;
 
             while (utilizationRecordEnumerator.HasValue)

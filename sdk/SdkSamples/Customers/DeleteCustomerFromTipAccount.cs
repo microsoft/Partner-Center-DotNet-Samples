@@ -38,9 +38,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
                 Console.WriteLine("Found customer ID: {0} in configuration.", customerIdToDelete);
             }
 
-            var partnerOperations = this.Context.AppPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.AppPartnerOperations;
 
-            this.Context.ConsoleHelper.StartProgress("Deleting customer");           
+            this.Context.ConsoleHelper.StartProgress("Deleting customer");
             partnerOperations.Customers.ById(customerIdToDelete).Delete();
 
             this.Context.ConsoleHelper.StopProgress();

@@ -32,23 +32,23 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
 
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the corresponding customer to update customer user");
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer user");
 
             // get customer user.
-            var selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
+            CustomerUser selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(selectedCustomerUser, "Selected customer User");
 
             this.Context.ConsoleHelper.StartProgress("Getting customer");
 
             // get customer.
-            var selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Get();
+            Models.Customers.Customer selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(selectedCustomer, "Selected Customer");
 
-            var updatedCustomerUser = new CustomerUser()
+            CustomerUser updatedCustomerUser = new CustomerUser()
             {
                 PasswordProfile = new PasswordProfile() { ForceChangePassword = true, Password = "Password!1" },
                 DisplayName = "Shubham Bharti",
@@ -61,7 +61,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             this.Context.ConsoleHelper.StartProgress("Updating the customer user");
 
             // update customer user information
-            var updatedCustomerUserInfo = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Patch(updatedCustomerUser);
+            CustomerUser updatedCustomerUserInfo = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Patch(updatedCustomerUser);
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(updatedCustomerUserInfo, "Updated customer user information");
         }

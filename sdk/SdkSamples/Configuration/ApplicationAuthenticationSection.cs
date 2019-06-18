@@ -22,34 +22,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         /// <summary>
         /// Gets the AAD application ID.
         /// </summary>
-        public string ApplicationId
-        {
-            get
-            {
-                return this.ConfigurationSection["ApplicationId"];
-            }
-        }
+        public string ApplicationId => this.ConfigurationSection["ApplicationId"];
 
         /// <summary>
         /// Gets AAD application secret.
         /// </summary>
-        public string ApplicationSecret
-        {
-            get
-            {
-                return this.ConfigurationSection["ApplicationSecret"];
-            }
-        }
+        public string ApplicationSecret => this.ConfigurationSection["ApplicationSecret"];
 
         /// <summary>
         /// Gets AAD Domain which hosts the application.
         /// </summary>
-        public string Domain
-        {
-            get
-            {
-                return this.ConfigurationSection["Domain"];
-            }
-        }
+        public string Domain => this.ConfigurationSection["Domain"];
     }
 }

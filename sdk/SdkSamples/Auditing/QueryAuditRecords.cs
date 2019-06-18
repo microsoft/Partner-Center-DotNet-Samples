@@ -28,18 +28,18 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             const int PageSize = 10;
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
 
             this.Context.ConsoleHelper.StartProgress(
                 string.Format(CultureInfo.InvariantCulture, "Retrieving the partner's audit records - start date: {0} | page size: {1}", startDate, PageSize));
 
-            var auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildIndexedQuery(PageSize));
+            Models.SeekBasedResourceCollection<Models.Auditing.AuditRecord> auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildIndexedQuery(PageSize));
             this.Context.ConsoleHelper.StopProgress();
 
             // create a customer enumerator which will aid us in traversing the customer pages
-            var auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<Models.Auditing.AuditRecord>> auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
 
             int pageNumber = 1;
 

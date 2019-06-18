@@ -7,8 +7,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.IO;
+    using System.Linq;
     using Microsoft.Store.PartnerCenter.Models.Agreements;
 
     /// <summary>
@@ -29,25 +29,25 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// </summary>
         protected override void RunScenario()
         {
-            var startTime = DateTime.UtcNow;
-            var errorFilePath = $"{DateTime.UtcNow:yyyyMMddTHHmmss}.txt";
-            var count = 0;
+            DateTime startTime = DateTime.UtcNow;
+            string errorFilePath = $"{DateTime.UtcNow:yyyyMMddTHHmmss}.txt";
+            int count = 0;
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             // Prefetch necessary partner agreement metadata
-            var agreementDetail = partnerOperations.AgreementDetails.Get()?.Items.Where(x => x.AgreementType == AgreementType.MicrosoftCloudAgreement).OrderBy(x => x.VersionRank).FirstOrDefault();
+            AgreementMetaData agreementDetail = partnerOperations.AgreementDetails.Get()?.Items.Where(x => x.AgreementType == AgreementType.MicrosoftCloudAgreement).OrderBy(x => x.VersionRank).FirstOrDefault();
             if (agreementDetail == null)
             {
                 this.Context.ConsoleHelper.WriteColored("No Agreement metadata available.", ConsoleColor.DarkRed);
                 return;
             }
 
-            var selectedUserId = this.ObtainUserMemberId("Enter the user ID of the partner to create customer's agreement");
+            string selectedUserId = this.ObtainUserMemberId("Enter the user ID of the partner to create customer's agreement");
 
             this.Context.ConsoleHelper.WriteColored($"{Environment.NewLine}Use GetAllCustomersAgreements scenario's output csv file format to import agreements.", ConsoleColor.DarkGray);
-            var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
-            var customerAgreements = this.ParseCustomerAgreements(csvFilePath, errorFilePath);
+            string csvFilePath = this.ObtainCustomersAgreementCsvFileName();
+            IEnumerable<CustomerAgreement> customerAgreements = this.ParseCustomerAgreements(csvFilePath, errorFilePath);
 
             // Perform basic validations to check for duplicate customer tenant ids.
             if (customerAgreements.Where(x => x.Valid).GroupBy(x => x.CustomerTenantId).Any(c => c.Count() > 1))
@@ -57,7 +57,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             // Process each line
-            foreach (var customerAgreement in customerAgreements)
+            foreach (CustomerAgreement customerAgreement in customerAgreements)
             {
                 this.Context.ConsoleHelper.WriteObject($"Processing #{++count} {customerAgreement.Source}");
 
@@ -70,7 +70,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                 try
                 {
                     // Fetch Agreements for the customer to check if an update is necessary.
-                    var agreements = partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements.Get();
+                    Models.ResourceCollection<Agreement> agreements = partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements.Get();
                     if (agreements.TotalCount == 0 || DoesAgreementNeedUpdate(agreements.Items.First(), customerAgreement.Agreement))
                     {
                         // Populate other required agreement details
@@ -121,8 +121,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// <returns></returns>
         private IEnumerable<CustomerAgreement> ParseCustomerAgreements(string csvFilePath, string errorFilePath)
         {
-            var lines = File.ReadAllLines(csvFilePath).ToList();
-            var customerAgreements = new List<CustomerAgreement>();
+            List<string> lines = File.ReadAllLines(csvFilePath).ToList();
+            List<CustomerAgreement> customerAgreements = new List<CustomerAgreement>();
 
             switch (lines.Count)
             {
@@ -136,9 +136,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             }
 
             // Construct customer agreement from csv line.
-            for (var ptr = 1; ptr < lines.Count; ptr++)
+            for (int ptr = 1; ptr < lines.Count; ptr++)
             {
-                var parts = lines[ptr].Split(',').Select(s => s.Trim()).ToList();
+                List<string> parts = lines[ptr].Split(',').Select(s => s.Trim()).ToList();
 
                 bool validLine = !(parts.Count < 7 || string.IsNullOrWhiteSpace(parts[0])
                                     || string.IsNullOrWhiteSpace(parts[1])

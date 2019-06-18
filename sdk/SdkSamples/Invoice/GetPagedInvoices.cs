@@ -35,15 +35,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Querying invoices");
 
             // query the invoices, get the first page if a page size was set, otherwise get all invoices
-            var invoicesPage = (this.invoicePageSize <= 0) ? partnerOperations.Invoices.Get() : partnerOperations.Invoices.Query(QueryFactory.Instance.BuildIndexedQuery(this.invoicePageSize));
+            Models.ResourceCollection<Models.Invoices.Invoice> invoicesPage = (this.invoicePageSize <= 0) ? partnerOperations.Invoices.Get() : partnerOperations.Invoices.Query(QueryFactory.Instance.BuildIndexedQuery(this.invoicePageSize));
             this.Context.ConsoleHelper.StopProgress();
 
             // create an invoice enumerator which will aid us in traversing the invoice pages
-            var invoicesEnumerator = partnerOperations.Enumerators.Invoices.Create(invoicesPage);
+            Enumerators.IResourceCollectionEnumerator<Models.ResourceCollection<Models.Invoices.Invoice>> invoicesEnumerator = partnerOperations.Enumerators.Invoices.Create(invoicesPage);
             int pageNumber = 1;
 
             while (invoicesEnumerator.HasValue)

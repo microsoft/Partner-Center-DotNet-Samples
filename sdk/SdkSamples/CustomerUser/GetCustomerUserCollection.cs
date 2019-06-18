@@ -26,12 +26,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
         {
             // get customer Id.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get customer user collection");
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer users collection");
 
             // get customer users collection
-            var customerUsers = partnerOperations.Customers.ById(selectedCustomerId).Users.Get();
+            Models.SeekBasedResourceCollection<Models.Users.CustomerUser> customerUsers = partnerOperations.Customers.ById(selectedCustomerId).Users.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerUsers, "Customer Users collection");

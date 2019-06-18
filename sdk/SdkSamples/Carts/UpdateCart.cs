@@ -8,7 +8,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
 {
     using System.Linq;
     using Store.PartnerCenter.Models.Carts;
-    
+
     /// <summary>
     /// A scenario that updates a new cart for a customer.
     /// </summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string cartId = this.ObtainCartID("Enter the ID of cart for which changes are to be made");
@@ -39,8 +39,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             this.Context.ConsoleHelper.StartProgress("Updating cart");
 
             existingCart.LineItems.ToArray()[0].Quantity += quantityChange;
-            
-            var updatedCart = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Put(existingCart);
+
+            Cart updatedCart = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Put(existingCart);
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(updatedCart, "Updated cart");
         }

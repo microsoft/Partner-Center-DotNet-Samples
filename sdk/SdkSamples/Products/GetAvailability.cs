@@ -26,14 +26,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Products
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var productId = this.ObtainProductId("Enter the ID of the corresponding product");
-            var skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
-            var availabilityId = this.ObtainAvailabilityId("Enter the ID of the availability");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string productId = this.ObtainProductId("Enter the ID of the corresponding product");
+            string skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
+            string availabilityId = this.ObtainAvailabilityId("Enter the ID of the availability");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code of the availability", "The country code can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting availability {0} for product {1} and sku {2} in country {3}", availabilityId, productId, skuId, countryCode));
-            var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
+            Models.Products.Availability availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(availability, "Availability ");

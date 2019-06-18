@@ -30,7 +30,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the corresponding customer whose customer user to delete");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Deleting customer user");
 

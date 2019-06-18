@@ -7,7 +7,6 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 {
     using System;
-    using System.Collections.Generic;
     using Models.Agreements;
 
     /// <summary>
@@ -44,10 +43,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             {
                 Console.WriteLine("Found {0}: {1} in configuration.", "Agreement template Id", agreementTemplateId);
             }
-    
-            var partnerOperations = this.Context.UserPartnerOperations;
 
-            var agreement = new Agreement
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
+            Agreement agreement = new Agreement
             {
                 UserId = selectedUserId,
                 DateAgreed = DateTime.UtcNow,
@@ -65,7 +64,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             this.Context.ConsoleHelper.WriteObject(agreement, "New Agreement");
             this.Context.ConsoleHelper.StartProgress("Creating Agreement");
 
-            var newlyCreatedagreement = partnerOperations.Customers.ById(selectedCustomerId).Agreements.Create(agreement);
+            Agreement newlyCreatedagreement = partnerOperations.Customers.ById(selectedCustomerId).Agreements.Create(agreement);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Create new agreement successfully!");

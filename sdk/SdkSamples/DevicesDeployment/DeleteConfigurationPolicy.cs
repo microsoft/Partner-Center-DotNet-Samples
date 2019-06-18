@@ -28,8 +28,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
 
             string selectedPolicyId = this.ObtainConfigurationPolicyId("Enter the ID of the configuration policy to delete");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.WriteObject(selectedPolicyId, "Configuration policy to be deleted");
             this.Context.ConsoleHelper.StartProgress("Deleting Configuration policy");
 

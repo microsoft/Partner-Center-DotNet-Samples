@@ -27,7 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceRequests
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string serviceRequestIdToRetrieve = this.Context.Configuration.Scenario.DefaultServiceRequestId;
 
             if (string.IsNullOrWhiteSpace(serviceRequestIdToRetrieve))

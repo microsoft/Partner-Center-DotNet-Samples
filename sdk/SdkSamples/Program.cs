@@ -46,7 +46,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
-            var context = new ScenarioContext();
+            ScenarioContext context = new ScenarioContext();
 
             IPartnerScenario[] mainScenarios = new[]
             {
@@ -90,7 +90,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The Customer Directory Roles scenarios.</returns>
         private static IPartnerScenario GetCustomerDirectoryRolesScenarios(ScenarioContext context)
         {
-            var customerDirectoryRolesScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerDirectoryRolesScenarios = new IPartnerScenario[]
             {
                 new GetCustomerDirectoryRoles(context),
                 new AddUserMemberToDirectoryRole(context),
@@ -108,7 +108,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The Customer Subscribed SKUs scenarios.</returns>
         private static IPartnerScenario GetCustomerSubscribedSkus(ScenarioContext context)
         {
-            var customerSubscribedSkusScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerSubscribedSkusScenarios = new IPartnerScenario[]
             {
                 new GetCustomerSubscribedSkus(context)
             };
@@ -123,7 +123,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The Devices scenarios.</returns>
         private static IPartnerScenario GetDevicesScenarios(ScenarioContext context)
         {
-            var devicesScenarios = new IPartnerScenario[]
+            IPartnerScenario[] devicesScenarios = new IPartnerScenario[]
             {
                 new CreateConfigurationPolicy(context),
                 new GetAllConfigurationPolicies(context),
@@ -148,7 +148,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The agreements scenarios.</returns>
         private static IPartnerScenario GetAgreementsScenarios(ScenarioContext context)
         {
-            var agreementsScenario = new IPartnerScenario[]
+            IPartnerScenario[] agreementsScenario = new IPartnerScenario[]
             {
                 new GetAgreementDetails(context),
                 new GetCustomerAgreements(context),
@@ -167,7 +167,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The Entitlement scenarios.</returns>
         private static IPartnerScenario GetEntitlementScenarios(ScenarioContext context)
         {
-            var entitlementScenarios = new IPartnerScenario[]
+            IPartnerScenario[] entitlementScenarios = new IPartnerScenario[]
             {
                 new GetEntitlements(context),
             };
@@ -182,13 +182,13 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The customer user scenarios.</returns>
         private static IPartnerScenario GetCustomerUserScenarios(ScenarioContext context)
         {
-            var sortScenarios = new IPartnerScenario[]
+            IPartnerScenario[] sortScenarios = new IPartnerScenario[]
             {
                 new SortCustomerUsers("Ascending order", SortDirection.Ascending, context),
                 new SortCustomerUsers("Descending order", SortDirection.Descending, context)
             };
 
-            var customerUserScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerUserScenarios = new IPartnerScenario[]
             {
                 new GetCustomerUserCollection(context),
                 new AggregatePartnerScenario("Get sorted customer users", sortScenarios, context),
@@ -219,13 +219,13 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The customer scenarios.</returns>
         private static IPartnerScenario GetCustomerScenarios(IScenarioContext context)
         {
-            var customerFilteringScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerFilteringScenarios = new IPartnerScenario[]
             {
                 new FilterCustomers("Filter by company name", CustomerSearchField.CompanyName, context),
                 new FilterCustomers("Filter by domain name", CustomerSearchField.Domain, context)
             };
 
-            var customerScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerScenarios = new IPartnerScenario[]
             {
                 new CreateCustomer(context),
                 new CheckDomainAvailability(context),
@@ -253,7 +253,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The offer scenarios.</returns>
         private static IPartnerScenario GetOfferScenarios(IScenarioContext context)
         {
-            var offerScenarios = new IPartnerScenario[]
+            IPartnerScenario[] offerScenarios = new IPartnerScenario[]
             {
                 new GetOffer(context),
                 new GetOfferCategories(context),
@@ -273,7 +273,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The product scenarios.</returns>
         private static IPartnerScenario GetProductScenarios(IScenarioContext context)
         {
-            var productScenarios = new IPartnerScenario[]
+            IPartnerScenario[] productScenarios = new IPartnerScenario[]
             {
                 new GetProducts(context),
                 new GetProductsByTargetSegment(context),
@@ -297,7 +297,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The products for customer scenarios.</returns>
         private static IPartnerScenario GetCustomerProductsScenarios(IScenarioContext context)
         {
-            var customerProductsScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerProductsScenarios = new IPartnerScenario[]
             {
                 new GetCustomerProducts(context),
                 new GetCustomerProductsByTargetSegment(context),
@@ -320,7 +320,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The order scenarios.</returns>
         private static IPartnerScenario GetOrderScenarios(IScenarioContext context)
         {
-            var orderScenarios = new IPartnerScenario[]
+            IPartnerScenario[] orderScenarios = new IPartnerScenario[]
             {
                 new CreateOrder(context),
                 new GetOrderDetails(context),
@@ -342,7 +342,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The subscription scenarios.</returns>
         private static IPartnerScenario GetSubscriptionScenarios(IScenarioContext context)
         {
-            var subscriptionScenarios = new IPartnerScenario[]
+            IPartnerScenario[] subscriptionScenarios = new IPartnerScenario[]
             {
                 new GetSubscription(context),
                 new GetSubscriptions(context),
@@ -368,7 +368,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The rated usage scenarios.</returns>
         private static IPartnerScenario GetRatedUsageScenarios(IScenarioContext context)
         {
-            var ratedUsageScenarios = new IPartnerScenario[]
+            IPartnerScenario[] ratedUsageScenarios = new IPartnerScenario[]
             {
                 new GetCustomerUsageSummary(context),
                 new GetCustomerSubscriptionsUsage(context),
@@ -387,7 +387,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The service request scenarios.</returns>
         private static IPartnerScenario GetServiceRequestsScenarios(IScenarioContext context)
         {
-            var serviceRequestsScenarios = new IPartnerScenario[]
+            IPartnerScenario[] serviceRequestsScenarios = new IPartnerScenario[]
             {
                 new CreatePartnerServiceRequest(context),
                 new GetCustomerServiceRequests(context),
@@ -407,7 +407,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The invoice scenarios.</returns>
         private static IPartnerScenario GetInvoiceScenarios(IScenarioContext context)
         {
-            var invoiceScenarios = new IPartnerScenario[]
+            IPartnerScenario[] invoiceScenarios = new IPartnerScenario[]
             {
                 new GetAccountBalance(context),
                 new GetInvoice(context),
@@ -432,7 +432,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The invoice scenarios.</returns>
         private static IPartnerScenario GetProfileScenarios(IScenarioContext context)
         {
-            var profileScenarios = new IPartnerScenario[]
+            IPartnerScenario[] profileScenarios = new IPartnerScenario[]
             {
                 new GetBillingProfile(context),
                 new GetLegalBusinessProfile(context),
@@ -455,7 +455,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The auditing scenarios.</returns>
         private static IPartnerScenario GetAuditingScenarios(IScenarioContext context)
         {
-            var profileScenarios = new IPartnerScenario[]
+            IPartnerScenario[] profileScenarios = new IPartnerScenario[]
             {
                 new QueryAuditRecords(context),
                 new SearchAuditRecords("Filter by company name", AuditRecordSearchField.CompanyName, context),
@@ -493,7 +493,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The invoice scenarios.</returns>
         private static IPartnerScenario GetIndirectModelScenarios(IScenarioContext context)
         {
-            var indirectModelScenarios = new IPartnerScenario[]
+            IPartnerScenario[] indirectModelScenarios = new IPartnerScenario[]
             {
                 new GetIndirectResellers(context),
                 new CreateCustomerForIndirectReseller(context),
@@ -534,7 +534,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The Partner Analytics scenarios.</returns>
         private static IPartnerScenario GetPartnerAnalyticsScenarios(IScenarioContext context)
         {
-            var partnerAnalyticsScenarios = new IPartnerScenario[]
+            IPartnerScenario[] partnerAnalyticsScenarios = new IPartnerScenario[]
             {
                 new GetPartnerLicensesDeploymentAnalytics(context),
                 new GetPartnerLicensesUsageAnalytics(context),
@@ -552,7 +552,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The customer service costs scenarios.</returns>
         private static IPartnerScenario GetCustomerServiceCostsScenarios(IScenarioContext context)
         {
-            var customerServiceCostsScenarios = new IPartnerScenario[]
+            IPartnerScenario[] customerServiceCostsScenarios = new IPartnerScenario[]
             {
                 new GetCustomerServiceCostsSummary(context),
                 new GetCustomerServiceCostsLineItems(context),
@@ -568,7 +568,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The address validation scenarios.</returns>
         private static IPartnerScenario GetAddressValidationsScenarios(IScenarioContext context)
         {
-            var addressValidationScenarios = new IPartnerScenario[]
+            IPartnerScenario[] addressValidationScenarios = new IPartnerScenario[]
             {
                 new AddressValidation(context)
             };
@@ -583,7 +583,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The cart scenarios.</returns>
         private static IPartnerScenario GetCartScenarios(IScenarioContext context)
         {
-            var cartScenarios = new IPartnerScenario[]
+            IPartnerScenario[] cartScenarios = new IPartnerScenario[]
             {
                 new CreateCart(context),
                 new UpdateCart(context),
@@ -600,7 +600,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The cart with add on items scenarios.</returns>
         private static IPartnerScenario GetCartWithAddonItemsScenarios(IScenarioContext context)
         {
-            var cartScenarios = new IPartnerScenario[]
+            IPartnerScenario[] cartScenarios = new IPartnerScenario[]
             {
                 new CreateCartWithAddons(context),
                 new CheckoutCart(context),

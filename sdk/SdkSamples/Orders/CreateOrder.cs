@@ -27,12 +27,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string offerId = this.ObtainOfferId("Enter the ID of the offer to purchase");
-            
-            var order = new Order()
+
+            Order order = new Order()
             {
                 ReferenceCustomerId = customerId,
                 LineItems = new List<OrderLineItem>()
@@ -49,10 +49,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             this.Context.ConsoleHelper.WriteObject(order, "Order to be placed");
             this.Context.ConsoleHelper.StartProgress("Placing order");
 
-            var createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
+            Order createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
 
             this.Context.ConsoleHelper.StopProgress();
-            this.Context.ConsoleHelper.WriteObject(createdOrder, "Created order"); 
+            this.Context.ConsoleHelper.WriteObject(createdOrder, "Created order");
         }
     }
 }

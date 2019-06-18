@@ -37,7 +37,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string[] resourceTypes = Enum.GetNames(typeof(ResourceType));
 
@@ -79,20 +79,20 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
                     break;
                 }
 
-                var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+                DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
 
                 this.Context.ConsoleHelper.StartProgress(
                     string.Format(CultureInfo.InvariantCulture, "Retrieving the partner's audit records - start date: {0}", startDate));
 
                 string searchField = Enum.GetName(typeof(ResourceType), resourceTypeInt);
-                var filter = new SimpleFieldFilter(AuditRecordSearchField.ResourceType.ToString(), FieldFilterOperation.Equals, searchField);
+                SimpleFieldFilter filter = new SimpleFieldFilter(AuditRecordSearchField.ResourceType.ToString(), FieldFilterOperation.Equals, searchField);
 
-                var auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildSimpleQuery(filter));
+                Models.SeekBasedResourceCollection<AuditRecord> auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildSimpleQuery(filter));
 
                 this.Context.ConsoleHelper.StopProgress();
 
                 // create a customer enumerator which will aid us in traversing the customer pages
-                var auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
+                Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<AuditRecord>> auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
 
                 int pageNumber = 1;
 

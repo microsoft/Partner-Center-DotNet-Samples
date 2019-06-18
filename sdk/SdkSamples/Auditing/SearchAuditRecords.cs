@@ -37,22 +37,22 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string searchPrefix = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the prefix to search for", "The entered prefix is empty");
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
 
             this.Context.ConsoleHelper.StartProgress(
                 string.Format(CultureInfo.InvariantCulture, "Retrieving the partner's audit records - start date: {0}", startDate));
 
-            var filter = new SimpleFieldFilter(AuditRecordSearchField.CompanyName.ToString(), FieldFilterOperation.Substring, searchPrefix);
+            SimpleFieldFilter filter = new SimpleFieldFilter(AuditRecordSearchField.CompanyName.ToString(), FieldFilterOperation.Substring, searchPrefix);
 
-            var auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildSimpleQuery(filter));
+            Models.SeekBasedResourceCollection<AuditRecord> auditRecordsPage = partnerOperations.AuditRecords.Query(startDate.Date, query: QueryFactory.Instance.BuildSimpleQuery(filter));
 
             this.Context.ConsoleHelper.StopProgress();
 
             // create a customer enumerator which will aid us in traversing the customer pages
-            var auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<AuditRecord>> auditRecordEnumerator = partnerOperations.Enumerators.AuditRecords.Create(auditRecordsPage);
 
             int pageNumber = 1;
 

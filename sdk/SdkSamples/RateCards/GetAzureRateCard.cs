@@ -24,10 +24,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.RateCards
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Retrieving Azure rate card");
-            var azureRateCard = partnerOperations.RateCards.Azure.Get();
+            Models.RateCards.AzureRateCard azureRateCard = partnerOperations.RateCards.Azure.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(azureRateCard, "Azure Rate Card");

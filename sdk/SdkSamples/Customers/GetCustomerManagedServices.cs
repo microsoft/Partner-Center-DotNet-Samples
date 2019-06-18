@@ -26,10 +26,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         {
             string customerId = this.ObtainCustomerId();
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting the customer's managed services");
 
-            var managedServices = partnerOperations.Customers.ById(customerId).ManagedServices.Get();
+            Models.ResourceCollection<Models.ManagedServices.ManagedService> managedServices = partnerOperations.Customers.ById(customerId).ManagedServices.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(managedServices, "Customer managed services");

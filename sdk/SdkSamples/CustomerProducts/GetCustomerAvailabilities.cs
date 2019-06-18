@@ -26,13 +26,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerProducts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
-            var productId = this.ObtainProductId("Enter the ID of the corresponding product");
-            var skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
+            string productId = this.ObtainProductId("Enter the ID of the corresponding product");
+            string skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting availabilities for product {0} and sku {1} for customer {2}", productId, skuId, customerId));
-            var skuAvailabilities = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Availabilities.Get();
+            Models.ResourceCollection<Models.Products.Availability> skuAvailabilities = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Availabilities.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(skuAvailabilities, "Availabilities for customer");

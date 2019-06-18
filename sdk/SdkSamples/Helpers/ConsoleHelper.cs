@@ -22,7 +22,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
         /// <summary>
         /// A lazy reference to the singleton console helper instance.
         /// </summary>
-        private static Lazy<ConsoleHelper> instance = new Lazy<ConsoleHelper>(() => new ConsoleHelper());
+        private static readonly Lazy<ConsoleHelper> instance = new Lazy<ConsoleHelper>(() => new ConsoleHelper());
 
         /// <summary>
         /// A task that displays progress indicator on the console.
@@ -44,13 +44,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
         /// <summary>
         /// Gets the single instance of the <see cref="ConsoleHelper"/>.
         /// </summary>
-        public static ConsoleHelper Instance
-        {
-            get
-            {
-                return ConsoleHelper.instance.Value;
-            }
-        }
+        public static ConsoleHelper Instance => ConsoleHelper.instance.Value;
 
         /// <summary>
         /// Writes a success message to the console.
@@ -76,8 +70,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
 
                     while (!this.progressCancellationTokenSource.Token.IsCancellationRequested)
                     {
-                        var initialCursorPositionX = Console.CursorLeft;
-                        var initialCursorPositionY = Console.CursorTop;
+                        int initialCursorPositionX = Console.CursorLeft;
+                        int initialCursorPositionY = Console.CursorTop;
 
                         for (dotCounter = 0; dotCounter < 5; dotCounter++)
                         {
@@ -89,7 +83,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
                                 return;
                             }
                         }
-                        
+
                         // Erase dots.
                         Console.SetCursorPosition(initialCursorPositionX, initialCursorPositionY);
                         for (int i = 0; i < dotCounter; ++i)
@@ -219,7 +213,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
             bool isTitlePresent = !string.IsNullOrWhiteSpace(title);
             string indentString = new string(' ', indent * TabSize);
             Type objectType = @object.GetType();
-            var collection = @object as ICollection;
+            ICollection collection = @object as ICollection;
 
             if (objectType.Assembly.FullName == typeof(ResourceBase).Assembly.FullName && objectType.IsClass)
             {
@@ -257,10 +251,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
                 // this is a collection, loop through its element and print them recursively
                 this.WriteColored(string.Format(CultureInfo.InvariantCulture, isTitlePresent ? "{0}{1}: " : string.Empty, indentString, title), ConsoleColor.Yellow);
 
-                foreach (var element in collection)
+                foreach (object element in collection)
                 {
                     this.WriteObject(element, indent: indent + 1);
-                    var elementType = element.GetType();
+                    Type elementType = element.GetType();
 
                     if (indent == 1)
                     {

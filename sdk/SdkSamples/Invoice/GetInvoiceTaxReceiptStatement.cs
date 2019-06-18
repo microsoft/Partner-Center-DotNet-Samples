@@ -7,12 +7,11 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     /// <summary>
     /// Gets a single partner invoice.
     /// </summary>
-    public class GetInvoiceTaxReceiptStatement : BasePartnerScenario 
+    public class GetInvoiceTaxReceiptStatement : BasePartnerScenario
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetInvoiceTaxReceiptStatement"/> class.
@@ -27,7 +26,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
 
             if (string.IsNullOrWhiteSpace(invoiceId))
@@ -55,7 +54,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             this.Context.ConsoleHelper.StartProgress("Retrieving tax receipt statement");
 
             // Retrieving invoice
-            var taxReceiptStatement = partnerOperations.Invoices.ById(invoiceId).Receipts.ById(receiptId).Documents.Statement.Get();
+            Stream taxReceiptStatement = partnerOperations.Invoices.ById(invoiceId).Receipts.ById(receiptId).Documents.Statement.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(receiptId, "Receipt Id");

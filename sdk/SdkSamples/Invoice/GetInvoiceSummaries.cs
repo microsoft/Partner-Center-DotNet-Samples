@@ -24,11 +24,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving invoice summaries");
 
             // Retrieving invoice summaries
-            var invoiceSummaries = partnerOperations.Invoices.Summaries.Get();
+            Models.ResourceCollection<Models.Invoices.InvoiceSummary> invoiceSummaries = partnerOperations.Invoices.Summaries.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(invoiceSummaries, "Invoice Summaries");
@@ -36,9 +36,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             // Retrieving invoice summaries details
             if (invoiceSummaries.TotalCount > 0)
             {
-                foreach (var summary in invoiceSummaries.Items)
+                foreach (Models.Invoices.InvoiceSummary summary in invoiceSummaries.Items)
                 {
-                    foreach (var detail in summary.Details)
+                    foreach (Models.Invoices.InvoiceSummaryDetail detail in summary.Details)
                     {
                         this.Context.ConsoleHelper.WriteObject(detail, "Invoice Summaries Details");
                     }

@@ -26,11 +26,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
         {
             string selectedCustomerId = this.ObtainCustomerId("Enter the Customer Id to get the devices batches for");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Querying for the devices batches");
 
-            var devicesBatches = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.Get();
+            Models.ResourceCollection<Models.DevicesDeployment.DeviceBatch> devicesBatches = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(devicesBatches, "Device Batches");

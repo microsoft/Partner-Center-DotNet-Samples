@@ -28,13 +28,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Products
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var productId = this.ObtainProductId("Enter the ID of the product to check inventory for");
-            var customerId = this.ObtainCustomerId("Enter a customer ID");
-            var subscriptionId = this.ObtainSubscriptionId(customerId, "Enter a subscription ID");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string productId = this.ObtainProductId("Enter the ID of the product to check inventory for");
+            string customerId = this.ObtainCustomerId("Enter a customer ID");
+            string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter a subscription ID");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code", "The country code can't be empty");
-            
-            var inventoryCheckRequest = new InventoryCheckRequest()
+
+            InventoryCheckRequest inventoryCheckRequest = new InventoryCheckRequest()
             {
                 TargetItems = new InventoryItem[] { new InventoryItem { ProductId = productId } },
                 InventoryContext = new Dictionary<string, string>()
@@ -45,7 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Products
             };
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Checking inventory for product {0} in country {1}", productId, countryCode));
-            var inventoryResults = partnerOperations.Extensions.Product.ByCountry(countryCode).CheckInventory(inventoryCheckRequest);
+            IEnumerable<InventoryItem> inventoryResults = partnerOperations.Extensions.Product.ByCountry(countryCode).CheckInventory(inventoryCheckRequest);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(inventoryResults, string.Format(CultureInfo.InvariantCulture, "Inventory check for product {0}", productId));

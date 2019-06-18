@@ -24,34 +24,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         /// <summary>
         /// Gets the AAD application ID.
         /// </summary>
-        public string ApplicationId
-        {
-            get
-            {
-                return this.ConfigurationSection["ApplicationId"];
-            }
-        }
+        public string ApplicationId => this.ConfigurationSection["ApplicationId"];
 
         /// <summary>
         /// Gets the resource the application is attempting to access, i.e. the partner API service.
         /// </summary>
-        public Uri ResourceUrl
-        {
-            get
-            {
-                return new Uri(this.ConfigurationSection["ResourceUrl"]);
-            }
-        }
+        public Uri ResourceUrl => new Uri(this.ConfigurationSection["ResourceUrl"]);
 
         /// <summary>
         /// Gets the application redirect URL.
         /// </summary>
-        public Uri RedirectUrl
-        {
-            get
-            {
-                return new Uri(this.ConfigurationSection["RedirectUrl"]);
-            }
-        }
+        public Uri RedirectUrl => new Uri(this.ConfigurationSection["RedirectUrl"]);
     }
 }

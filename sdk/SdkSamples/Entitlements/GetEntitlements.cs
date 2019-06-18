@@ -30,13 +30,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Entitlements
         {
             string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve entitlements for");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving customer entitlements");
 
-            var entitlements = partnerOperations.Customers.ById(customerIdToRetrieve).Entitlements.Get();
+            Models.ResourceCollection<Entitlement> entitlements = partnerOperations.Customers.ById(customerIdToRetrieve).Entitlements.Get();
             this.Context.ConsoleHelper.StopProgress();
 
-            foreach (var entitlement in entitlements.Items)
+            foreach (Entitlement entitlement in entitlements.Items)
             {
                 this.Context.ConsoleHelper.WriteObject(entitlement, "Entitlement details");
 
@@ -45,12 +45,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Entitlements
                     switch (entitlement.EntitlementType.ToLowerInvariant())
                     {
                         case "reservedinstance":
-                            var reservedInstanceArtifactDetailsLink =
+                            Models.Link reservedInstanceArtifactDetailsLink =
                                 ((ReservedInstanceArtifact)entitlement.EntitledArtifacts.FirstOrDefault(x => string.Equals(x.ArtifactType, "ReservedInstance", StringComparison.OrdinalIgnoreCase)))?.Link;
 
                             if (reservedInstanceArtifactDetailsLink != null)
                             {
-                                var reservedInstanceArtifactDetails =
+                                ReservedInstanceArtifactDetails reservedInstanceArtifactDetails =
                                     reservedInstanceArtifactDetailsLink
                                         .InvokeAsync<ReservedInstanceArtifactDetails>(partnerOperations)
                                         .Result;

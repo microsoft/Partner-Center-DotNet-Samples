@@ -25,10 +25,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
         protected override void RunScenario()
         {
             string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve offer categories for");
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress($"Getting offer catgories for customer { customerIdToRetrieve }");
-            var offerCategories = partnerOperations.Customers.ById(customerIdToRetrieve).OfferCategories.Get();
+            Models.ResourceCollection<Models.Offers.OfferCategory> offerCategories = partnerOperations.Customers.ById(customerIdToRetrieve).OfferCategories.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(offerCategories, $"Offer categories for customer { customerIdToRetrieve }");

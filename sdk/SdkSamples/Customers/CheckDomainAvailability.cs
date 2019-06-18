@@ -24,7 +24,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string domainPrefix = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a domain prefix to check its availability", "The entered domain is empty");
 
             this.Context.ConsoleHelper.StartProgress("Checking");

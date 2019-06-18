@@ -35,15 +35,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceRequests
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Querying Service Requests");
 
             // query the service requests, get the first page if a page size was set
-            var serviceRequestsPage = partnerOperations.ServiceRequests.Query(QueryFactory.Instance.BuildIndexedQuery(this.serviceRequestPageSize));
+            Models.ResourceCollection<Models.ServiceRequests.ServiceRequest> serviceRequestsPage = partnerOperations.ServiceRequests.Query(QueryFactory.Instance.BuildIndexedQuery(this.serviceRequestPageSize));
             this.Context.ConsoleHelper.StopProgress();
 
             // create a service requests enumerator which will aid us in traversing the service requests pages
-            var serviceRequestsEnumerator = partnerOperations.Enumerators.ServiceRequests.Create(serviceRequestsPage);
+            Enumerators.IResourceCollectionEnumerator<Models.ResourceCollection<Models.ServiceRequests.ServiceRequest>> serviceRequestsEnumerator = partnerOperations.Enumerators.ServiceRequests.Create(serviceRequestsPage);
             int pageNumber = 1;
 
             while (serviceRequestsEnumerator.HasValue)

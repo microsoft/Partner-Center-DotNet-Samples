@@ -26,14 +26,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var offerId = this.ObtainOfferId("Enter the ID of offer to retrieve");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string offerId = this.ObtainOfferId("Enter the ID of offer to retrieve");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its supported offers", "The country code can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting offer details for {0}", countryCode));
 
-            var offer = partnerOperations.Offers.ByCountry(countryCode).ById(offerId).Get();
-            var offerAddOns = partnerOperations.Offers.ByCountry(countryCode).ById(offerId).AddOns.Get();
+            Models.Offers.Offer offer = partnerOperations.Offers.ByCountry(countryCode).ById(offerId).Get();
+            Models.ResourceCollection<Models.Offers.Offer> offerAddOns = partnerOperations.Offers.ByCountry(countryCode).ById(offerId).AddOns.Get();
 
             this.Context.ConsoleHelper.StopProgress();
 

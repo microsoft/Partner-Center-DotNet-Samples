@@ -29,10 +29,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.IndirectModel
             string customerId = this.ObtainCustomerId();
             string partnerMpnId = this.ObtainMpnId();
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting subscriptions");
 
-            var customerSubscriptionsByMpnId = partnerOperations.Customers.ById(customerId).Subscriptions.ByPartner(partnerMpnId).Get();
+            Models.ResourceCollection<Models.Subscriptions.Subscription> customerSubscriptionsByMpnId = partnerOperations.Customers.ById(customerId).Subscriptions.ByPartner(partnerMpnId).Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(

@@ -26,12 +26,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerProducts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
-            var productId = this.ObtainProductId("Enter the ID of the product");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
+            string productId = this.ObtainProductId("Enter the ID of the product");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting product {0} details for customer {1}", productId, customerId));
-            var product = partnerOperations.Customers.ById(customerId).Products.ById(productId).Get();
+            Models.Products.Product product = partnerOperations.Customers.ById(customerId).Products.ById(productId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(product, "Product details for customer");

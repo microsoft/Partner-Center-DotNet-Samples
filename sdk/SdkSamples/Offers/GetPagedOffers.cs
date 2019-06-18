@@ -34,7 +34,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             int offset = 0;
 
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its supported offers", "The country code can't be empty");
@@ -42,11 +42,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
             this.Context.ConsoleHelper.StartProgress("Querying Offers");
 
             // query the Offers, get the first page if a page size was set, otherwise get all Offers
-            var offersPage = (this.offersPageSize <= 0) ? partnerOperations.Offers.ByCountry(countryCode).Get() : partnerOperations.Offers.ByCountry(countryCode).Get(offset, this.offersPageSize);
+            Models.ResourceCollection<Models.Offers.Offer> offersPage = (this.offersPageSize <= 0) ? partnerOperations.Offers.ByCountry(countryCode).Get() : partnerOperations.Offers.ByCountry(countryCode).Get(offset, this.offersPageSize);
             this.Context.ConsoleHelper.StopProgress();
 
             // create a customer enumerator which will aid us in traversing the customer pages
-            var offersEnumerator = partnerOperations.Enumerators.Offers.Create(offersPage);
+            Enumerators.IResourceCollectionEnumerator<Models.ResourceCollection<Models.Offers.Offer>> offersEnumerator = partnerOperations.Enumerators.Offers.Create(offersPage);
             int pageNumber = 1;
 
             while (offersEnumerator.HasValue)

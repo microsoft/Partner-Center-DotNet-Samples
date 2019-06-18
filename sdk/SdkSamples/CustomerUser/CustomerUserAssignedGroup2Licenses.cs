@@ -33,13 +33,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // Get the customer user Id
             string selectedCustomerUserId = this.ObtainCustomerUserId("Enter the ID of the customer user to get assigned licenses");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting customer user assigned licenses");
 
             // Get the customer user assigned group2 licenses information 
             // Group2 – This group contains products that cant be managed in Azure Active Directory
             List<LicenseGroupId> groupIds = new List<LicenseGroupId>() { LicenseGroupId.Group2 };
-            var customerUserAssignedGroup2Licenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
+            Models.ResourceCollection<License> customerUserAssignedGroup2Licenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerUserAssignedGroup2Licenses, "Customer User Assigned Group2 Licenses");
         }

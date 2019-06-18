@@ -24,16 +24,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string cartId = this.ObtainCartID("Enter the ID of cart to checkout");
 
-            var existingCart = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Get();
+            Models.Carts.Cart existingCart = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Get();
 
             this.Context.ConsoleHelper.WriteObject(existingCart, "Cart to be checked out");
             this.Context.ConsoleHelper.StartProgress("Checking out cart");
-            var checkoutResult = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Checkout();
+            PartnerCenter.Carts.CartCheckoutResult checkoutResult = partnerOperations.Customers.ById(customerId).Carts.ById(cartId).Checkout();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(checkoutResult, "Final Cart: ");
         }

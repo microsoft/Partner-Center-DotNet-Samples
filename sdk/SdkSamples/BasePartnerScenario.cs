@@ -418,14 +418,14 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The subscription ID.</returns>
         protected string ObtainSubscriptionId(string customerId, string promptMessage = default(string))
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var subscriptionId = this.Context.Configuration.Scenario.DefaultSubscriptionId;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string subscriptionId = this.Context.Configuration.Scenario.DefaultSubscriptionId;
 
             if (string.IsNullOrWhiteSpace(subscriptionId))
             {
                 // get the customer subscriptions and let the user enter the subscription Id afterwards
                 this.Context.ConsoleHelper.StartProgress("Retrieving customer subscriptions");
-                var subscriptions = partnerOperations.Customers.ById(customerId).Subscriptions.Get();
+                Models.ResourceCollection<Models.Subscriptions.Subscription> subscriptions = partnerOperations.Customers.ById(customerId).Subscriptions.Get();
                 this.Context.ConsoleHelper.StopProgress();
                 this.Context.ConsoleHelper.WriteObject(subscriptions, "Customer subscriptions");
 
@@ -449,14 +449,14 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// <returns>The product SKU identifier.</returns>
         protected string ObtainProductSkuId(string customerId, string promptMessage = default(string))
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string productSkuId = string.Empty;
 
             if (string.IsNullOrWhiteSpace(productSkuId))
             {
                 // get the customer subscribed Skus and let the user enter the productSku Id afterwards
                 this.Context.ConsoleHelper.StartProgress("Retrieving customer subscribed SKUs");
-                var customerSubscribedSkus = partnerOperations.Customers.ById(customerId).SubscribedSkus.Get();
+                Models.ResourceCollection<Models.Licenses.SubscribedSku> customerSubscribedSkus = partnerOperations.Customers.ById(customerId).SubscribedSkus.Get();
                 this.Context.ConsoleHelper.StopProgress();
                 this.Context.ConsoleHelper.WriteObject(customerSubscribedSkus, "Customer Subscribed SKUs");
 

@@ -36,12 +36,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerDirectoryRoles
             // get directory role Id.
             string selectedDirectoryRoleId = this.ObtainDirectoryRoleId("Enter the ID of the directory role");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting Customer User Details");
 
             // getting customer user details
-            var selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
+            Models.Users.CustomerUser selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
             this.Context.ConsoleHelper.StopProgress();
             UserMember userMemberToAdd = new UserMember()
             {
@@ -52,7 +52,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerDirectoryRoles
             this.Context.ConsoleHelper.StartProgress("Adding user member to directory roles");
 
             // Add this customer user to the selected directory role.
-            var userMemberAdded = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.ById(selectedDirectoryRoleId).UserMembers.Create(userMemberToAdd);
+            UserMember userMemberAdded = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.ById(selectedDirectoryRoleId).UserMembers.Create(userMemberToAdd);
             this.Context.ConsoleHelper.StopProgress();
             Console.WriteLine("Below Customer user was added to directory role with id: {0}", selectedDirectoryRoleId);
             this.Context.ConsoleHelper.WriteObject(userMemberAdded, "Added Customer User Member to Directory Role Details");

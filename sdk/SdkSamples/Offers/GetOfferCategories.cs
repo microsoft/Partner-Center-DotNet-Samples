@@ -26,11 +26,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its supported offer categories", "The country code can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting offer categories for {0}", countryCode));
-            var offerCategories = partnerOperations.OfferCategories.ByCountry(countryCode).Get();
+            Models.ResourceCollection<Models.Offers.OfferCategory> offerCategories = partnerOperations.OfferCategories.ByCountry(countryCode).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(offerCategories, string.Format(CultureInfo.InvariantCulture, "Offer categories in {0}", countryCode));

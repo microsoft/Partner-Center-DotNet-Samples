@@ -26,14 +26,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerProducts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
-            var productId = this.ObtainProductId("Enter the ID of the corresponding product");
-            var skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
-            var availabilityId = this.ObtainAvailabilityId("Enter the ID of the availability");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
+            string productId = this.ObtainProductId("Enter the ID of the corresponding product");
+            string skuId = this.ObtainSkuId("Enter the ID of the corresponding sku");
+            string availabilityId = this.ObtainAvailabilityId("Enter the ID of the availability");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting availability {0} for product {1} and sku {2} for customer {3}", availabilityId, productId, skuId, customerId));
-            var skuAvailability = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
+            Models.Products.Availability skuAvailability = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(skuAvailability, "Availability for customer");

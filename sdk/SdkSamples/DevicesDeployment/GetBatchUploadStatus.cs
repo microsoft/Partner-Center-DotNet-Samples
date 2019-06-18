@@ -28,11 +28,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
 
             string selectedTrackingId = this.ObtainBatchUploadStatusTrackingId("Enter the batch upload status tracking Id to get the status of");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Querying the status");
 
-            var status = partnerOperations.Customers.ById(selectedCustomerId).BatchUploadStatus.ById(selectedTrackingId).Get();
+            Models.DevicesDeployment.BatchUploadDetails status = partnerOperations.Customers.ById(selectedCustomerId).BatchUploadStatus.ById(selectedTrackingId).Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(status, "Tracking Status");

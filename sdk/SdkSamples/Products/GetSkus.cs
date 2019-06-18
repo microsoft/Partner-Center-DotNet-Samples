@@ -26,12 +26,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Products
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var productId = this.ObtainProductId("Enter the ID of the corresponding product");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string productId = this.ObtainProductId("Enter the ID of the corresponding product");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its supported skus", "The country code can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting skus for product {0} in country {1}", productId, countryCode));
-            var skus = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.Get();
+            Models.ResourceCollection<Models.Products.Sku> skus = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(skus, string.Format(CultureInfo.InvariantCulture, "Skus for product {0}", productId));

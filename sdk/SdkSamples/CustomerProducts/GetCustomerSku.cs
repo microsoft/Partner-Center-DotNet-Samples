@@ -26,13 +26,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerProducts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
-            var productId = this.ObtainProductId("Enter the ID of the corresponding product");
-            var skuId = this.ObtainSkuId("Enter the ID of the sku");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
+            string productId = this.ObtainProductId("Enter the ID of the corresponding product");
+            string skuId = this.ObtainSkuId("Enter the ID of the sku");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting sku details for sku {0} from product {1} for customer {2}", skuId, productId, customerId));
-            var sku = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Get();
+            Models.Products.Sku sku = partnerOperations.Customers.ById(customerId).Products.ById(productId).Skus.ById(skuId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(sku, "Sku details for customer");

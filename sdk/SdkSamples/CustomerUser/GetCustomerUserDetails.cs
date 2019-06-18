@@ -29,12 +29,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
 
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the corresponding customer to get customer user details");
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer user detail");
 
             // Get customer user detail
-            var selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
+            Models.Users.CustomerUser selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(selectedCustomerUser, "Customer User detail");
         }

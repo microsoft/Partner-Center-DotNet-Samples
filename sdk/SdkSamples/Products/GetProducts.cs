@@ -26,12 +26,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Products
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its supported products", "The country code can't be empty");
             string targetView = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the target view to get its supported products", "The target view can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting products in catalog view {0} in country {1}", targetView, countryCode));
-            var products = partnerOperations.Products.ByCountry(countryCode).ByTargetView(targetView).Get();
+            Models.ResourceCollection<Models.Products.Product> products = partnerOperations.Products.ByCountry(countryCode).ByTargetView(targetView).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(products, string.Format(CultureInfo.InvariantCulture, "Products in catalog view {0}", targetView));

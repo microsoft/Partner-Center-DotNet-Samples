@@ -24,14 +24,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their order details");
             string orderId = this.ObtainOrderID("Enter the ID of order to retrieve");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer order details");
 
-            var customerOrderDetails = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
+            Models.Orders.Order customerOrderDetails = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerOrderDetails, "Customer order details");

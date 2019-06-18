@@ -30,12 +30,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
 
             string selectedDeviceId = this.ObtainDeviceId("Enter the ID of the device to delete");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.WriteObject(selectedDeviceId, "Device to be deleted");
             this.Context.ConsoleHelper.StartProgress("Deleting device");
 
-           partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.ById(selectedDeviceBatchId).Devices.ById(selectedDeviceId).Delete();
+            partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.ById(selectedDeviceBatchId).Devices.ById(selectedDeviceId).Delete();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Deleted the device successfully!");

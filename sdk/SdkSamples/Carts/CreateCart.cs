@@ -32,7 +32,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string catalogItemId = this.ObtainCatalogItemId("Enter the catalog Item Id");
@@ -43,13 +43,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             string scope = string.Empty;
             string subscriptionId = string.Empty;
             string duration = string.Empty;
-            var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
-            var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
+            Models.Products.Sku sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
+            Models.Products.Availability availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
 
 
             if (sku.ProvisioningVariables != null)
             {
-                var provisioningContext = new Dictionary<string, string>();
+                Dictionary<string, string> provisioningContext = new Dictionary<string, string>();
                 foreach (string provisioningVariable in sku.ProvisioningVariables)
                 {
                     switch (provisioningVariable)
@@ -76,7 +76,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                 ProvisioningContext = null;
             }
 
-            var cart = new Cart()
+            Cart cart = new Cart()
             {
                 LineItems = new List<CartLineItem>()
                 {
@@ -95,7 +95,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             this.Context.ConsoleHelper.WriteObject(cart, "Cart to be created");
             this.Context.ConsoleHelper.StartProgress("Creating cart");
 
-            var createdCart = partnerOperations.Customers.ById(customerId).Carts.Create(cart);
+            Cart createdCart = partnerOperations.Customers.ById(customerId).Carts.Create(cart);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(createdCart, "Created cart");

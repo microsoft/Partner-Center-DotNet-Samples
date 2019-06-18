@@ -29,18 +29,18 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var indirectResellerId = this.ObtainIndirectResellerId("Enter the ID of the indirect reseller: ");
+            string indirectResellerId = this.ObtainIndirectResellerId("Enter the ID of the indirect reseller: ");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
-            var customerToCreate = new Customer()
+            Customer customerToCreate = new Customer()
             {
                 CompanyProfile = new CustomerCompanyProfile()
                 {
                     Domain = string.Format(
                         CultureInfo.InvariantCulture,
                         "WingtipToys{0}.{1}",
-                        new Random().Next(), 
+                        new Random().Next(),
                         this.Context.Configuration.Scenario.CustomerDomainSuffix)
                 },
                 BillingProfile = new CustomerBillingProfile()
@@ -67,7 +67,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             this.Context.ConsoleHelper.WriteObject(customerToCreate, "New user Information");
             this.Context.ConsoleHelper.StartProgress("Creating user");
 
-            var newCustomer = partnerOperations.Customers.Create(customerToCreate);
+            Customer newCustomer = partnerOperations.Customers.Create(customerToCreate);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Success!");

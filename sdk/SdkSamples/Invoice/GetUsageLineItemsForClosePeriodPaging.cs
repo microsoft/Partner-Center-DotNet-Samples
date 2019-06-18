@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
             if (string.IsNullOrWhiteSpace(invoiceId))
@@ -51,19 +51,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                 Console.WriteLine("Found Invoice ID: {0} in configuration.", invoiceId);
             }
 
-            var pageMaxSizeReconciliationLineItems = 2000;
+            int pageMaxSizeReconciliationLineItems = 2000;
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
 
             this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");
             // Retrieving billed consumption line items
-            var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", null, null, pageMaxSizeReconciliationLineItems).Get();
+            Models.SeekBasedResourceCollection<InvoiceLineItem> seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", null, null, pageMaxSizeReconciliationLineItems).Get();
 
-            var fetchNext = true;
+            bool fetchNext = true;
 
             ConsoleKeyInfo keyInfo;
 
-            var itemNumber = 1;
+            int itemNumber = 1;
 
             Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
 

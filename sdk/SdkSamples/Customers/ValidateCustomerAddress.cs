@@ -24,11 +24,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code to get its validation rules", "The country code can't be empty");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving country validation rules");
-            var countryValidationRules = partnerOperations.CountryValidationRules.ByCountry(countryCode).Get();
+            Models.CountryValidationRules.CountryValidationRules countryValidationRules = partnerOperations.CountryValidationRules.ByCountry(countryCode).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(countryValidationRules, " Country validation rules");
         }

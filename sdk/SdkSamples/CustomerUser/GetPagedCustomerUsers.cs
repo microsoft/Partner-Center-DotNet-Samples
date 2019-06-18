@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get all customer users in pages");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             // get customer user page size
             string customerUserPageSize = this.ObtainCustomerUserPageSize();
@@ -47,13 +47,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             this.Context.ConsoleHelper.StartProgress("Querying first page of customer users");
 
             // query the customers, get the first page if a page size was set, otherwise get all customers
-            var customerUsersPage = (this.customerUserPageSize <= 0) ? partnerOperations.Customers.ById(selectedCustomerId).Users.Get() : partnerOperations.Customers.ById(selectedCustomerId).Users.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerUserPageSize));
+            Models.SeekBasedResourceCollection<Models.Users.CustomerUser> customerUsersPage = (this.customerUserPageSize <= 0) ? partnerOperations.Customers.ById(selectedCustomerId).Users.Get() : partnerOperations.Customers.ById(selectedCustomerId).Users.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerUserPageSize));
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.StartProgress("Creating customer user Enumerator");
 
             // create a customer user enumerator which will aid us in traversing the customer user pages
-            var customerUsersEnumerator = partnerOperations.Enumerators.CustomerUsers.Create(customerUsersPage);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<Models.Users.CustomerUser>> customerUsersEnumerator = partnerOperations.Enumerators.CustomerUsers.Create(customerUsersPage);
             this.Context.ConsoleHelper.StopProgress();
             int pageNumber = 1;
             while (customerUsersEnumerator.HasValue)

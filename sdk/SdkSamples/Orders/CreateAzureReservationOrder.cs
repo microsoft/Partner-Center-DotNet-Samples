@@ -30,7 +30,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string productId = this.ObtainProductId();
@@ -38,8 +38,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             string subscriptionId = this.ObtainAzureSubscriptionId();
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code of the sku", "The country code can't be empty");
 
-            var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
-            var availabilities = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.Get();
+            Models.Products.Sku sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
+            Models.ResourceCollection<Models.Products.Availability> availabilities = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.Get();
 
             if ((sku.DynamicAttributes == null) || string.IsNullOrEmpty(Convert.ToString(sku.DynamicAttributes["duration"])))
             {
@@ -53,7 +53,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
                 }
                 else
                 {
-                    var order = new Order()
+                    Order order = new Order()
                     {
                         ReferenceCustomerId = customerId,
                         BillingCycle = BillingCycleType.OneTime,
@@ -78,7 +78,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
                     this.Context.ConsoleHelper.WriteObject(order, "Azure Reservation order to be placed");
                     this.Context.ConsoleHelper.StartProgress("Placing order");
 
-                    var createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
+                    Order createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
 
                     this.Context.ConsoleHelper.StopProgress();
                     this.Context.ConsoleHelper.WriteObject(createdOrder, "Created Azure Reservation order");

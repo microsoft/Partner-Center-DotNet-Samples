@@ -28,11 +28,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceIncidents
         protected override void RunScenario()
         {
             const string SearchTerm = "false";
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving Service incidents");
 
             // Query service incidents based on their active status - resolved or not. resolved = false fetches all the active incidents for all subscribed services. 
-            var serviceIncidents = partnerOperations.ServiceIncidents.Query(QueryFactory.Instance.BuildIndexedQuery(1, 0, new SimpleFieldFilter(ServiceIncidentSearchField.Resolved.ToString(), FieldFilterOperation.Equals, SearchTerm)));
+            Models.ResourceCollection<ServiceIncidents> serviceIncidents = partnerOperations.ServiceIncidents.Query(QueryFactory.Instance.BuildIndexedQuery(1, 0, new SimpleFieldFilter(ServiceIncidentSearchField.Resolved.ToString(), FieldFilterOperation.Equals, SearchTerm)));
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(serviceIncidents, "Service Incidents");

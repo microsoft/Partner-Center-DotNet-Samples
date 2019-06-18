@@ -26,25 +26,25 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their orders");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer orders");
-            var customerOrders = partnerOperations.Customers.ById(customerId).Orders.Get();
+            Models.ResourceCollection<Models.Orders.Order> customerOrders = partnerOperations.Customers.ById(customerId).Orders.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerOrders, "Customer orders");
 
             string orderId = this.ObtainOrderID();
             this.Context.ConsoleHelper.StartProgress("Retrieving customer order");
-            var customerOrder = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
+            Models.Orders.Order customerOrder = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerOrder, "Customer order");
 
             Console.Write("Enter order line item number: ");
             string orderLineItemNumber = Console.ReadLine();
             this.Context.ConsoleHelper.StartProgress("Obtaining order line item activation link");
-            var activationLink = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).OrderLineItems.ById(orderLineItemNumber).ActivationLink.Get();
+            Models.ResourceCollection<Models.Orders.OrderLineItemActivationLink> activationLink = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).OrderLineItems.ById(orderLineItemNumber).ActivationLink.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(activationLink, "activationLinks");
         }

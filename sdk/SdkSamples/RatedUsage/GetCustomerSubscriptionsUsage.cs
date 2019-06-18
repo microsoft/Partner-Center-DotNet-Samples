@@ -24,12 +24,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.RatedUsage
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer to retrieve his/her subscriptions usage");
             this.Context.ConsoleHelper.StartProgress("Retrieving customer subscriptions usage");
 
-            var customerUsageRecords = partnerOperations.Customers.ById(customerId).Subscriptions.UsageRecords.Get();
+            Models.ResourceCollection<Models.Usage.SubscriptionMonthlyUsageRecord> customerUsageRecords = partnerOperations.Customers.ById(customerId).Subscriptions.UsageRecords.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerUsageRecords, "Customer subscriptions usage records");

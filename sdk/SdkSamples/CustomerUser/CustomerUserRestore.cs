@@ -32,9 +32,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer user Id.
             string selectedCustomerUserId = this.ObtainCustomerUserId("Enter the ID of the customer user to restore");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
-            var updatedCustomerUser = new CustomerUser()
+            CustomerUser updatedCustomerUser = new CustomerUser()
             {
                 State = UserState.Active
             };
@@ -42,7 +42,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             this.Context.ConsoleHelper.StartProgress("Restoring the customer user");
 
             // restore customer user information using older upn.
-            var restoredCustomerUserInfo = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Patch(updatedCustomerUser);
+            CustomerUser restoredCustomerUserInfo = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Patch(updatedCustomerUser);
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(restoredCustomerUserInfo, "Restored customer user.");
         }

@@ -27,7 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
         /// </summary>
         protected override void RunScenario()
         {
-            string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to create the device batch for");      
+            string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to create the device batch for");
 
             List<Device> devicesToBeUploaded = new List<Device>
             {
@@ -45,16 +45,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
                 Devices = devicesToBeUploaded
             };
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.WriteObject(newDeviceBatch, "New Device Batch");
             this.Context.ConsoleHelper.StartProgress("Creating Device Batch");
 
-            var trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.Create(newDeviceBatch);
+            string trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.Create(newDeviceBatch);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(trackingLocation, "Tracking Location to track the status");
-            this.Context.ConsoleHelper.Success("Create Device Batch Request submitted successfully!");           
+            this.Context.ConsoleHelper.Success("Create Device Batch Request submitted successfully!");
         }
     }
 }

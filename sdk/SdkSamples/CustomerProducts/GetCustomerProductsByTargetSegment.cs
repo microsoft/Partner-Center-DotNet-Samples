@@ -26,13 +26,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerProducts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId("Enter the ID of the corresponding customer");
             string targetView = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the target view to get its supported products", "The target view can't be empty");
             string segment = this.Context.ConsoleHelper.ReadNonEmptyString("The segment to filter the products on", "The segment can't be empty");
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting products in catalog view {0} by segment {1} for customer {2}", targetView, segment, customerId));
-            var products = partnerOperations.Customers.ById(customerId).Products.ByTargetView(targetView).ByTargetSegment(segment).Get();
+            Models.ResourceCollection<Models.Products.Product> products = partnerOperations.Customers.ById(customerId).Products.ByTargetView(targetView).ByTargetSegment(segment).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(products, "Products for customer by segment");

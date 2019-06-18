@@ -27,11 +27,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Displaying partner legal business profile");
 
-            var legalBusinessProfile = partnerOperations.Profiles.LegalBusinessProfile.Get();
+            Models.Partners.LegalBusinessProfile legalBusinessProfile = partnerOperations.Profiles.LegalBusinessProfile.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(legalBusinessProfile);
@@ -40,7 +40,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
             legalBusinessProfile.CompanyApproverAddress.PhoneNumber = ((long)(new Random().NextDouble() * 9000000000) + 1000000000).ToString(CultureInfo.InvariantCulture);
 
             this.Context.ConsoleHelper.StartProgress("Updating partner legal business profile");
-            var updatedLegalBusinessProfile = partnerOperations.Profiles.LegalBusinessProfile.Update(legalBusinessProfile);
+            Models.Partners.LegalBusinessProfile updatedLegalBusinessProfile = partnerOperations.Profiles.LegalBusinessProfile.Update(legalBusinessProfile);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(updatedLegalBusinessProfile, "Updated partner legal business profile");

@@ -26,11 +26,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
         {
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get the configuration policies");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Querying Configuration policies");
 
-            var configPolicies = partnerOperations.Customers.ById(selectedCustomerId).ConfigurationPolicies.Get();
+            Models.ResourceCollection<Models.DevicesDeployment.ConfigurationPolicy> configPolicies = partnerOperations.Customers.ById(selectedCustomerId).ConfigurationPolicies.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(configPolicies, "Configuration Policies");

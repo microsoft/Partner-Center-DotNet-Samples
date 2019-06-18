@@ -24,11 +24,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting account balance");
 
             // Getting the account balance
-            var accountBalance = partnerOperations.Invoices.Summary.Get().BalanceAmount;
+            decimal accountBalance = partnerOperations.Invoices.Summary.Get().BalanceAmount;
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(accountBalance, "Account Balance");

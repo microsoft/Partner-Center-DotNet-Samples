@@ -24,10 +24,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.RateCards
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Retrieving Azure shared rate card");
-            var azureSharedRateCard = partnerOperations.RateCards.Azure.GetShared();
+            Models.RateCards.AzureRateCard azureSharedRateCard = partnerOperations.RateCards.Azure.GetShared();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(azureSharedRateCard, "Azure Shared Rate Card");

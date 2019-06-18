@@ -74,7 +74,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.ScenarioExecution
             {
                 ConsoleHelper.Instance.Warning("Enter the scenario number to run (press Q to exit to previous screen): ");
                 string input = Console.ReadLine();
-                
+
                 if (input.Equals("q", StringComparison.OrdinalIgnoreCase))
                 {
                     scenarioNumber = 0;

@@ -30,12 +30,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer user assigned licenses");
 
             // get customer user assigned licenses information.
-            var customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get();
+            Models.ResourceCollection<Models.Licenses.License> customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerUserAssignedLicenses, "Customer User Assigned Licenses");
         }

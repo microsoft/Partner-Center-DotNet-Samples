@@ -27,11 +27,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Displaying partner organization profile");
 
-            var organizationProfile = partnerOperations.Profiles.OrganizationProfile.Get();
+            Models.Partners.OrganizationProfile organizationProfile = partnerOperations.Profiles.OrganizationProfile.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(organizationProfile);
@@ -40,7 +40,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
             organizationProfile.DefaultAddress.PhoneNumber = ((long)(new Random().NextDouble() * 9000000000) + 1000000000).ToString(CultureInfo.InvariantCulture);
 
             this.Context.ConsoleHelper.StartProgress("Updating partner organization profile");
-            var updatedPartnerOrganizationProfile = partnerOperations.Profiles.OrganizationProfile.Update(organizationProfile);
+            Models.Partners.OrganizationProfile updatedPartnerOrganizationProfile = partnerOperations.Profiles.OrganizationProfile.Update(organizationProfile);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(updatedPartnerOrganizationProfile, "Updated partner organization profile");

@@ -30,12 +30,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerDirectoryRoles
             // get directory role Id.
             string selectedDirectoryRoleId = this.ObtainDirectoryRoleId("Enter the ID of the directory role");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting user members by directory roles");
 
             // Get all user members having the selected directory role.
-            var userMembers = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.ById(selectedDirectoryRoleId).UserMembers.Get();
+            Models.SeekBasedResourceCollection<Models.Roles.UserMember> userMembers = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.ById(selectedDirectoryRoleId).UserMembers.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(userMembers, "User Members who are having the selected directory role");
         }

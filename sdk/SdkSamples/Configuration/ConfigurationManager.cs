@@ -16,27 +16,27 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         /// <summary>
         /// A lazy reference to a <see cref="ConfigurationManager"/> instance.
         /// </summary>
-        private static Lazy<ConfigurationManager> instance = new Lazy<ConfigurationManager>(() => new ConfigurationManager());
+        private static readonly Lazy<ConfigurationManager> instance = new Lazy<ConfigurationManager>(() => new ConfigurationManager());
 
         /// <summary>
         /// A reference to the partner service settings.
         /// </summary>
-        private Lazy<PartnerServiceSettingsSection> partnerServiceSettings = new Lazy<PartnerServiceSettingsSection>(() => new PartnerServiceSettingsSection());
+        private readonly Lazy<PartnerServiceSettingsSection> partnerServiceSettings = new Lazy<PartnerServiceSettingsSection>(() => new PartnerServiceSettingsSection());
 
         /// <summary>
         /// A reference to the user authentication configuration.
         /// </summary>
-        private Lazy<UserAuthenticationSection> userAuthentication = new Lazy<UserAuthenticationSection>(() => new UserAuthenticationSection("UserAuthentication"));
+        private readonly Lazy<UserAuthenticationSection> userAuthentication = new Lazy<UserAuthenticationSection>(() => new UserAuthenticationSection("UserAuthentication"));
 
         /// <summary>
         /// A reference to the application authentication configuration.
         /// </summary>
-        private Lazy<ApplicationAuthenticationSection> appAuthentication = new Lazy<ApplicationAuthenticationSection>(() => new ApplicationAuthenticationSection("AppAuthentication"));
+        private readonly Lazy<ApplicationAuthenticationSection> appAuthentication = new Lazy<ApplicationAuthenticationSection>(() => new ApplicationAuthenticationSection("AppAuthentication"));
 
         /// <summary>
         /// A reference to the scenario settings.
         /// </summary>
-        private Lazy<ScenarioSettingsSection> scenarioSettings = new Lazy<ScenarioSettingsSection>(() => new ScenarioSettingsSection()); 
+        private readonly Lazy<ScenarioSettingsSection> scenarioSettings = new Lazy<ScenarioSettingsSection>(() => new ScenarioSettingsSection());
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ConfigurationManager"/> class from being created.
@@ -48,56 +48,26 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         /// <summary>
         /// Gets the singleton instance of the <see cref="ConfigurationManager"/> class.
         /// </summary>
-        public static ConfigurationManager Instance
-        {
-            get
-            {
-                return ConfigurationManager.instance.Value;
-            }
-        }
+        public static ConfigurationManager Instance => ConfigurationManager.instance.Value;
 
         /// <summary>
         /// Gets the partner service settings section.
         /// </summary>
-        public PartnerServiceSettingsSection PartnerService
-        {
-            get
-            {
-                return this.partnerServiceSettings.Value;
-            }
-        }
+        public PartnerServiceSettingsSection PartnerService => this.partnerServiceSettings.Value;
 
         /// <summary>
         /// Gets the user authentication section.
         /// </summary>
-        public UserAuthenticationSection UserAuthentication
-        {
-            get
-            {
-                return this.userAuthentication.Value;
-            }
-        }
+        public UserAuthenticationSection UserAuthentication => this.userAuthentication.Value;
 
         /// <summary>
         /// Gets the application authentication section.
         /// </summary>
-        public ApplicationAuthenticationSection ApplicationAuthentication
-        {
-            get
-            {
-                return this.appAuthentication.Value;
-            }
-        }
+        public ApplicationAuthenticationSection ApplicationAuthentication => this.appAuthentication.Value;
 
         /// <summary>
         /// Gets the scenario settings section.
         /// </summary>
-        public ScenarioSettingsSection Scenario
-        {
-            get
-            {
-                return this.scenarioSettings.Value;
-            }
-        }
+        public ScenarioSettingsSection Scenario => this.scenarioSettings.Value;
     }
 }

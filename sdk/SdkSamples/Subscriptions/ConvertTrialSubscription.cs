@@ -26,13 +26,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string customerId = this.ObtainCustomerId();
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the trial subscription to find conversions for");
-            var subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
+            PartnerCenter.Subscriptions.ISubscription subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
 
             this.Context.ConsoleHelper.StartProgress("Retrieving subscription conversions");
-            var conversions = subscriptionOperations.Conversions.Get();
+            Models.ResourceCollection<Models.Subscriptions.Conversion> conversions = subscriptionOperations.Conversions.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             if (conversions.TotalCount <= 0)
@@ -42,10 +42,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
             else
             {
                 // Default to the first conversion.
-                var selectedConversion = conversions.Items.ToList()[0];
-                this.Context.ConsoleHelper.WriteObject(conversions, "Available conversions");              
+                Models.Subscriptions.Conversion selectedConversion = conversions.Items.ToList()[0];
+                this.Context.ConsoleHelper.WriteObject(conversions, "Available conversions");
                 this.Context.ConsoleHelper.StartProgress("Converting trial subscription");
-                var convertResult = subscriptionOperations.Conversions.Create(selectedConversion);
+                Models.Subscriptions.ConversionResult convertResult = subscriptionOperations.Conversions.Create(selectedConversion);
                 this.Context.ConsoleHelper.StopProgress();
                 this.Context.ConsoleHelper.WriteObject(convertResult, "Conversion details");
             }

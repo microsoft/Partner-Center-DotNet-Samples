@@ -28,7 +28,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceRequests
         protected override void RunScenario()
         {
             ServiceRequestNote note = new ServiceRequestNote { Text = "Sample Note" };
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string serviceRequestIdToUpdate = this.Context.Configuration.Scenario.DefaultServiceRequestId;
 
             if (string.IsNullOrWhiteSpace(serviceRequestIdToUpdate))

@@ -30,20 +30,20 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the corresponding customer to get directory roles of customer user");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting selected customer user");
 
             // get customer user.
-            var selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
+            Models.Users.CustomerUser selectedCustomerUser = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(selectedCustomerUser, "Selected Customer User");
             this.Context.ConsoleHelper.StartProgress("Getting customer user directory roles");
 
             // get customer user directory roles.
-            var userMemberships = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).DirectoryRoles.Get();
+            Models.ResourceCollection<Models.Roles.DirectoryRole> userMemberships = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).DirectoryRoles.Get();
             this.Context.ConsoleHelper.StopProgress();
-            
+
             this.Context.ConsoleHelper.WriteObject(userMemberships, "Customer User directory roles");
         }
     }

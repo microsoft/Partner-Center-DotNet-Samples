@@ -29,7 +29,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceRequests
         protected override void RunScenario()
         {
             string supportTopicId = this.Context.Configuration.Scenario.DefaultSupportTopicId;
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             if (string.IsNullOrEmpty(supportTopicId.ToString()))
             {

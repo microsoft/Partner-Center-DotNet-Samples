@@ -28,7 +28,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get agreement for");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving agreements of the customer");

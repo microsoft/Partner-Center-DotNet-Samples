@@ -27,12 +27,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerDirectoryRoles
             // get customer Id.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get directory roles");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer directory roles");
 
             // get directory roles of customer.
-            var directoryRoles = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.Get();
+            Models.ResourceCollection<Models.Roles.DirectoryRole> directoryRoles = partnerOperations.Customers.ById(selectedCustomerId).DirectoryRoles.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(directoryRoles, "Customer Directory Role Details");
         }

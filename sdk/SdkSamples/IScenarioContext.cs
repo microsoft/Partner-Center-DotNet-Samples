@@ -24,7 +24,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// Gets a partner operations instance which is application based authenticated.
         /// </summary>
         IAggregatePartner AppPartnerOperations { get; }
-        
+
         /// <summary>
         /// Gets a configuration instance.
         /// </summary>

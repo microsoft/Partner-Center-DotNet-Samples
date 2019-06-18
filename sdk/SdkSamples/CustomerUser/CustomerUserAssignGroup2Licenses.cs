@@ -41,7 +41,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // Get customer user Id.
             string selectedCustomerUserId = this.ObtainCustomerUserId("Enter the ID of the customer user to assign license");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting Subscribed Skus");
 
@@ -49,10 +49,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             List<LicenseGroupId> groupIds = new List<LicenseGroupId>() { LicenseGroupId.Group2 };
 
             // Get customer's subscribed skus information.
-            var customerSubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get(groupIds);
+            Models.ResourceCollection<SubscribedSku> customerSubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get(groupIds);
 
             // Check if a minecraft exists  for a given user
-            foreach (var customerSubscribedSku in customerSubscribedSkus.Items)
+            foreach (SubscribedSku customerSubscribedSku in customerSubscribedSkus.Items)
             {
                 if (customerSubscribedSku.ProductSku.Id.ToString() == minecraftProductSkuId)
                 {
@@ -74,26 +74,30 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
 
             // Select the license
             SubscribedSku sku = minecraftSubscribedSku;
-            LicenseAssignment license = new LicenseAssignment();
+            LicenseAssignment license = new LicenseAssignment
+            {
 
-            // Assigning subscribed sku as the license
-            license.SkuId = sku.ProductSku.Id;
-            license.ExcludedPlans = null;
+                // Assigning subscribed sku as the license
+                SkuId = sku.ProductSku.Id,
+                ExcludedPlans = null
+            };
 
-            List<LicenseAssignment> licenseList = new List<LicenseAssignment>();
-            licenseList.Add(license);
+            List<LicenseAssignment> licenseList = new List<LicenseAssignment>
+            {
+                license
+            };
             updateLicense.LicensesToAssign = licenseList;
 
             this.Context.ConsoleHelper.StartProgress("Assigning License");
 
             // Assign licenses to the user.
-            var assignLicense = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).LicenseUpdates.Create(updateLicense);
+            LicenseUpdate assignLicense = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).LicenseUpdates.Create(updateLicense);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.StartProgress("Getting Assigned License");
 
             // Get customer user assigned licenses information after assigning the license.
-            var customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
+            Models.ResourceCollection<License> customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
             this.Context.ConsoleHelper.StopProgress();
 
             Console.WriteLine("License was successfully assigned to the user.");

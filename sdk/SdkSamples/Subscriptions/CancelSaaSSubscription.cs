@@ -24,18 +24,18 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            var customerId = this.ObtainCustomerId();
-            var subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to cancel");
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+            string customerId = this.ObtainCustomerId();
+            string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to cancel");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer subscription");
-            var existingSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).Get();
+            Models.Subscriptions.Subscription existingSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(existingSubscription, "Existing subscription");
 
             this.Context.ConsoleHelper.StartProgress("Cancelling subscription");
             existingSubscription.Status = Models.Subscriptions.SubscriptionStatus.Deleted;
-            var updatedSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).Patch(existingSubscription);
+            Models.Subscriptions.Subscription updatedSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).Patch(existingSubscription);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(updatedSubscription, "Cancelled subscription");

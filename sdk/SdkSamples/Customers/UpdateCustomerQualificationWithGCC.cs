@@ -6,9 +6,9 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Customers
 {
+    using System.Collections.Generic;
     using Microsoft.Store.PartnerCenter.Models.Customers;
     using Microsoft.Store.PartnerCenter.Models.ValidationCodes;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Updates a single customer qualification to GCC.
@@ -30,10 +30,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         {
             string customerIdToRetrieve = this.ObtainCustomerId($"Enter the ID of the customer to update qualification to {CustomerQualification.GovernmentCommunityCloud}");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Retrieving validation codes");
-            var validations = partnerOperations.Validations.GetValidationCodes();
+            IEnumerable<ValidationCode> validations = partnerOperations.Validations.GetValidationCodes();
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.Success("Success!");
@@ -44,16 +44,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
 
             ValidationCode code = null;
 
-            foreach(ValidationCode c in validations)
+            foreach (ValidationCode c in validations)
             {
-                if(c.ValidationId == validationCodeToRetrieve)
+                if (c.ValidationId == validationCodeToRetrieve)
                 {
                     code = c;
                     break;
                 }
             }
 
-            if(code == null)
+            if (code == null)
             {
                 this.Context.ConsoleHelper.Error("Code not found");
             }
@@ -61,7 +61,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             this.Context.ConsoleHelper.StartProgress("Updating customer qualification");
 
 
-            var customerQualification =
+            CustomerQualification customerQualification =
                 partnerOperations.Customers.ById(customerIdToRetrieve)
                     .Qualification.Update(CustomerQualification.GovernmentCommunityCloud, code);
 

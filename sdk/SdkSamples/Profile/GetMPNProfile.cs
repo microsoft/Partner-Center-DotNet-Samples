@@ -24,11 +24,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Retrieving partner MPN profile");
 
-            var billingProfile = partnerOperations.Profiles.MpnProfile.Get();
+            Models.Partners.MpnProfile billingProfile = partnerOperations.Profiles.MpnProfile.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(billingProfile, "Partner MPN profile");

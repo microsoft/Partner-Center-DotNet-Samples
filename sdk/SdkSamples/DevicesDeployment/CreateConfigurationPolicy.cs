@@ -29,18 +29,18 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
         {
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to create the configuration policy for");
 
-            var configurationPolicyToCreate = new ConfigurationPolicy
+            ConfigurationPolicy configurationPolicyToCreate = new ConfigurationPolicy
             {
                 Name = "Test Config Policy",
                 Description = "This configuration policy is created by the SDK samples",
                 PolicySettings = new List<PolicySettingsType>() { PolicySettingsType.OobeUserNotLocalAdmin, PolicySettingsType.SkipEula }
             };
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.WriteObject(configurationPolicyToCreate, "New configuration policy Information");
             this.Context.ConsoleHelper.StartProgress("Creating Configuration Policy");
 
-            var createdConfigurationPolicy = partnerOperations.Customers.ById(selectedCustomerId).ConfigurationPolicies.Create(configurationPolicyToCreate);
+            ConfigurationPolicy createdConfigurationPolicy = partnerOperations.Customers.ById(selectedCustomerId).ConfigurationPolicies.Create(configurationPolicyToCreate);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Success!");

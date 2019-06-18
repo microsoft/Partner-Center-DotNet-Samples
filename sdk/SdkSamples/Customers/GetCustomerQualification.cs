@@ -26,10 +26,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         {
             string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve qualification for");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving customer qualification");
 
-            var customerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.Get();
+            Models.Customers.CustomerQualification customerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerQualification, "Customer Qualification");

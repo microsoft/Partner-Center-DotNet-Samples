@@ -24,10 +24,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Analytics
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Retrieving partner licenses usage analytics");
 
-            var partnerLicensesUsageAnalytics = partnerOperations.Analytics.Licenses.Usage.Get();
+            Models.ResourceCollection<Models.Analytics.PartnerLicensesUsageInsights> partnerLicensesUsageAnalytics = partnerOperations.Analytics.Licenses.Usage.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(partnerLicensesUsageAnalytics, "Partner licenses usage analytics");

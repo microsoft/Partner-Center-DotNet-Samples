@@ -6,8 +6,8 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 {
-    using Microsoft.Store.PartnerCenter.Models.Invoices;
     using System;
+    using Microsoft.Store.PartnerCenter.Models.Invoices;
 
     /// <summary>
     /// Gets estimate links.
@@ -27,7 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string selectedCurencyCode = this.Context.Configuration.Scenario.DefaultCurrencyCode;
             if (string.IsNullOrWhiteSpace(selectedCurencyCode))
@@ -42,12 +42,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 
             // Retrieving estimates links
             this.Context.ConsoleHelper.StartProgress("Retrieving estimates links");
-            var estimatesLinks = partnerOperations.Invoices.Estimates.Links.ByCurrency(selectedCurencyCode).Get();
+            Models.ResourceCollection<EstimateLink> estimatesLinks = partnerOperations.Invoices.Estimates.Links.ByCurrency(selectedCurencyCode).Get();
 
             if (estimatesLinks != null && estimatesLinks.Items != null)
             {
                 this.Context.ConsoleHelper.WriteObject(estimatesLinks, "Estimates links");
-                foreach (var estimateLink in estimatesLinks.Items)
+                foreach (EstimateLink estimateLink in estimatesLinks.Items)
                 {
                     Console.Out.WriteLine("\t--------------------------------------------------------------------------------------------");
                     Console.Out.WriteLine("     \tBilling Provider:             {0}", estimateLink.Title);

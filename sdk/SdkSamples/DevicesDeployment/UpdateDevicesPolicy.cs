@@ -49,14 +49,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
 
             DevicePolicyUpdateRequest devicePolicyUpdateRequest = new DevicePolicyUpdateRequest
             {
-                Devices = devices             
+                Devices = devices
             };
-           
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Updating Devices with Configuration Policy");
 
-            var trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DevicePolicy.Update(devicePolicyUpdateRequest);
+            string trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DevicePolicy.Update(devicePolicyUpdateRequest);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(trackingLocation, "Tracking Location to track the status");

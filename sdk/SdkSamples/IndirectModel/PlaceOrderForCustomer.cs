@@ -30,21 +30,21 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string offerId = this.ObtainOfferId("Enter the ID of the offer to purchase");
             string indirectResellerId = this.ObtainIndirectResellerId("Enter the ID of the indirect reseller: ");
 
             this.Context.ConsoleHelper.StartProgress("Getting list of indirect resellers");
-            var indirectResellers = partnerOperations.Relationships.Get(PartnerRelationshipType.IsIndirectCloudSolutionProviderOf);
+            Models.ResourceCollection<PartnerRelationship> indirectResellers = partnerOperations.Relationships.Get(PartnerRelationshipType.IsIndirectCloudSolutionProviderOf);
             this.Context.ConsoleHelper.StopProgress();
 
-            var selectedIndirectReseller = (indirectResellers != null && indirectResellers.Items.Any()) ?
+            PartnerRelationship selectedIndirectReseller = (indirectResellers != null && indirectResellers.Items.Any()) ?
                 indirectResellers.Items.FirstOrDefault(reseller => reseller.Id.Equals(indirectResellerId, StringComparison.OrdinalIgnoreCase)) :
                 null;
 
-            var order = new Order()
+            Order order = new Order()
             {
                 ReferenceCustomerId = customerId,
                 LineItems = new List<OrderLineItem>()
@@ -62,7 +62,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             this.Context.ConsoleHelper.WriteObject(order, "Order to be placed");
             this.Context.ConsoleHelper.StartProgress("Placing order");
 
-            var createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
+            Order createdOrder = partnerOperations.Customers.ById(customerId).Orders.Create(order);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(createdOrder, "Created order");

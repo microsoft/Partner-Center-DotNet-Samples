@@ -6,8 +6,8 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 {
     using System;
-    using System.Linq;
     using System.IO;
+    using System.Linq;
     using Microsoft.Store.PartnerCenter.Exceptions;
     using Microsoft.Store.PartnerCenter.Models;
     using Microsoft.Store.PartnerCenter.Models.Agreements;
@@ -39,23 +39,23 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         protected override void RunScenario()
         {
             const string noAgreements = "No agreements found.";
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
-            var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
+            string csvFilePath = this.ObtainCustomersAgreementCsvFileName();
             File.WriteAllText(csvFilePath, $"TenantId,Domain,Date,First Name,Last Name,Phone,Email {Environment.NewLine}");
 
             // query the customers, get the first page if a page size was set, otherwise get all customers
-            var customersPage = (this.customerPageSize <= 0) ? partnerOperations.Customers.Get() : partnerOperations.Customers.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerPageSize));
+            SeekBasedResourceCollection<Models.Customers.Customer> customersPage = (this.customerPageSize <= 0) ? partnerOperations.Customers.Get() : partnerOperations.Customers.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerPageSize));
 
             // create a customer enumerator which will aid us in traversing the customer pages
-            var customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
+            Enumerators.IResourceCollectionEnumerator<SeekBasedResourceCollection<Models.Customers.Customer>> customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
 
-            var count = 0;
-            var startTime = DateTime.UtcNow;
+            int count = 0;
+            DateTime startTime = DateTime.UtcNow;
 
             while (customersEnumerator.HasValue)
             {
-                foreach (var customer in customersEnumerator.Current.Items)
+                foreach (Models.Customers.Customer customer in customersEnumerator.Current.Items)
                 {
                     try
                     {
@@ -71,7 +71,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                         else
                         {
                             // Fetch more recent customer agreement, if there are more
-                            var customerAgreement = customerAgreements.Items.OrderByDescending(x => x.DateAgreed).FirstOrDefault();
+                            Agreement customerAgreement = customerAgreements.Items.OrderByDescending(x => x.DateAgreed).FirstOrDefault();
                             if (customerAgreement != null)
                             {
                                 this.Context.ConsoleHelper.WriteObject($"Date: {customerAgreement.DateAgreed}, First Name: {customerAgreement.PrimaryContact.FirstName}, Last Name: {customerAgreement.PrimaryContact.LastName}, Phone: {customerAgreement.PrimaryContact.PhoneNumber}, Email: {customerAgreement.PrimaryContact.Email}", "Agreement", 1);

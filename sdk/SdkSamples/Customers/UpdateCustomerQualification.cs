@@ -28,10 +28,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         {
             string customerIdToRetrieve = this.ObtainCustomerId($"Enter the ID of the customer to update qualification to {CustomerQualification.Education}");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Updating customer qualification");
 
-            var customerQualification =
+            CustomerQualification customerQualification =
                 partnerOperations.Customers.ById(customerIdToRetrieve)
                     .Qualification.Update(CustomerQualification.Education);
 

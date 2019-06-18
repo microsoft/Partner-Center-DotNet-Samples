@@ -6,12 +6,12 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 {
-    using Microsoft.Store.PartnerCenter.Models.Invoices;
-    using Microsoft.Store.PartnerCenter.Models.Query;
     using System;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using Microsoft.Store.PartnerCenter.Models.Invoices;
+    using Microsoft.Store.PartnerCenter.Models.Query;
 
     /// <summary>
     /// Gets an invoice's line items.
@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
 
             if (string.IsNullOrWhiteSpace(invoiceId))
@@ -54,8 +54,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             this.Context.ConsoleHelper.StartProgress("Retrieving Invoice Line Items");
 
             // Retrieve the invoice 
-            var invoiceOperations = partnerOperations.Invoices.ById(invoiceId);
-            var invoice = invoiceOperations.Get();
+            Invoices.IInvoice invoiceOperations = partnerOperations.Invoices.ById(invoiceId);
+            Invoice invoice = invoiceOperations.Get();
 
             this.Context.ConsoleHelper.StopProgress();
 
@@ -65,22 +65,22 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             }
             else
             {
-                foreach (var invoiceDetail in invoice.InvoiceDetails)
+                foreach (InvoiceDetail invoiceDetail in invoice.InvoiceDetails)
                 {
                     this.Context.ConsoleHelper.StartProgress(string.Format("Getting invoice line item for product {0} and line item type {1}", invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType));
 
                     if (invoiceDetail.BillingProvider.ToString().Equals(BillingProvider.Marketplace.ToString()))
                     {
-                        var seekBasedResourceCollection = invoiceOperations.By(invoiceDetail.BillingProvider.ToString(), invoiceDetail.InvoiceLineItemType.ToString(), invoice.CurrencyCode, "current", null).Get();
+                        Models.SeekBasedResourceCollection<InvoiceLineItem> seekBasedResourceCollection = invoiceOperations.By(invoiceDetail.BillingProvider.ToString(), invoiceDetail.InvoiceLineItemType.ToString(), invoice.CurrencyCode, "current", null).Get();
 
-                        var fetchNext = true;
+                        bool fetchNext = true;
 
                         ConsoleKeyInfo keyInfo;
 
-                        var itemNumber = 1;
+                        int itemNumber = 1;
 
                         Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
-                        
+
                         if (seekBasedResourceCollection.Items.Count() > 0)
                         {
                             while (fetchNext)
@@ -114,9 +114,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                             }
                         }
                     }
-                    else {
-                        var invoiceLineItemsCollection = (this.invoicePageSize <= 0) ? invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get() : invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get(this.invoicePageSize, 0);
-                        var invoiceLineItemEnumerator = partnerOperations.Enumerators.InvoiceLineItems.Create(invoiceLineItemsCollection);
+                    else
+                    {
+                        Models.ResourceCollection<InvoiceLineItem> invoiceLineItemsCollection = (this.invoicePageSize <= 0) ? invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get() : invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get(this.invoicePageSize, 0);
+                        Enumerators.IResourceCollectionEnumerator<Models.ResourceCollection<InvoiceLineItem>> invoiceLineItemEnumerator = partnerOperations.Enumerators.InvoiceLineItems.Create(invoiceLineItemsCollection);
 
                         this.Context.ConsoleHelper.StopProgress();
                         int pageNumber = 1;

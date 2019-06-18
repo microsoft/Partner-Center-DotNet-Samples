@@ -27,10 +27,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             // Get the address from the console
-            var address = new Address()
+            Address address = new Address()
             {
                 AddressLine1 = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the address line 1", "Address line 1 can't be empty"),
                 AddressLine2 = this.Context.ConsoleHelper.ReadOptionalString("Enter the address line 2 (optional)"),
@@ -45,7 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
             try
             {
                 // Validate the address
-                var validationResult = partnerOperations.Validations.IsAddressValidAsync(address).Result;
+                bool validationResult = partnerOperations.Validations.IsAddressValidAsync(address).Result;
                 this.Context.ConsoleHelper.StopProgress();
                 Console.WriteLine(validationResult ? "The address is valid." : "Invalid address");
             }
@@ -53,7 +53,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
             {
                 this.Context.ConsoleHelper.StopProgress();
                 Console.WriteLine("Address is invalid");
-                var innerException = exception.InnerException;
+                Exception innerException = exception.InnerException;
                 if (innerException != null)
                 {
                     while (innerException != null)

@@ -29,15 +29,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
         {
             // get customer Id.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to create customer user");
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer of selected customer Id");
 
             // get customer.
-            var selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Get();
+            Models.Customers.Customer selectedCustomer = partnerOperations.Customers.ById(selectedCustomerId).Get();
             this.Context.ConsoleHelper.StopProgress();
 
-            var customerUserToCreate = new CustomerUser()
+            CustomerUser customerUserToCreate = new CustomerUser()
             {
                 PasswordProfile = new PasswordProfile() { ForceChangePassword = true, Password = "Password!1" },
                 DisplayName = "Kate",
@@ -51,7 +51,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             this.Context.ConsoleHelper.StartProgress("Creating customer user");
 
             // Create a customer user.
-            var createdUser = partnerOperations.Customers.ById(selectedCustomerId).Users.Create(customerUserToCreate);
+            CustomerUser createdUser = partnerOperations.Customers.ById(selectedCustomerId).Users.Create(customerUserToCreate);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Success!");

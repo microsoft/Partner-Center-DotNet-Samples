@@ -7,7 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.CustomerSubscribedSkus
 {
     using System;
-    
+
     /// <summary>
     /// Gets Customer Subscribed SKUs details.
     /// </summary>
@@ -29,12 +29,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerSubscribedSkus
             // get customer Id.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get subscribed skus");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer subscribed SKUs");
 
             // get Customer Subscribed SKUs information.
-            var customerSubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get();
+            Models.ResourceCollection<Models.Licenses.SubscribedSku> customerSubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             Console.Out.WriteLine("Customer Subscribed Skus Count: " + customerSubscribedSkus.TotalCount);

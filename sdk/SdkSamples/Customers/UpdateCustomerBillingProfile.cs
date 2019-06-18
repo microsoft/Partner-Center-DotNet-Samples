@@ -26,10 +26,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         {
             string customerId = this.ObtainCustomerId();
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting customer billing profile");
 
-            var billingProfile = partnerOperations.Customers.ById(customerId).Profiles.Billing.Get();
+            Models.Customers.CustomerBillingProfile billingProfile = partnerOperations.Customers.ById(customerId).Profiles.Billing.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(billingProfile, "Customer billing profile");
@@ -42,7 +42,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             billingProfile.CompanyName = billingProfile.CompanyName + "A";
 
             // update the billing profile
-            var updatedBillingProfile = partnerOperations.Customers.ById(customerId).Profiles.Billing.Update(billingProfile);
+            Models.Customers.CustomerBillingProfile updatedBillingProfile = partnerOperations.Customers.ById(customerId).Profiles.Billing.Update(billingProfile);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(updatedBillingProfile, "Updated customer billing profile");

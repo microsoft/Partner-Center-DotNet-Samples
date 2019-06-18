@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string curencyCode = this.Context.Configuration.Scenario.DefaultCurrencyCode;
             if (string.IsNullOrWhiteSpace(curencyCode))
             {
@@ -50,19 +50,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                 Console.WriteLine("Found Currency code: {0} in configuration.", curencyCode);
             }
 
-            var pageMaxSizeReconLineItems = 2000;
-            var period = "current";
+            int pageMaxSizeReconLineItems = 2000;
+            string period = "current";
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
             this.Context.ConsoleHelper.StartProgress("Getting unbilled reconciliation line items");
 
-            var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("all", "billinglineitems", curencyCode, period, pageMaxSizeReconLineItems).Get();
+            Models.SeekBasedResourceCollection<InvoiceLineItem> seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("all", "billinglineitems", curencyCode, period, pageMaxSizeReconLineItems).Get();
 
-            var fetchNext = true;
+            bool fetchNext = true;
 
             ConsoleKeyInfo keyInfo;
 
-            var itemNumber = 1;
+            int itemNumber = 1;
 
             Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
             Console.Out.WriteLine("\tPeriod: " + period);

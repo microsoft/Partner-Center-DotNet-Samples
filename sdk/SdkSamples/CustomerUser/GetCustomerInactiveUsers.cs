@@ -37,22 +37,22 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // get customer Id of the entered customer user.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get all inactive customer users in pages");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             // get customer user page size
             string customerUserPageSize = this.ObtainCustomerUserPageSize();
             this.customerUserPageSize = int.Parse(customerUserPageSize);
 
-            var filter = new SimpleFieldFilter("UserStatus", FieldFilterOperation.Equals, "Inactive");
+            SimpleFieldFilter filter = new SimpleFieldFilter("UserStatus", FieldFilterOperation.Equals, "Inactive");
 
             // Read inactive customer users in a batch
             this.Context.ConsoleHelper.StartProgress("Querying first page of inactive customer users");
-            var simpleQueryWithFilter = QueryFactory.Instance.BuildIndexedQuery(this.customerUserPageSize, 0, filter);
-            var customerUsers = partnerOperations.Customers.ById(selectedCustomerId).Users.Query(simpleQueryWithFilter);
+            IQuery simpleQueryWithFilter = QueryFactory.Instance.BuildIndexedQuery(this.customerUserPageSize, 0, filter);
+            Models.SeekBasedResourceCollection<Models.Users.CustomerUser> customerUsers = partnerOperations.Customers.ById(selectedCustomerId).Users.Query(simpleQueryWithFilter);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.StartProgress("Creating customer user Enumerator");
-            var customerUsersEnumerator = partnerOperations.Enumerators.CustomerUsers.Create(customerUsers);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<Models.Users.CustomerUser>> customerUsersEnumerator = partnerOperations.Enumerators.CustomerUsers.Create(customerUsers);
             this.Context.ConsoleHelper.StopProgress();
 
             while (customerUsersEnumerator.HasValue)

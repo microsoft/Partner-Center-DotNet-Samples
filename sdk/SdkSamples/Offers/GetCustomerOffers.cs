@@ -25,11 +25,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Offers
         protected override void RunScenario()
         {
             string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve offers for");
-            var pageSize = this.Context.Configuration.Scenario.DefaultOfferPageSize;
-            var partnerOperations = this.Context.UserPartnerOperations;
-            
+            int pageSize = this.Context.Configuration.Scenario.DefaultOfferPageSize;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress($"Getting first { pageSize } offers for customer { customerIdToRetrieve }");
-            var offers = partnerOperations.Customers.ById(customerIdToRetrieve).Offers.Get(0, pageSize);
+            Models.ResourceCollection<Models.Offers.Offer> offers = partnerOperations.Customers.ById(customerIdToRetrieve).Offers.Get(0, pageSize);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(offers, $"First { pageSize } offers for customer { customerIdToRetrieve }");

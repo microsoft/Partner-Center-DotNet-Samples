@@ -31,7 +31,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
 
             string selectedDeviceBatchId = this.ObtainDeviceBatchId("Enter the ID of the Device batch to add the devices to");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             List<Device> devicesToBeUploaded = new List<Device>
             {
@@ -53,7 +53,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
             this.Context.ConsoleHelper.WriteObject(devicesToBeUploaded, "New Devices");
             this.Context.ConsoleHelper.StartProgress("Creating Devices");
 
-            var trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.ById(selectedDeviceBatchId).Devices.Create(devicesToBeUploaded);
+            string trackingLocation = partnerOperations.Customers.ById(selectedCustomerId).DeviceBatches.ById(selectedDeviceBatchId).Devices.Create(devicesToBeUploaded);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(trackingLocation, "Tracking Location to track the status");

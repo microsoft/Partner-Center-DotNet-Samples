@@ -26,13 +26,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string customerId = this.ObtainCustomerId();
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to find upgrades for");
-            var subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
+            PartnerCenter.Subscriptions.ISubscription subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
 
             this.Context.ConsoleHelper.StartProgress("Retrieving subscription upgrades");
-            var upgrades = subscriptionOperations.Upgrades.Get();
+            Models.ResourceCollection<Models.Subscriptions.Upgrade> upgrades = subscriptionOperations.Upgrades.Get();
             this.Context.ConsoleHelper.StopProgress();
 
             if (upgrades.TotalCount <= 0)
@@ -45,7 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 
                 // prompt the user to enter the offer ID of the upgrade he wishes to get
                 string upgradeOfferId = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the upgrade offer ID", "Upgrade offer ID can't be empty");
-                var selectedUpgrade = (from upgrade in upgrades.Items where upgrade.TargetOffer.Id == upgradeOfferId select upgrade).FirstOrDefault();
+                Models.Subscriptions.Upgrade selectedUpgrade = (from upgrade in upgrades.Items where upgrade.TargetOffer.Id == upgradeOfferId select upgrade).FirstOrDefault();
 
                 if (selectedUpgrade == null)
                 {
@@ -60,7 +60,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                 {
                     // the selected upgrade is eligible, go ahead and perform the upgrade
                     this.Context.ConsoleHelper.StartProgress("Upgrading subscription");
-                    var updgradeResult = subscriptionOperations.Upgrades.Create(selectedUpgrade);
+                    Models.Subscriptions.UpgradeResult updgradeResult = subscriptionOperations.Upgrades.Create(selectedUpgrade);
                     this.Context.ConsoleHelper.StopProgress();
                     this.Context.ConsoleHelper.WriteObject(updgradeResult, "Upgrade details");
                 }

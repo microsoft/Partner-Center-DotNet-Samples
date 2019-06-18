@@ -38,8 +38,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.DevicesDeployment
                 PolicySettings = new List<PolicySettingsType>() { PolicySettingsType.OobeUserNotLocalAdmin, PolicySettingsType.RemoveOemPreinstalls }
             };
 
-            var partnerOperations = this.Context.UserPartnerOperations;
-           
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Updating Configuration Policy");
 
             ConfigurationPolicy updatedConfigurationPolicy = partnerOperations.Customers.ById(selectedCustomerId).ConfigurationPolicies.ById(selectedConfigurationPolicyId).Patch(configPolicyToBeUpdated);

@@ -24,14 +24,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their Subscription");
             string subscriptionID = this.ObtainSubscriptionId(customerId, "Enter the subscription ID to retrieve");
 
             this.Context.ConsoleHelper.StartProgress("Retrieving subscription support contact");
 
-            var supportContact = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionID).SupportContact.Get();
+            Models.Subscriptions.SupportContact supportContact = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionID).SupportContact.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(supportContact, "Subscription support contact");

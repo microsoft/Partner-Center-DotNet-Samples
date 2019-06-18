@@ -35,7 +35,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             // Get customer user Id.
             string selectedCustomerUserId = this.ObtainCustomerUserId("Enter the ID of the customer user to assign license");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting Subscribed Skus");
 
@@ -44,7 +44,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
             List<LicenseGroupId> groupIds = new List<LicenseGroupId>() { LicenseGroupId.Group1 };
 
             // Get customer's group1 subscribed skus information.
-            var customerGroup1SubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get(groupIds);
+            Models.ResourceCollection<SubscribedSku> customerGroup1SubscribedSkus = partnerOperations.Customers.ById(selectedCustomerId).SubscribedSkus.Get(groupIds);
             this.Context.ConsoleHelper.StopProgress();
 
             // Prepare license request.
@@ -53,25 +53,27 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerUser
 
             // Select the first subscribed sku.
             SubscribedSku sku = customerGroup1SubscribedSkus.Items.First();
-        
+
             // Assigning first subscribed sku as the license
             license.SkuId = sku.ProductSku.Id;
             license.ExcludedPlans = null;
 
-            List<LicenseAssignment> licenseList = new List<LicenseAssignment>();
-            licenseList.Add(license);
+            List<LicenseAssignment> licenseList = new List<LicenseAssignment>
+            {
+                license
+            };
             updateLicense.LicensesToAssign = licenseList;
 
             this.Context.ConsoleHelper.StartProgress("Assigning License");
 
             // Assign licenses to the user.
-            var assignLicense = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).LicenseUpdates.Create(updateLicense);
+            LicenseUpdate assignLicense = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).LicenseUpdates.Create(updateLicense);
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.StartProgress("Getting Assigned License");
 
             // Get customer user assigned licenses information after assigning the license.
-            var customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
+            Models.ResourceCollection<License> customerUserAssignedLicenses = partnerOperations.Customers.ById(selectedCustomerId).Users.ById(selectedCustomerUserId).Licenses.Get(groupIds);
             this.Context.ConsoleHelper.StopProgress();
 
             License userLicense = customerUserAssignedLicenses.Items.First(licenseItem => licenseItem.ProductSku.Id == license.SkuId);

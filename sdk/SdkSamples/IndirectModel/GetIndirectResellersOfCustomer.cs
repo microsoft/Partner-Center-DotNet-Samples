@@ -26,16 +26,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.IndirectModel
         /// </summary>
         protected override void RunScenario()
         {
-            var customerId = this.ObtainCustomerId("Enter the ID of the customer: ");
+            string customerId = this.ObtainCustomerId("Enter the ID of the customer: ");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting indirect resellers of a customer");
 
-            var indirectResellers = partnerOperations.Customers[customerId].Relationships.Get();
+            Models.ResourceCollection<Models.Relationships.PartnerRelationship> indirectResellers = partnerOperations.Customers[customerId].Relationships.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(
-                indirectResellers, 
+                indirectResellers,
                 string.Format(CultureInfo.InvariantCulture, "Indirect Resellers of customer: {0}", customerId));
         }
     }

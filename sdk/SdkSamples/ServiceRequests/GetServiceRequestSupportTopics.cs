@@ -27,7 +27,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.ServiceRequests
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting support topics");
 

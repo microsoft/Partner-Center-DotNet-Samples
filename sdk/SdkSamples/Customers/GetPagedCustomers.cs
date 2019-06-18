@@ -35,15 +35,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Querying customers");
 
             // query the customers, get the first page if a page size was set, otherwise get all customers
-            var customersPage = (this.customerPageSize <= 0) ? partnerOperations.Customers.Get() : partnerOperations.Customers.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerPageSize));
+            Models.SeekBasedResourceCollection<Models.Customers.Customer> customersPage = (this.customerPageSize <= 0) ? partnerOperations.Customers.Get() : partnerOperations.Customers.Query(QueryFactory.Instance.BuildIndexedQuery(this.customerPageSize));
             this.Context.ConsoleHelper.StopProgress();
 
             // create a customer enumerator which will aid us in traversing the customer pages
-            var customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
+            Enumerators.IResourceCollectionEnumerator<Models.SeekBasedResourceCollection<Models.Customers.Customer>> customersEnumerator = partnerOperations.Enumerators.Customers.Create(customersPage);
             int pageNumber = 1;
 
             while (customersEnumerator.HasValue)

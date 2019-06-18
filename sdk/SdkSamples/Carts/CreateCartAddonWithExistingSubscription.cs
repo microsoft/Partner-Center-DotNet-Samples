@@ -7,7 +7,6 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Carts
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Models.Carts;
 
     /// <summary>
@@ -28,12 +27,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string existingSubscriptionId = this.ObtainSubscriptionId(customerId, "Enter existing subscription Id");
             string addonCatalogItemId = this.ObtainCatalogItemId("Enter the addon Item Id");
-            var cart = new Cart()
+            Cart cart = new Cart()
             {
                 LineItems = new List<CartLineItem>()
                 {
@@ -57,7 +56,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             this.Context.ConsoleHelper.WriteObject(cart, "Cart to be created");
             this.Context.ConsoleHelper.StartProgress("Creating cart");
 
-            var createdCart = partnerOperations.Customers.ById(customerId).Carts.Create(cart);
+            Cart createdCart = partnerOperations.Customers.ById(customerId).Carts.Create(cart);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(createdCart, "Created cart");

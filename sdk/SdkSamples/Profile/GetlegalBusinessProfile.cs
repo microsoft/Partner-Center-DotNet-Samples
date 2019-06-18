@@ -24,11 +24,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Profile
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Retrieving partner legal business profile");
 
-            var billingProfile = partnerOperations.Profiles.LegalBusinessProfile.Get();
+            Models.Partners.LegalBusinessProfile billingProfile = partnerOperations.Profiles.LegalBusinessProfile.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(billingProfile, "Partner legal business profile");

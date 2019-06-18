@@ -29,12 +29,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerServiceCosts
             // get a customer Id.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get service costs summary");
 
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
 
             this.Context.ConsoleHelper.StartProgress("Getting customer service costs summary");
 
             // get the customer's Service Costs Summary.
-            var customerServiceCostsSummary = partnerOperations.Customers.ById(selectedCustomerId).ServiceCosts.ByBillingPeriod(ServiceCostsBillingPeriod.MostRecent).Summary.Get();
+            ServiceCostsSummary customerServiceCostsSummary = partnerOperations.Customers.ById(selectedCustomerId).ServiceCosts.ByBillingPeriod(ServiceCostsBillingPeriod.MostRecent).Summary.Get();
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(customerServiceCostsSummary, "Customer Service Costs Summary");
         }

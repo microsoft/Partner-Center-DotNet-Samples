@@ -26,7 +26,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
 
             if (string.IsNullOrWhiteSpace(invoiceId))
@@ -42,7 +42,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             this.Context.ConsoleHelper.StartProgress("Retrieving invoice");
 
             // Retrieving invoice
-            var invoice = partnerOperations.Invoices.ById(invoiceId).Get();
+            Models.Invoices.Invoice invoice = partnerOperations.Invoices.ById(invoiceId).Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(invoice, "Invoice details");
@@ -50,7 +50,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             // Retrieving invoice line items
             if (invoice.InvoiceDetails != null)
             {
-                foreach (var invoiceDetail in invoice.InvoiceDetails)
+                foreach (Models.Invoices.InvoiceDetail invoiceDetail in invoice.InvoiceDetails)
                 {
                     this.Context.ConsoleHelper.WriteObject(invoiceDetail, "Invoice Line Items");
                 }

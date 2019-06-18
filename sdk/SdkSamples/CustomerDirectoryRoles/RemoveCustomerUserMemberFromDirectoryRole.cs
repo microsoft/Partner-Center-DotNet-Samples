@@ -34,8 +34,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.CustomerDirectoryRoles
 
             // get customer Id of the entered directory roles.
             string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer whose customer user to remove from a directory role");
-            var partnerOperations = this.Context.UserPartnerOperations;
-            
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
+
             this.Context.ConsoleHelper.StartProgress("Removing user member from directory role");
 
             // Remove user member from selected directory role.

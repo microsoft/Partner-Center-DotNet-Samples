@@ -26,10 +26,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.IndirectModel
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
+            IAggregatePartner partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Getting the logged in partner's profile");
 
-            var currentPartnerProfile = partnerOperations.Profiles.MpnProfile.Get();
+            Models.Partners.MpnProfile currentPartnerProfile = partnerOperations.Profiles.MpnProfile.Get();
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(currentPartnerProfile, "Logged in partner profile");
@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.IndirectModel
 
             this.Context.ConsoleHelper.StartProgress(string.Format(CultureInfo.InvariantCulture, "Getting the partner profile for MPN ID: {0}", partnerMpnId));
 
-            var partnerProfile = partnerOperations.Profiles.MpnProfile.Get(partnerMpnId);
+            Models.Partners.MpnProfile partnerProfile = partnerOperations.Profiles.MpnProfile.Get(partnerMpnId);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(partnerProfile, "Partner profile");
