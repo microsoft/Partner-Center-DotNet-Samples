@@ -19,11 +19,11 @@ namespace CPVApplication
 
     internal class Program
     {
-        /// <summary>
-        /// The following code assumes that the context of the partner is pre determined by some external code 
-        /// (based on marketplace application logic: either by product or by partner context)
-        /// </summary>
+        /**
+         * The following code assumes that the context of the partner is pre-determined by some external process.
+         */
 
+        private static readonly string AADInstance = ConfigurationManager.AppSettings["AADInstance"];
         private static readonly string CPVApplicationId = ConfigurationManager.AppSettings["ida:CPVApplicationId"];
         private static readonly string CPVApplicationSecret = ConfigurationManager.AppSettings["ida:CPVApplicationSecret"];
 
@@ -98,7 +98,7 @@ namespace CPVApplication
             string refreshToken = await provider.GetSecretAsync(tenantId);
 
             JObject token = await AuthorizationUtilities.GetAADTokenFromRefreshToken(
-                "https://login.microsoftonline.com/" + tenantId,
+                $"{AADInstance}/{tenantId}",
                 "https://api.partnercenter.microsoft.com",
                 CPVApplicationId,
                 CPVApplicationSecret,
@@ -122,7 +122,7 @@ namespace CPVApplication
             string refreshToken = await provider.GetSecretAsync(partnerTenantId);
 
             JObject token = await AuthorizationUtilities.GetAADTokenFromRefreshToken(
-                "https://login.microsoftonline.com/" + partnerTenantId,
+                $"{AADInstance}/{partnerTenantId}",
                 "https://graph.microsoft.com",
                 CPVApplicationId,
                 CPVApplicationSecret,
@@ -147,7 +147,7 @@ namespace CPVApplication
             string refreshToken = await provider.GetSecretAsync(partnerTenantId);
 
             JObject token = await AuthorizationUtilities.GetAADTokenFromRefreshToken(
-                "https://login.microsoftonline.com/" + customerTenantId,
+                $"{AADInstance}/{customerTenantId}",
                 "https://graph.windows.net",
                 CPVApplicationId,
                 CPVApplicationSecret,

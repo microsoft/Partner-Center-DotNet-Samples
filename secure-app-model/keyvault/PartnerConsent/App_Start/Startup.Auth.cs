@@ -7,7 +7,6 @@
 namespace PartnerConsent
 {
     using System.Configuration;
-    using System.IdentityModel.Claims;
     using System.Threading.Tasks;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
@@ -20,7 +19,8 @@ namespace PartnerConsent
     {
         private static string CSPApplicationId = ConfigurationManager.AppSettings["ida:CSPApplicationId"];
         private static string CSPApplicationSecret = ConfigurationManager.AppSettings["ida:CSPApplicationSecret"];
-        private static string AuthorityCommon = ConfigurationManager.AppSettings["ida:AADInstance"] + "common";
+        private static string AadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
+        private static string AuthorityCommon = $"{AadInstance}/common";
 
         /// <summary>
         /// Configure authentication pipeline
@@ -48,19 +48,25 @@ namespace PartnerConsent
                     },
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {
-                        SecurityTokenValidated = (context) =>
-                        {
-                            // If your authentication logic is based on users then add your logic here
-                            return Task.FromResult(0);
-                        },
                         AuthenticationFailed = (context) =>
                         {
                             // Pass in the context back to the app
                             context.OwinContext.Response.Redirect("/Home/Error");
                             context.HandleResponse(); // Suppress the exception
-                            return Task.FromResult(0);
+
+                            return Task.CompletedTask;
                         },
-                        AuthorizationCodeReceived = HandleAuthorizationCodeReceivedNotification
+                        AuthorizationCodeReceived = HandleAuthorizationCodeReceivedNotification,
+                        RedirectToIdentityProvider = (context) =>
+                        {
+                            context.ProtocolMessage.SetParameter("amr_values", "mfa");
+
+                            return Task.CompletedTask;
+                        },
+                        SecurityTokenValidated = (context) =>
+                        {
+                            return Task.CompletedTask;
+                        }
                     }
                 });
         }
@@ -71,12 +77,11 @@ namespace PartnerConsent
         /// <param name="notificationMessage"></param>
         private static async Task HandleAuthorizationCodeReceivedNotification(AuthorizationCodeReceivedNotification notificationMessage)
         {
-            string signInUserId = notificationMessage.AuthenticationTicket.Identity.FindFirst(ClaimTypes.Upn).Value;
             string partnerTenantId = notificationMessage.AuthenticationTicket.Identity.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid").Value;
 
             // Acquire a token using AuthCode
             Newtonsoft.Json.Linq.JObject tokenResult = await AuthorizationUtilities.GetAADTokenFromAuthCode(
-                "https://login.microsoftonline.com/" + partnerTenantId,
+                $"{AadInstance}/{partnerTenantId}",
                 "https://api.partnercenter.microsoft.com",
                 CSPApplicationId,
                 CSPApplicationSecret,
@@ -88,7 +93,8 @@ namespace PartnerConsent
             // Store the refresh token using partner tenant id as the key. 
             // Marketplace application will use the partner tenant id as a key to retrive the refresh token to get authenticated against the user.
             KeyVaultProvider provider = new KeyVaultProvider();
-            await provider.AddSecretAsync(partnerTenantId, refreshToken);
+
+            await provider.AddSecretAsync(partnerTenantId, refreshToken).ConfigureAwait(false);
         }
     }
 }

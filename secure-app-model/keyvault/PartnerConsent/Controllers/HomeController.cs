@@ -6,9 +6,9 @@
 
 namespace PartnerConsent.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Web.Mvc;
-    using System.Linq;
 
     [Authorize]
     public class HomeController : Controller

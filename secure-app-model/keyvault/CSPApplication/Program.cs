@@ -31,11 +31,11 @@ namespace CSPApplication
         /// </summary>
         private static PartnerServiceClient serviceClient;
 
-        /// <summary>
-        /// The following code assumes that the context of the partner is pre determined by some external code 
-        /// (based on application logic: either by product or by partner context)
-        /// </summary>
+        /**
+         * The following code assumes that the context of the partner is pre-determined by some external process.
+         */
 
+        private static readonly string AADInstance = ConfigurationManager.AppSettings["AADInstance"];
         private static readonly string CSPApplicationId = ConfigurationManager.AppSettings["ida:CSPApplicationId"];
         private static readonly string CSPApplicationSecret = ConfigurationManager.AppSettings["ida:CSPApplicationSecret"];
 
@@ -80,7 +80,7 @@ namespace CSPApplication
             string refreshToken = await provider.GetSecretAsync(tenantId);
 
             AuthenticationResult token = await serviceClient.RefreshAccessTokenAsync(
-                $"https://login.microsoftonline.com/{tenantId}/oauth2/token",
+                $"{AADInstance}/{tenantId}/oauth2/token",
                 "https://api.partnercenter.microsoft.com",
                 refreshToken,
                 CSPApplicationId,
@@ -102,7 +102,7 @@ namespace CSPApplication
             string refreshToken = await provider.GetSecretAsync(tenantId);
 
             AuthenticationResult token = await serviceClient.RefreshAccessTokenAsync(
-                $"https://login.microsoftonline.com/{tenantId}/oauth2/token",
+                $"{AADInstance}/{tenantId}/oauth2/token",
                 "https://graph.microsoft.com",
                 refreshToken,
                 CSPApplicationId,

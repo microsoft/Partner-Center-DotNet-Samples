@@ -7,7 +7,6 @@
 namespace CPVApplication.Utilities
 {
     using System.Configuration;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.KeyVault.Models;
