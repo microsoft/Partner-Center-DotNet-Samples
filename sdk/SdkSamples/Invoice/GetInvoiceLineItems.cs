@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="GetInvoiceLineItems.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -6,9 +6,12 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 {
+    using Microsoft.Store.PartnerCenter.Models.Invoices;
+    using Microsoft.Store.PartnerCenter.Models.Query;
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// Gets an invoice's line items.
@@ -66,29 +69,107 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                 {
                     this.Context.ConsoleHelper.StartProgress(string.Format("Getting invoice line item for product {0} and line item type {1}", invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType));
 
-                    // Get the invoice line items
-                    var invoiceLineItemsCollection = (this.invoicePageSize <= 0) ? invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get() : invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get(this.invoicePageSize, 0);
-
-                    var invoiceLineItemEnumerator = partnerOperations.Enumerators.InvoiceLineItems.Create(invoiceLineItemsCollection);
-                    this.Context.ConsoleHelper.StopProgress();
-                    int pageNumber = 1;
-
-                    while (invoiceLineItemEnumerator.HasValue)
+                    if (invoiceDetail.BillingProvider.ToString().Equals(BillingProvider.Marketplace.ToString()))
                     {
-                        this.Context.ConsoleHelper.WriteObject(invoiceLineItemEnumerator.Current, string.Format(CultureInfo.InvariantCulture, "Invoice Line Item Page: {0}", pageNumber++));
-                        Console.WriteLine();
-                        Console.Write("Press any key to retrieve the next invoice line items page");
-                        Console.ReadKey();
+                        var seekBasedResourceCollection = invoiceOperations.By(invoiceDetail.BillingProvider.ToString(), invoiceDetail.InvoiceLineItemType.ToString(), invoice.CurrencyCode, "current", null).Get();
 
-                        this.Context.ConsoleHelper.StartProgress("Getting next invoice line items page");
+                        var fetchNext = true;
 
-                        // Get the next list of invoice line items
-                        invoiceLineItemEnumerator.Next();
+                        ConsoleKeyInfo keyInfo;
+
+                        var itemNumber = 1;
+
+                        Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
+                        
+                        if (seekBasedResourceCollection.Items.Count() > 0)
+                        {
+                            while (fetchNext)
+                            {
+                                seekBasedResourceCollection.Items.Take(2).ToList().ForEach(i =>
+                                {
+                                    Console.Out.WriteLine("\t----------------------------------------------");
+                                    Console.Out.WriteLine("\tLine Item # {0}", itemNumber);
+
+                                    PrintProperties(i);
+                                    itemNumber++;
+                                });
+
+                                Console.Out.WriteLine("\tPress any key to fetch next data. Press the Escape (Esc) key to quit: \n");
+                                keyInfo = Console.ReadKey();
+
+                                if (keyInfo.Key == ConsoleKey.Escape)
+                                {
+                                    break;
+                                }
+
+                                fetchNext = !string.IsNullOrWhiteSpace(seekBasedResourceCollection.ContinuationToken);
+
+                                if (fetchNext)
+                                {
+                                    if (seekBasedResourceCollection.Links.Next.Headers != null && seekBasedResourceCollection.Links.Next.Headers.Any())
+                                    {
+                                        seekBasedResourceCollection = invoiceOperations.By(invoiceDetail.BillingProvider.ToString(), invoiceDetail.InvoiceLineItemType.ToString(), invoice.CurrencyCode, "current", null).Seek(seekBasedResourceCollection.ContinuationToken, SeekOperation.Next);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        var invoiceLineItemsCollection = (this.invoicePageSize <= 0) ? invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get() : invoiceOperations.By(invoiceDetail.BillingProvider, invoiceDetail.InvoiceLineItemType).Get(this.invoicePageSize, 0);
+                        var invoiceLineItemEnumerator = partnerOperations.Enumerators.InvoiceLineItems.Create(invoiceLineItemsCollection);
 
                         this.Context.ConsoleHelper.StopProgress();
-                        Console.Clear();
+                        int pageNumber = 1;
+
+                        while (invoiceLineItemEnumerator.HasValue)
+                        {
+                            this.Context.ConsoleHelper.WriteObject(invoiceLineItemEnumerator.Current, string.Format(CultureInfo.InvariantCulture, "Invoice Line Item Page: {0}", pageNumber++));
+                            Console.WriteLine();
+                            Console.Write("Press any key to retrieve the next invoice line items page");
+                            Console.ReadKey();
+
+                            this.Context.ConsoleHelper.StartProgress("Getting next invoice line items page");
+
+                            // Get the next list of invoice line items
+                            invoiceLineItemEnumerator.Next();
+
+                            this.Context.ConsoleHelper.StopProgress();
+                            Console.Clear();
+                        }
                     }
+
+                    this.Context.ConsoleHelper.StopProgress();
+                    Console.Clear();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Prints an invoice line item properties.
+        /// </summary>
+        /// <param name="item">the invoice line item.</param>
+        private static void PrintProperties(InvoiceLineItem item)
+        {
+            Type t = null;
+
+            if (item is DailyRatedUsageLineItem)
+            {
+                t = typeof(DailyRatedUsageLineItem);
+                Console.Out.WriteLine(" ");
+                Console.Out.WriteLine("\tMarketplace Daily Rated Usage Line Items: ");
+            }
+            else if (item is OneTimeInvoiceLineItem)
+            {
+                t = typeof(OneTimeInvoiceLineItem);
+                Console.Out.WriteLine(" ");
+                Console.Out.WriteLine("\tFirst Party And Marketplace Recon Line Items: ");
+            }
+
+            PropertyInfo[] properties = t.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                Console.Out.WriteLine(string.Format("\t{0,-30}|{1,-50}", property.Name, property.GetValue(item, null).ToString()));
             }
         }
     }

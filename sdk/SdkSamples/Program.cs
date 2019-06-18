@@ -281,7 +281,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetSkus(context),
                 new GetSkusByTargetSegment(context),
                 new GetSku(context),
-                new GetSkuDownloadOptions(context),
                 new GetAvailabilities(context),
                 new GetAvailabilitiesByTargetSegment(context),
                 new GetAvailability(context),
@@ -306,7 +305,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerSkus(context),
                 new GetCustomerSkusByTargetSegment(context),
                 new GetCustomerSku(context),
-                new GetCustomerSkuDownloadOptions(context),
                 new GetCustomerAvailabilities(context),
                 new GetCustomerAvailabilitiesByTargetSegment(context),
                 new GetCustomerAvailability(context)
@@ -330,7 +328,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new CreateAzureReservationOrder(context),
                 new GetOrdersByBillingCycleType(context),
                 new GetOrderProvisioningStatus(context),
-                new UpdateOrder(context)
+                new UpdateOrder(context),
+                new GetLineItemActivationLink(context)
             };
 
             return new AggregatePartnerScenario("Order samples", orderScenarios, context);
@@ -355,6 +354,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new UpgradeSubscription(context),
                 new AddSubscriptionAddOn(context),
                 new ConvertTrialSubscription(context),
+                new CancelSaaSSubscription(context),
+                new ToggleSubscriptionAutoRenew(context)
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
@@ -414,6 +415,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetPagedInvoices(context, context.Configuration.Scenario.InvoicePageSize),
                 new GetInvoiceSummaries(context),
                 new GetInvoiceStatement(context),
+                new GetInvoiceTaxReceiptStatement(context),
                 new GetEstimatesLinks(context),
                 new GetBillingLineItemsForOpenPeriodPaging(context, context.Configuration.Scenario.InvoicePageSize),
                 new GetUsageLineItemsForOpenPeriodPaging(context, context.Configuration.Scenario.InvoicePageSize),

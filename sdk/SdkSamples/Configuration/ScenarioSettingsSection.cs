@@ -206,6 +206,17 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         }
 
         /// <summary>
+        /// Gets the configured Receipt ID.
+        /// </summary>
+        public string DefaultReceiptId
+        {
+            get
+            {
+                return this.ConfigurationSection["DefaultReceiptId"];
+            }
+        }
+
+        /// <summary>
         /// Gets the configured partner MPD ID.
         /// </summary>
         public string PartnerMpnId

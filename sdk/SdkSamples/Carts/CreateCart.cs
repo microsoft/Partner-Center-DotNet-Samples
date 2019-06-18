@@ -22,6 +22,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
         public CreateCart(IScenarioContext context) : base("Create a Cart", context)
         {
         }
+        /// <summary>
+        /// Provisioning context object.
+        /// </summary>
+        private Dictionary<string, string> ProvisioningContext;
 
         /// <summary>
         /// Executes the scenario.
@@ -32,18 +36,44 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string catalogItemId = this.ObtainCatalogItemId("Enter the catalog Item Id");
+            string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code of the availability", "The country code can't be empty");
             string productId = catalogItemId.Split(':')[0];
             string skuId = catalogItemId.Split(':')[1];
+            string availabilityId = catalogItemId.Split(':')[2];
             string scope = string.Empty;
             string subscriptionId = string.Empty;
             string duration = string.Empty;
-            var sku = partnerOperations.Products.ByCountry("US").ById(productId).Skus.ById(skuId).Get();
+            var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
+            var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
+
 
             if (sku.ProvisioningVariables != null)
             {
-                scope = this.ObtainScope("Enter the Scope for the Provisioning status");
-                subscriptionId = this.ObtainAzureSubscriptionId("Enter the Subscription Id");
-                duration = (string)sku.DynamicAttributes["duration"];
+                var provisioningContext = new Dictionary<string, string>();
+                foreach (string provisioningVariable in sku.ProvisioningVariables)
+                {
+                    switch (provisioningVariable)
+                    {
+                        case "Scope":
+                            scope = this.ObtainScope("Enter the Scope for the Provisioning status");
+                            provisioningContext.Add("scope", scope);
+                            break;
+                        case "SubscriptionId":
+                            subscriptionId = this.ObtainAzureSubscriptionId("Enter the Subscription Id");
+                            provisioningContext.Add("subscriptionId", subscriptionId);
+                            break;
+                        case "Duration":
+                            duration = (string)sku.DynamicAttributes["duration"];
+                            //if availability Terms duration exists, this does not need to be added. Kept here for backwards compatability
+                            provisioningContext.Add("duration", duration);
+                            break;
+                    }
+                }
+                ProvisioningContext = provisioningContext;
+            }
+            else
+            {
+                ProvisioningContext = null;
             }
 
             var cart = new Cart()
@@ -55,13 +85,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                         CatalogItemId = catalogItemId,
                         FriendlyName = "Myofferpurchase",
                         Quantity = 1,
+                        TermDuration = (availability.Terms.First().Duration == null) ? null : availability.Terms.First().Duration,
                         BillingCycle = sku.SupportedBillingCycles.ToArray().First(),
-                        ProvisioningContext = (sku.ProvisioningVariables == null) ? null : new Dictionary<string, string>
-                        {
-                            { "subscriptionId", subscriptionId },
-                            { "scope", scope },
-                            { "duration", duration }
-                        }
+                        ProvisioningContext = ProvisioningContext
                     }
                 }
             };

@@ -46,13 +46,13 @@
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.4.4.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Store.PartnerCenter, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.12.2\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.12.2\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.10.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.12.2\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -105,7 +105,6 @@
     <Compile Include="CustomerProducts\GetCustomerProducts.cs" />
     <Compile Include="CustomerProducts\GetCustomerProductsByTargetSegment.cs" />
     <Compile Include="CustomerProducts\GetCustomerSku.cs" />
-    <Compile Include="CustomerProducts\GetCustomerSkuDownloadOptions.cs" />
     <Compile Include="CustomerProducts\GetCustomerSkus.cs" />
     <Compile Include="CustomerProducts\GetCustomerSkusByTargetSegment.cs" />
     <Compile Include="CustomerServiceCosts\GetCustomerServiceCostsLineItems.cs" />
@@ -173,6 +172,7 @@
     <Compile Include="Invoice\GetInvoiceLineItems.cs" />
     <Compile Include="Invoice\GetInvoiceStatement.cs" />
     <Compile Include="Invoice\GetInvoiceSummaries.cs" />
+    <Compile Include="Invoice\GetInvoiceTaxReceiptStatement.cs" />
     <Compile Include="Invoice\GetPagedInvoices.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForClosePeriodPaging.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForOpenPeriodPaging.cs" />
@@ -183,6 +183,7 @@
     <Compile Include="Offers\GetOffers.cs" />
     <Compile Include="Offers\GetPagedOffers.cs" />
     <Compile Include="Orders\CreateAzureReservationOrder.cs" />
+    <Compile Include="Orders\GetLineItemActivationLink.cs" />
     <Compile Include="Orders\GetOrderDetails.cs" />
     <Compile Include="Orders\GetOrderProvisioningStatus.cs" />
     <Compile Include="Orders\GetOrders.cs" />
@@ -193,7 +194,6 @@
     <Compile Include="Products\GetAvailabilities.cs" />
     <Compile Include="Products\GetAvailability.cs" />
     <Compile Include="Products\CheckInventory.cs" />
-    <Compile Include="Products\GetSkuDownloadOptions.cs" />
     <Compile Include="Products\GetSku.cs" />
     <Compile Include="Products\GetProduct.cs" />
     <Compile Include="Products\GetSkusByTargetSegment.cs" />
@@ -228,6 +228,7 @@
     <Compile Include="ServiceRequests\GetPartnerServiceRequestDetails.cs" />
     <Compile Include="ServiceRequests\GetServiceRequestSupportTopics.cs" />
     <Compile Include="ServiceRequests\UpdatePartnerServiceRequest.cs" />
+    <Compile Include="Subscriptions\CancelSaaSSubscription.cs" />
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
     <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\UpgradeSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscription.cs" />
@@ -247,7 +249,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -39,16 +39,6 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         protected override void RunScenario()
         {
             var partnerOperations = this.Context.UserPartnerOperations;
-            string curencyCode = this.Context.Configuration.Scenario.DefaultCurrencyCode;
-            if (string.IsNullOrWhiteSpace(curencyCode))
-            {
-                // prompt the user the enter the currency code
-                curencyCode = this.Context.ConsoleHelper.ReadNonEmptyString("Please enter 3 digit currency code to retrieve the billed consumption reconciliation line items ", "The currency code can't be empty");
-            }
-            else
-            {
-                Console.WriteLine("Found Currency code: {0} in configuration.", curencyCode);
-            }
 
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
             if (string.IsNullOrWhiteSpace(invoiceId))
@@ -62,13 +52,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             }
 
             var pageMaxSizeReconciliationLineItems = 2000;
-            var period = "current";
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
-            
-            this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");            
+
+            this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");
             // Retrieving billed consumption line items
-            var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", curencyCode, period, pageMaxSizeReconciliationLineItems).Get();
+            var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", null, null, pageMaxSizeReconciliationLineItems).Get();
 
             var fetchNext = true;
 
@@ -77,7 +66,6 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             var itemNumber = 1;
 
             Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
-            Console.Out.WriteLine("\tPeriod: " + period);
 
             if (seekBasedResourceCollection.Items.Count() > 0)
             {
@@ -106,7 +94,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                     {
                         if (seekBasedResourceCollection.Links.Next.Headers != null && seekBasedResourceCollection.Links.Next.Headers.Any())
                         {
-                            seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById("unbilled").By("all", "billinglineitems", curencyCode, period, pageMaxSizeReconciliationLineItems).Seek(seekBasedResourceCollection.ContinuationToken, SeekOperation.Next);
+                            seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", null, null, pageMaxSizeReconciliationLineItems).Seek(seekBasedResourceCollection.ContinuationToken, SeekOperation.Next);
                         }
                     }
                 }
