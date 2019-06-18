@@ -54,7 +54,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
             var period = "current";
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
-            
+
             this.Context.ConsoleHelper.StartProgress("Getting unbilled consumption reconciliation line items");
             // Retrieving unbilled consumption line items
 

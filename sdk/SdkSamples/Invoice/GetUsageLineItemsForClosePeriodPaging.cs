@@ -39,7 +39,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
         protected override void RunScenario()
         {
             var partnerOperations = this.Context.UserPartnerOperations;
-            
+
             string invoiceId = this.Context.Configuration.Scenario.DefaultInvoiceId;
             if (string.IsNullOrWhiteSpace(invoiceId))
             {
@@ -51,11 +51,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
                 Console.WriteLine("Found Invoice ID: {0} in configuration.", invoiceId);
             }
 
-            var pageMaxSizeReconciliationLineItems = 2000;            
+            var pageMaxSizeReconciliationLineItems = 2000;
 
             IPartner scopedPartnerOperations = partnerOperations.With(RequestContextFactory.Instance.Create(Guid.NewGuid()));
-            
-            this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");            
+
+            this.Context.ConsoleHelper.StartProgress("Getting billed consumption reconciliation line items");
             // Retrieving billed consumption line items
             var seekBasedResourceCollection = scopedPartnerOperations.Invoices.ById(invoiceId).By("marketplace", "usagelineitems", null, null, pageMaxSizeReconciliationLineItems).Get();
 
@@ -65,7 +65,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Invoice
 
             var itemNumber = 1;
 
-            Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());            
+            Console.Out.WriteLine("\tRecon line items count: " + seekBasedResourceCollection.Items.Count());
 
             if (seekBasedResourceCollection.Items.Count() > 0)
             {

@@ -422,6 +422,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
             }
         }
         
+        
         /// <summary>
         /// Gets the configured Currency code.
         /// </summary>
