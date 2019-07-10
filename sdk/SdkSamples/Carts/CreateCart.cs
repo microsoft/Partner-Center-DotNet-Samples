@@ -6,6 +6,7 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Carts
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Models.Carts;
@@ -43,6 +44,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             string scope = string.Empty;
             string subscriptionId = string.Empty;
             string duration = string.Empty;
+            string termDuration = string.Empty;
             var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
             var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
 
@@ -50,7 +52,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             if (sku.ProvisioningVariables != null)
             {
                 var provisioningContext = new Dictionary<string, string>();
-                foreach (string provisioningVariable in sku.ProvisioningVariables)
+                foreach (var provisioningVariable in sku.ProvisioningVariables)
                 {
                     switch (provisioningVariable)
                     {
@@ -76,6 +78,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                 ProvisioningContext = null;
             }
 
+            if (sku.IsTrial && availability.Terms.Any(r => r.RenewalOptions.Any(t => t.TermDuration != null)))
+            {
+                termDuration = this.ObtainTermDuration("Enter the term duration that you want to renew into (P1M or P1Y)");
+            }
+
             var cart = new Cart()
             {
                 LineItems = new List<CartLineItem>()
@@ -84,10 +91,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                     {
                         CatalogItemId = catalogItemId,
                         FriendlyName = "Myofferpurchase",
-                        Quantity = 1,
-                        TermDuration = (availability.Terms.First().Duration == null) ? null : availability.Terms.First().Duration,
+                        Quantity = termDuration == String.Empty ? 1 : 10,
+                        TermDuration = availability.Terms.First().Duration ?? null ,
                         BillingCycle = sku.SupportedBillingCycles.ToArray().First(),
-                        ProvisioningContext = ProvisioningContext
+                        ProvisioningContext = ProvisioningContext,
+                        RenewsTo = termDuration == String.Empty ? null : new RenewsTo()
+                        {
+                            TermDuration = termDuration
+                        }
                     }
                 }
             };

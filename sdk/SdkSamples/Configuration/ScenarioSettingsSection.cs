@@ -433,5 +433,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
                 return this.ConfigurationSection["DefaultCurrencyCode"];
             }
         }
+
+        /// <summary>
+        /// Gets the default renewal term duration.
+        /// </summary>
+        public string DefaultTermDuration
+        {
+            get
+            {
+                return this.ConfigurationSection["DefaultTermDuration"];
+            }
+        }
     }
 }
