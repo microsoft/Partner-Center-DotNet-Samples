@@ -437,11 +437,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         /// <summary>
         /// Gets the default renewal term duration.
         /// </summary>
-        public string DefaultTermDuration
+        public string DefaultRenewalTermDuration
         {
             get
             {
-                return this.ConfigurationSection["DefaultTermDuration"];
+                return this.ConfigurationSection["DefaultRenewalTermDuration"];
             }
         }
     }

@@ -37,6 +37,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string catalogItemId = this.ObtainCatalogItemId("Enter the catalog Item Id");
+            string quantity = this.ObtainQuantity("Enter the Quantity");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code of the availability", "The country code can't be empty");
             string productId = catalogItemId.Split(':')[0];
             string skuId = catalogItemId.Split(':')[1];
@@ -44,7 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             string scope = string.Empty;
             string subscriptionId = string.Empty;
             string duration = string.Empty;
-            string termDuration = string.Empty;
+            string renewalTermDuration = string.Empty;
             var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
             var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
 
@@ -80,7 +81,17 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
 
             if (sku.IsTrial && availability.Terms.Any(r => r.RenewalOptions.Any(t => t.TermDuration != null)))
             {
-                termDuration = this.ObtainTermDuration("Enter the term duration that you want to renew into (P1M or P1Y)");
+                var renewalTermDurationOptions = (from term in availability.Terms from renewalOption in term.RenewalOptions select renewalOption.TermDuration).ToList();
+                var termDurationOptions = string.Join(",", renewalTermDurationOptions);
+                if (renewalTermDurationOptions.Count > 1)
+                {
+                    this.Context.ConsoleHelper.WriteObject(termDurationOptions, "Renewal Term Duration Options");
+                    renewalTermDuration = this.ObtainRenewalTermDuration("Enter the renewal term duration that you want to renew into");
+                }
+                else
+                {
+                    renewalTermDuration = termDurationOptions;
+                }
             }
 
             var cart = new Cart()
@@ -91,13 +102,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                     {
                         CatalogItemId = catalogItemId,
                         FriendlyName = "Myofferpurchase",
-                        Quantity = termDuration == String.Empty ? 1 : 10,
+                        Quantity = Convert.ToInt32(quantity),
                         TermDuration = availability.Terms.First().Duration ?? null ,
                         BillingCycle = sku.SupportedBillingCycles.ToArray().First(),
                         ProvisioningContext = ProvisioningContext,
-                        RenewsTo = termDuration == String.Empty ? null : new RenewsTo()
+                        RenewsTo = renewalTermDuration == string.Empty ? null : new RenewsTo()
                         {
-                            TermDuration = termDuration
+                            TermDuration = renewalTermDuration
                         }
                     }
                 }

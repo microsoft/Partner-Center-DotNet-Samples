@@ -509,14 +509,14 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// Obtain renewal TermDuration to work with from the configuration if set there or prompts the user to enter it. 
         /// </summary> 
         /// <param name="promptMessage">An optional custom prompt message</param> 
-        /// <returns>Term Duration</returns> 
-        protected string ObtainTermDuration(string promptMessage = default(string))
+        /// <returns>Renewal Term Duration</returns> 
+        protected string ObtainRenewalTermDuration(string promptMessage = default(string))
         {
             return this.ObtainValue(
-                this.Context.Configuration.Scenario.DefaultTermDuration,
-                "Term Duration",
+                this.Context.Configuration.Scenario.DefaultRenewalTermDuration,
+                "Renewal Term Duration",
                 string.IsNullOrWhiteSpace(promptMessage) ? "Enter the renewal Term Duration ID" : promptMessage,
-                "The term duration can't be empty");
+                "The renewal term duration can't be empty");
         }
 
         /// <summary>
