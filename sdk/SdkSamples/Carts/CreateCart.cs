@@ -6,6 +6,7 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Carts
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Models.Carts;
@@ -36,6 +37,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string catalogItemId = this.ObtainCatalogItemId("Enter the catalog Item Id");
+            string quantity = this.ObtainQuantity("Enter the Quantity");
             string countryCode = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the 2 digit country code of the availability", "The country code can't be empty");
             string productId = catalogItemId.Split(':')[0];
             string skuId = catalogItemId.Split(':')[1];
@@ -43,6 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             string scope = string.Empty;
             string subscriptionId = string.Empty;
             string duration = string.Empty;
+            string renewalTermDuration = string.Empty;
             var sku = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Get();
             var availability = partnerOperations.Products.ByCountry(countryCode).ById(productId).Skus.ById(skuId).Availabilities.ById(availabilityId).Get();
 
@@ -50,7 +53,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
             if (sku.ProvisioningVariables != null)
             {
                 var provisioningContext = new Dictionary<string, string>();
-                foreach (string provisioningVariable in sku.ProvisioningVariables)
+                foreach (var provisioningVariable in sku.ProvisioningVariables)
                 {
                     switch (provisioningVariable)
                     {
@@ -76,6 +79,21 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                 ProvisioningContext = null;
             }
 
+            if (sku.IsTrial && availability.Terms.Any(r => r.RenewalOptions.Any(t => t.TermDuration != null)))
+            {
+                var renewalTermDurationOptions = (from term in availability.Terms from renewalOption in term.RenewalOptions select renewalOption.TermDuration).ToList();
+                var termDurationOptions = string.Join(",", renewalTermDurationOptions);
+                if (renewalTermDurationOptions.Count > 1)
+                {
+                    this.Context.ConsoleHelper.WriteObject(termDurationOptions, "Renewal Term Duration Options");
+                    renewalTermDuration = this.ObtainRenewalTermDuration("Enter the renewal term duration that you want to renew into");
+                }
+                else
+                {
+                    renewalTermDuration = termDurationOptions;
+                }
+            }
+
             var cart = new Cart()
             {
                 LineItems = new List<CartLineItem>()
@@ -84,10 +102,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Carts
                     {
                         CatalogItemId = catalogItemId,
                         FriendlyName = "Myofferpurchase",
-                        Quantity = 1,
-                        TermDuration = (availability.Terms.First().Duration == null) ? null : availability.Terms.First().Duration,
+                        Quantity = Convert.ToInt32(quantity),
+                        TermDuration = availability.Terms.First().Duration ?? null ,
                         BillingCycle = sku.SupportedBillingCycles.ToArray().First(),
-                        ProvisioningContext = ProvisioningContext
+                        ProvisioningContext = ProvisioningContext,
+                        RenewsTo = renewalTermDuration == string.Empty ? null : new RenewsTo()
+                        {
+                            TermDuration = renewalTermDuration
+                        }
                     }
                 }
             };

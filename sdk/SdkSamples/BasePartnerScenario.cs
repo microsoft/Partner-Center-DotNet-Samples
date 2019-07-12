@@ -505,6 +505,20 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 "The Customer Agreements CSV file name can't be empty");
         }
 
+        /// <summary> 
+        /// Obtain renewal TermDuration to work with from the configuration if set there or prompts the user to enter it. 
+        /// </summary> 
+        /// <param name="promptMessage">An optional custom prompt message</param> 
+        /// <returns>Renewal Term Duration</returns> 
+        protected string ObtainRenewalTermDuration(string promptMessage = default(string))
+        {
+            return this.ObtainValue(
+                this.Context.Configuration.Scenario.DefaultRenewalTermDuration,
+                "Renewal Term Duration",
+                string.IsNullOrWhiteSpace(promptMessage) ? "Enter the renewal Term Duration ID" : promptMessage,
+                "The renewal term duration can't be empty");
+        }
+
         /// <summary>
         /// Obtains a value to work with from the configuration if set there or prompts the user to enter it.
         /// </summary>
