@@ -27,7 +27,7 @@ namespace CPVApplication.Utilities
         {
             string loginUrl = string.Format("{0}/oauth2/token", authority);
 
-            var request = WebRequest.Create(loginUrl);
+            WebRequest request = WebRequest.Create(loginUrl);
 
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -53,7 +53,7 @@ namespace CPVApplication.Utilities
         {
             string loginUrl = string.Format("{0}/oauth2/token", authority);
 
-            var request = WebRequest.Create(loginUrl);
+            WebRequest request = WebRequest.Create(loginUrl);
 
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -75,18 +75,18 @@ namespace CPVApplication.Utilities
         /// <returns></returns>
         private static async Task<JObject> GetResponse(WebRequest request, string content)
         {
-            using (var writer = new StreamWriter(request.GetRequestStream()))
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
                 writer.Write(content);
             }
 
             try
             {
-                var response = await request.GetResponseAsync();
-                using (var reader = new StreamReader(response.GetResponseStream()))
+                WebResponse response = await request.GetResponseAsync();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
-                    var responseContent = reader.ReadToEnd();
-                    var adResponse =
+                    string responseContent = reader.ReadToEnd();
+                    JObject adResponse =
                         Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(responseContent);
                     return adResponse;
                 }
@@ -95,9 +95,9 @@ namespace CPVApplication.Utilities
             {
                 if (webException.Response != null)
                 {
-                    using (var reader = new StreamReader(webException.Response.GetResponseStream()))
+                    using (StreamReader reader = new StreamReader(webException.Response.GetResponseStream()))
                     {
-                        var responseContent = reader.ReadToEnd();
+                        string responseContent = reader.ReadToEnd();
                     }
                 }
             }

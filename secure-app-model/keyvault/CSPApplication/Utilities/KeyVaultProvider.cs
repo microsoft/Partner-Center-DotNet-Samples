@@ -7,11 +7,11 @@
 namespace CSPApplication.Utilities
 {
     using System.Configuration;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.KeyVault.Models;
     using Newtonsoft.Json.Linq;
-    using System.Net.Http;
 
     /// <summary>
     /// Provider for accessing secrets from the Azure KeyVault
@@ -25,7 +25,7 @@ namespace CSPApplication.Utilities
         /// <summary>
         /// The client used to perform HTTP operations.
         /// </summary>
-        private readonly static HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient();
 
         public async Task<string> GetSecretAsync(string key)
         {
