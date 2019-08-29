@@ -1,4 +1,15 @@
-# SDK Samples
+---
+page_type: sample
+languages:
+- csharp
+name: Partner Center .NET SDK Samples
+description: Learn how to use the Partner Center .NET SDK in your apps."
+products:
+- azure
+- ms-graph
+---
+
+# Partner Center .NET SDK Samples
 
 ## Overview
 
