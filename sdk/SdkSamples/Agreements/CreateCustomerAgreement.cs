@@ -51,7 +51,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             {
                 UserId = selectedUserId,
                 DateAgreed = DateTime.UtcNow,
-                Type = AgreementType.MicrosoftCloudAgreement,
+                Type = "MicrosoftCloudAgreement",
                 TemplateId = agreementTemplateId,
                 PrimaryContact = new Contact
                 {

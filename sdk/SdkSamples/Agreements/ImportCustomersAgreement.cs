@@ -36,7 +36,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             var partnerOperations = this.Context.UserPartnerOperations;
 
             // Prefetch necessary partner agreement metadata
-            var agreementDetail = partnerOperations.AgreementDetails.Get()?.Items.Where(x => x.AgreementType == AgreementType.MicrosoftCloudAgreement).OrderBy(x => x.VersionRank).FirstOrDefault();
+            var agreementDetail = partnerOperations.AgreementDetails.Get()?.Items.Where(x => x.AgreementType.Equals("MicrosoftCloudAgreement", StringComparison.InvariantCultureIgnoreCase)).OrderBy(x => x.VersionRank).FirstOrDefault();
             if (agreementDetail == null)
             {
                 this.Context.ConsoleHelper.WriteColored("No Agreement metadata available.", ConsoleColor.DarkRed);
@@ -77,7 +77,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                         customerAgreement.Agreement.AgreementLink = agreementDetail.AgreementLink;
                         customerAgreement.Agreement.TemplateId = agreementDetail.TemplateId;
                         customerAgreement.Agreement.UserId = selectedUserId;
-                        customerAgreement.Agreement.Type = AgreementType.MicrosoftCloudAgreement;
+                        customerAgreement.Agreement.Type = "MicrosoftCloudAgreement";
 
                         // Try to add the agreement
                         partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements.Create(customerAgreement.Agreement);
