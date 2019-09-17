@@ -6,9 +6,6 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 {
-    using Models;
-    using Models.Agreements;
-
     /// <summary>
     /// Showcases getting the list of agreement details.
     /// </summary>
@@ -27,13 +24,27 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// </summary>
         protected override void RunScenario()
         {
-            var partnerOperations = this.Context.UserPartnerOperations;
-            this.Context.ConsoleHelper.StartProgress("Retrieving agreement details");
 
-            ResourceCollection<AgreementMetaData> agreementDetails = partnerOperations.AgreementDetails.Get();
+            this.Context.ConsoleHelper.StartProgress("Retrieving all agreement details");
+
+            // "*" retrieves all agreements.
+            this.GetAgreementDetailsOfType("*");
+
+            // Retrieve specific types.
+            this.GetAgreementDetailsOfType("MicrosoftCloudAgreement");
+            this.GetAgreementDetailsOfType("MicrosoftCustomerAgreement");
+        }
+
+        private void GetAgreementDetailsOfType(string agreementType)
+        {
+            var partnerOperations = this.Context.UserPartnerOperations;
+
+            this.Context.ConsoleHelper.StartProgress(string.Equals(agreementType, "*") ? "Retrieving all agreement details" : $"Retrieving details of agreements of type {agreementType}");
+
+            var agreementDetails = partnerOperations.AgreementDetails.ByAgreementType(agreementType).Get();
 
             this.Context.ConsoleHelper.StopProgress();
-            this.Context.ConsoleHelper.WriteObject(agreementDetails, "Agreement details:");
+            this.Context.ConsoleHelper.WriteObject(agreementDetails, string.Equals(agreementType, "*") ? "Agreement details:" : $"Agreement details of type {agreementType}:");
         }
     }
 }

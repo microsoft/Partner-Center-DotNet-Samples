@@ -9,10 +9,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
     using System.Collections.Generic;
     using System.Linq;
     using System.IO;
-    using Microsoft.Store.PartnerCenter.Models.Agreements;
+    using Models.Agreements;
 
     /// <summary>
-    /// Import Customers' agreement.
+    /// Import Customers' agreements.
     /// </summary>
     public class ImportCustomersAgreement : BasePartnerScenario
     {
@@ -20,7 +20,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// Initializes a new instance of the <see cref="ImportCustomersAgreement"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
-        public ImportCustomersAgreement(IScenarioContext context) : base("Import all Customers agreement.", context)
+        public ImportCustomersAgreement(IScenarioContext context) : base("Import all customers' agreements.", context)
         {
         }
 
@@ -36,21 +36,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             var partnerOperations = this.Context.UserPartnerOperations;
 
             // Prefetch necessary partner agreement metadata
-            var agreementDetail = partnerOperations.AgreementDetails.Get()?.Items.Where(x => x.AgreementType == AgreementType.MicrosoftCloudAgreement).OrderBy(x => x.VersionRank).FirstOrDefault();
-            if (agreementDetail == null)
+            var agreementDetails = partnerOperations.AgreementDetails.ByAgreementType("*")?.Get()?.Items.OrderBy(x => x.VersionRank).ToDictionary(ad => ad.AgreementType);
+            if (agreementDetails == null || !agreementDetails.Any())
             {
                 this.Context.ConsoleHelper.WriteColored("No Agreement metadata available.", ConsoleColor.DarkRed);
                 return;
             }
 
-            var selectedUserId = this.ObtainUserMemberId("Enter the user ID of the partner to create customer's agreement");
-
             this.Context.ConsoleHelper.WriteColored($"{Environment.NewLine}Use GetAllCustomersAgreements scenario's output csv file format to import agreements.", ConsoleColor.DarkGray);
             var csvFilePath = this.ObtainCustomersAgreementCsvFileName();
             var customerAgreements = this.ParseCustomerAgreements(csvFilePath, errorFilePath);
 
-            // Perform basic validations to check for duplicate customer tenant ids.
-            if (customerAgreements.Where(x => x.Valid).GroupBy(x => x.CustomerTenantId).Any(c => c.Count() > 1))
+            // Perform basic validations to check for duplicate entries (note: there can be multiple entries per customer tenant ID, just not duplicates).
+            if (customerAgreements.Where(x => x.Valid).GroupBy(x => x.CustomerTenantId).Any(c => c.Count() > c.Select(ca => ca.Agreement.Type).Distinct(StringComparer.OrdinalIgnoreCase).Count()))
             {
                 this.Context.ConsoleHelper.WriteColored("File contains duplicate / contradicting agreement data. Please fix and retry.", ConsoleColor.DarkRed);
                 return;
@@ -63,34 +61,41 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 
                 if (!customerAgreement.Valid)
                 {
-                    File.AppendAllText(errorFilePath, $"{customerAgreement.Source},Insufficient data.{Environment.NewLine}");
+                    File.AppendAllText(errorFilePath,
+                        $"{customerAgreement.Source},Insufficient data.{Environment.NewLine}");
                     continue;
                 }
 
                 try
                 {
-                    // Fetch Agreements for the customer to check if an update is necessary.
-                    var agreements = partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements.Get();
-                    if (agreements.TotalCount == 0 || DoesAgreementNeedUpdate(agreements.Items.First(), customerAgreement.Agreement))
+                    // Fetch Agreements (of a specific type) for the customer to check if an update is necessary.
+                    var customerAgreementOperations = partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements;
+                    var agreements = customerAgreementOperations.ByAgreementType(customerAgreement.Agreement.Type).Get();
+                    if (agreements.TotalCount == 0 ||
+                        DoesAgreementNeedUpdate(agreements.Items.First(), customerAgreement.Agreement))
                     {
+                        var agreementDetail = agreementDetails[customerAgreement.Agreement.Type];
+
                         // Populate other required agreement details
                         customerAgreement.Agreement.AgreementLink = agreementDetail.AgreementLink;
                         customerAgreement.Agreement.TemplateId = agreementDetail.TemplateId;
-                        customerAgreement.Agreement.UserId = selectedUserId;
-                        customerAgreement.Agreement.Type = AgreementType.MicrosoftCloudAgreement;
+                        customerAgreement.Agreement.Type = agreementDetail.AgreementType;
 
                         // Try to add the agreement
-                        partnerOperations.Customers.ById(customerAgreement.CustomerTenantId).Agreements.Create(customerAgreement.Agreement);
-                        File.AppendAllText(errorFilePath, $"{customerAgreement.Source},Agreement data updated successfully.{Environment.NewLine}");
+                        customerAgreementOperations.Create(customerAgreement.Agreement);
+                        File.AppendAllText(errorFilePath,
+                            $"{customerAgreement.Source},Agreement data updated successfully.{Environment.NewLine}");
                     }
                     else
                     {
-                        File.AppendAllText(errorFilePath, $"{customerAgreement.Source},Skipped as there is no change in agreement data.{Environment.NewLine}");
+                        File.AppendAllText(errorFilePath,
+                            $"{customerAgreement.Source},Skipped as there is no change in agreement data.{Environment.NewLine}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    File.AppendAllText(errorFilePath, $"{customerAgreement.Source},Processing failed with error {ex.Message}{Environment.NewLine}");
+                    File.AppendAllText(errorFilePath,
+                        $"{customerAgreement.Source},Processing failed with error {ex.Message}{Environment.NewLine}");
                 }
             }
 
@@ -101,16 +106,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// <summary>
         /// Compare the existing and to be imported agreement to check if any updates are required.
         /// </summary>
-        /// <param name="extistingAgreement">Existing aggreement</param>
+        /// <param name="existingAgreement">Existing agreement</param>
         /// <param name="importAgreement">To be imported agreement</param>
         /// <returns>Whether the agreement needs update?</returns>
-        private static bool DoesAgreementNeedUpdate(Agreement extistingAgreement, Agreement importAgreement)
+        private static bool DoesAgreementNeedUpdate(Agreement existingAgreement, Agreement importAgreement)
         {
-            // Check if Agreement data is same.
-            return !extistingAgreement.PrimaryContact.FirstName.Equals(importAgreement.PrimaryContact.FirstName) ||
-                   !extistingAgreement.PrimaryContact.LastName.Equals(importAgreement.PrimaryContact.LastName) ||
-                   !(extistingAgreement.PrimaryContact.PhoneNumber ?? string.Empty).Equals(importAgreement.PrimaryContact.PhoneNumber ?? string.Empty) ||
-                   !extistingAgreement.PrimaryContact.Email.Equals(importAgreement.PrimaryContact.Email);
+            // Check if Agreement data is the same (note: case matters here and that's why the following checks are case sensitive).
+            return !string.Equals(existingAgreement.PrimaryContact.FirstName, importAgreement.PrimaryContact.FirstName) ||
+                   !string.Equals(existingAgreement.PrimaryContact.LastName, importAgreement.PrimaryContact.LastName) ||
+                   !string.Equals(existingAgreement.PrimaryContact.PhoneNumber ?? string.Empty, importAgreement.PrimaryContact.PhoneNumber ?? string.Empty) ||
+                   !string.Equals(existingAgreement.PrimaryContact.Email, importAgreement.PrimaryContact.Email);
         }
 
         /// <summary>
@@ -119,7 +124,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// <param name="csvFilePath">CSV Customer agreements file path</param>
         /// <param name="errorFilePath">Error File path</param>
         /// <returns></returns>
-        private IEnumerable<CustomerAgreement> ParseCustomerAgreements(string csvFilePath, string errorFilePath)
+        private List<CustomerAgreement> ParseCustomerAgreements(string csvFilePath, string errorFilePath)
         {
             var lines = File.ReadAllLines(csvFilePath).ToList();
             var customerAgreements = new List<CustomerAgreement>();
@@ -140,12 +145,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
             {
                 var parts = lines[ptr].Split(',').Select(s => s.Trim()).ToList();
 
-                bool validLine = !(parts.Count < 7 || string.IsNullOrWhiteSpace(parts[0])
+                bool validLine = !(parts.Count < 8 || string.IsNullOrWhiteSpace(parts[0])
                                     || string.IsNullOrWhiteSpace(parts[1])
                                     || string.IsNullOrWhiteSpace(parts[2])
                                     || string.IsNullOrWhiteSpace(parts[3])
                                     || string.IsNullOrWhiteSpace(parts[4])
-                                    || string.IsNullOrWhiteSpace(parts[6]));
+                                    || string.IsNullOrWhiteSpace(parts[6])
+                                    || string.IsNullOrWhiteSpace(parts[7]));
 
                 if (validLine)
                 {
@@ -164,7 +170,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
                                 LastName = parts[4],
                                 PhoneNumber = parts[5],
                                 Email = parts[6]
-                            }
+                            },
+                            Type = parts[7]
                         }
                         ,
                     });
