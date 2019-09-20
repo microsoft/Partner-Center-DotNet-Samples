@@ -48,7 +48,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         {
             var context = new ScenarioContext();
 
-            IPartnerScenario[] mainScenarios = new[]
+            var mainScenarios = new[]
             {
                 Program.GetCustomerScenarios(context),
                 Program.GetAgreementsScenarios(context),
@@ -151,6 +151,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
             var agreementsScenario = new IPartnerScenario[]
             {
                 new GetAgreementDetails(context),
+                new GetAgreementDocument(context),
                 new GetCustomerAgreements(context),
                 new GetAllCustomersAgreements(context),
                 new CreateCustomerAgreement(context),
