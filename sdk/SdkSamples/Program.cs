@@ -356,7 +356,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new AddSubscriptionAddOn(context),
                 new ConvertTrialSubscription(context),
                 new CancelSaaSSubscription(context),
-                new ToggleSubscriptionAutoRenew(context)
+                new ToggleSubscriptionAutoRenew(context),
+                new ActivateSandboxThirdPartySubscription(context),
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);

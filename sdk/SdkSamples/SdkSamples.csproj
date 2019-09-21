@@ -243,6 +243,7 @@
     <Compile Include="ServiceRequests\GetPartnerServiceRequestDetails.cs" />
     <Compile Include="ServiceRequests\GetServiceRequestSupportTopics.cs" />
     <Compile Include="ServiceRequests\UpdatePartnerServiceRequest.cs" />
+    <Compile Include="Subscriptions\ActivateSandboxThirdPartySubscription.cs" />
     <Compile Include="Subscriptions\CancelSaaSSubscription.cs" />
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
