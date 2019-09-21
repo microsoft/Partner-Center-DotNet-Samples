@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agreements\CreateCustomerAgreement.cs" />
+    <Compile Include="Agreements\GetAgreementDocument.cs" />
     <Compile Include="Agreements\GetAgreementDetails.cs" />
     <Compile Include="Agreements\GetAllCustomersAgreements.cs" />
     <Compile Include="Agreements\GetCustomerAgreements.cs" />

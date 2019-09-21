@@ -7,8 +7,6 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
 {
     using System;
     using System.Linq;
-    using Models;
-    using Models.Agreements;
 
     /// <summary>
     /// Showcases the retrieval of customer agreements.
@@ -28,23 +26,33 @@ namespace Microsoft.Store.PartnerCenter.Samples.Agreements
         /// </summary>
         protected override void RunScenario()
         {
+            var selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get agreement for");
+
+            // "*" retrieves all agreements of the customer.
+            this.GetAgreementsOfCustomer(selectedCustomerId, "*");
+
+            // Retrieve specific types.
+            this.GetAgreementsOfCustomer(selectedCustomerId, "MicrosoftCloudAgreement");
+            this.GetAgreementsOfCustomer(selectedCustomerId, "MicrosoftCustomerAgreement");
+        }
+
+        private void GetAgreementsOfCustomer(string selectedCustomerId, string agreementType)
+        {
             var partnerOperations = this.Context.UserPartnerOperations;
-            string selectedCustomerId = this.ObtainCustomerId("Enter the ID of the customer to get agreement for");
 
-            this.Context.ConsoleHelper.StartProgress("Retrieving agreements of the customer");
+            this.Context.ConsoleHelper.StartProgress(string.Equals(agreementType, "*") ? "Retrieving all agreements of the customer": $"Retrieving agreements of customer of type '{agreementType}'");
 
-            ResourceCollection<Agreement> customerAgreements = partnerOperations.Customers.ById(selectedCustomerId)
-                .Agreements.Get();
+            var customerAgreements = partnerOperations.Customers.ById(selectedCustomerId).Agreements.ByAgreementType(agreementType).Get();
 
             this.Context.ConsoleHelper.StopProgress();
 
             if (!customerAgreements.Items.Any())
             {
-                Console.WriteLine("No agreements found for the given customer.");
+                Console.WriteLine(string.Equals(agreementType, "*") ? "No agreements found for the given customer." : $"No agreements of type '{agreementType}' found for the given customer.");
             }
             else
             {
-                this.Context.ConsoleHelper.WriteObject(customerAgreements, "Customer agreements:");
+                this.Context.ConsoleHelper.WriteObject(customerAgreements, string.Equals(agreementType, "*") ? "Customer agreements:" : $"Customer agreements of type '{agreementType}':");
             }
         }
     }
