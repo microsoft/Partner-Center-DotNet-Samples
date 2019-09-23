@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetSubscriptionResourceUsage.cs" company="Microsoft">
+// <copyright file="GetSubscriptionUsageByMeter.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,15 +7,15 @@
 namespace Microsoft.Store.PartnerCenter.Samples.RatedUsage
 {
     /// <summary>
-    /// A scenario that retrieves a single subscription's resource usage records.
+    /// A scenario that retrieves a single subscription's resource usage records aggregated by meter.
     /// </summary>
-    public class GetSubscriptionResourceUsage : BasePartnerScenario
+    public class GetSubscriptionUsageByMeter : BasePartnerScenario
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetSubscriptionResourceUsage"/> class.
+        /// Initializes a new instance of the <see cref="GetSubscriptionUsageByMeter"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
-        public GetSubscriptionResourceUsage(IScenarioContext context) : base("Get subscription resource usage", context)
+        public GetSubscriptionUsageByMeter(IScenarioContext context) : base("Get subscription resource usage by meter", context)
         {
         }
 
@@ -29,12 +29,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.RatedUsage
             string customerId = this.ObtainCustomerId("Enter the ID of the customer who owns the subscription");
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the subscription ID");
 
-            this.Context.ConsoleHelper.StartProgress("Retrieving customer orders");
+            this.Context.ConsoleHelper.StartProgress("Retrieving customer usage records");
 
-            var usageRecords = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).UsageRecords.Resources.Get();
+            var usageRecords = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).UsageRecords.ByMeter.Get();
 
             this.Context.ConsoleHelper.StopProgress();
-            this.Context.ConsoleHelper.WriteObject(usageRecords, "Subscription resource usage records");
+            this.Context.ConsoleHelper.WriteObject(usageRecords, "Subscription resource usage records by meter");
         }
     }
 }

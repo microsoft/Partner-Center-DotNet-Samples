@@ -370,9 +370,11 @@ namespace Microsoft.Store.PartnerCenter.Samples
         {
             var ratedUsageScenarios = new IPartnerScenario[]
             {
+                new GetCustomersUsageSummary(context),
                 new GetCustomerUsageSummary(context),
                 new GetCustomerSubscriptionsUsage(context),
-                new GetSubscriptionResourceUsage(context),
+                new GetSubscriptionUsageByResource(context),
+                new GetSubscriptionUsageByMeter(context),
                 new GetSubscriptionUsageRecords(context),
                 new GetSubscriptionUsageSummary(context)
             };
