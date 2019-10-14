@@ -45,14 +45,14 @@
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.5.2.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.14.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.14.0\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.15.0-preview\lib\Net45\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.14.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.14.0\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.15.0-preview\lib\Net45\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.14.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.14.0\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.15.0-preview\lib\Net45\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -215,6 +215,9 @@
     <Compile Include="Products\GetSkus.cs" />
     <Compile Include="Products\GetProductsByTargetSegment.cs" />
     <Compile Include="Products\GetProducts.cs" />
+    <Compile Include="ProductUpgrades\CheckEligibility.cs" />
+    <Compile Include="ProductUpgrades\CheckStatus.cs" />
+    <Compile Include="ProductUpgrades\CreateUpgrade.cs" />
     <Compile Include="Profile\GetBillingProfile.cs" />
     <Compile Include="Profile\GetlegalBusinessProfile.cs" />
     <Compile Include="Profile\GetOrganizationProfile.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Subscriptions\ActivateSandboxThirdPartySubscription.cs" />
     <Compile Include="Subscriptions\CancelSaaSSubscription.cs" />
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
+    <Compile Include="Subscriptions\GetAzurePlanSubscriptionEntitlements.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
     <Compile Include="Subscriptions\GetSubscriptionsByOrder.cs" />
