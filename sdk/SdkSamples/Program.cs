@@ -278,12 +278,20 @@ namespace Microsoft.Store.PartnerCenter.Samples
             {
                 new GetProducts(context),
                 new GetProductsByTargetSegment(context),
+                new GetProductsByReservationScope(context),
+                new GetProductsByTargetSegmentByReservationScope(context),
                 new GetProduct(context),
+                new GetProductByReservationScope(context),
                 new GetSkus(context),
+                new GetSkusByReservationScope(context),
                 new GetSkusByTargetSegment(context),
+                new GetSkusByTargetSegmentByReservationScope(context),
                 new GetSku(context),
+                new GetSkuByReservationScope(context),
                 new GetAvailabilities(context),
+                new GetAvailabilitiesByTargetSegmentByReservationScope(context),
                 new GetAvailabilitiesByTargetSegment(context),
+                new GetAvailabilitiesByReservationScope(context),
                 new GetAvailability(context),
                 new CheckInventory(context)
             };
@@ -301,13 +309,21 @@ namespace Microsoft.Store.PartnerCenter.Samples
             var customerProductsScenarios = new IPartnerScenario[]
             {
                 new GetCustomerProducts(context),
+                new GetCustomerProductsByReservationScope(context),
                 new GetCustomerProductsByTargetSegment(context),
+                new GetCustomerProductsByTargetSegmentByReservationScope(context),
                 new GetCustomerProduct(context),
+                new GetCustomerProductByReservationScope(context),
                 new GetCustomerSkus(context),
+                new GetCustomerSkusByReservationScope(context),
                 new GetCustomerSkusByTargetSegment(context),
+                new GetCustomerSkusByTargetSegmentByReservationScope(context),
                 new GetCustomerSku(context),
+                new GetCustomerSkuByReservationScope(context),
                 new GetCustomerAvailabilities(context),
+                new GetCustomerAvailabilitiesByReservationScope(context),
                 new GetCustomerAvailabilitiesByTargetSegment(context),
+                new GetCustomerAvailabilitiesByTargetSegmentByReservationScope(context),
                 new GetCustomerAvailability(context)
             };
 
