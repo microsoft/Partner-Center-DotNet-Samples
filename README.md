@@ -1,6 +1,6 @@
-# Partner Center .NET Samples
+# Partner Center SDK for .NET Samples
 
-This repository contains samples for the Partner Center .NET SDK.
+This repository contains samples for the Partner Center SDK for .NET.
 
 ## Samples List
 
