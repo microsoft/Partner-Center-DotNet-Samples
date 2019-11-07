@@ -26,7 +26,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Offers;
     using Orders;
     using Products;
-    using ProductUpgrades;
     using Profile;
     using RateCards;
     using RatedUsage;
@@ -55,8 +54,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetAgreementsScenarios(context),
                 Program.GetOfferScenarios(context),
                 Program.GetProductScenarios(context),
-                Program.GetProductUpgradeScenarios(context),
-                Program.GetCustomerProductsScenarios(context),                
+                Program.GetCustomerProductsScenarios(context),
                 Program.GetOrderScenarios(context),
                 Program.GetSubscriptionScenarios(context),
                 Program.GetRatedUsageScenarios(context),
@@ -302,23 +300,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
         }
 
         /// <summary>
-        /// Gets the product upgrade scenarios.
-        /// </summary>
-        /// <param name="context">A scenario context.</param>
-        /// <returns>The product upgrade scenarios.</returns>
-        private static IPartnerScenario GetProductUpgradeScenarios(IScenarioContext context)
-        {
-            var productUpgradeScenarios = new IPartnerScenario[]
-            {
-                new CheckEligibility(context),
-                new CreateUpgrade(context),
-                new CheckStatus(context)
-            };
-
-            return new AggregatePartnerScenario("Product upgrade samples", productUpgradeScenarios, context);
-        }
-
-        /// <summary>
         /// Gets the customer products scenarios.
         /// </summary>
         /// <param name="context">A scenario context.</param>
@@ -393,7 +374,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new CancelSaaSSubscription(context),
                 new ToggleSubscriptionAutoRenew(context),
                 new ActivateSandboxThirdPartySubscription(context),
-                new GetAzurePlanSubscriptionEntitlements(context)
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
