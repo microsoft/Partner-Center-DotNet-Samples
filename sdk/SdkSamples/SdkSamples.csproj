@@ -243,7 +243,6 @@
     <Compile Include="RateCards\GetAzureRateCard.cs" />
     <Compile Include="RateCards\GetAzureSharedRateCard.cs" />
     <Compile Include="RatedUsage\GetCustomerSubscriptionsUsage.cs" />
-    <Compile Include="RatedUsage\GetSubscriptionResourceUsage.cs" />
     <Compile Include="RatedUsage\GetCustomerUsageSummary.cs" />
     <Compile Include="ScenarioExecution\PromptExecutionStrategy.cs" />
     <Compile Include="ScenarioExecution\AggregateScenarioExecutionStrategy.cs" />
