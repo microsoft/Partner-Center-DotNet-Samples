@@ -374,7 +374,6 @@ namespace Microsoft.Store.PartnerCenter.Samples
             {
                 new GetCustomerUsageSummary(context),
                 new GetCustomerSubscriptionsUsage(context),
-                new GetSubscriptionResourceUsage(context),
                 new GetSubscriptionUsageRecords(context),
                 new GetSubscriptionUsageSummary(context)
             };
