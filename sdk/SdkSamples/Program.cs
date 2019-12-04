@@ -9,6 +9,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Agreements;
     using Analytics;
     using Carts;
+    using Compliance;
     using Context;
     using CustomerDirectoryRoles;
     using CustomerProducts;
@@ -76,7 +77,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetDevicesScenarios(context),
                 Program.GetCartScenarios(context),
                 Program.GetCartWithAddonItemsScenarios(context),
-                Program.GetEntitlementScenarios(context)
+                Program.GetEntitlementScenarios(context),
+                Program.GetComplianceScenarios(context)
             };
 
             // run the main scenario
@@ -430,7 +432,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
         /// Gets the profile scenarios.
         /// </summary>
         /// <param name="context">A scenario context.</param>
-        /// <returns>The invoice scenarios.</returns>
+        /// <returns>The profile scenarios.</returns>
         private static IPartnerScenario GetProfileScenarios(IScenarioContext context)
         {
             var profileScenarios = new IPartnerScenario[]
@@ -447,6 +449,21 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Partner profile samples", profileScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the compliance scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context.</param>
+        /// <returns>The compliance scenarios.</returns>
+        private static IPartnerScenario GetComplianceScenarios(IScenarioContext context)
+        {
+            var complianceScenarios = new IPartnerScenario[]
+            {
+                new GetAgreementSignatureStatus(context)
+            };
+
+            return new AggregatePartnerScenario("Compliance samples", complianceScenarios, context);
         }
 
         /// <summary>
