@@ -1,11 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetMPNProfile.cs" company="Microsoft">
+// <copyright file="GetAgreementSignatureStatus.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 namespace Microsoft.Store.PartnerCenter.Samples.Compliance
 {
+    /// <summary>
+    /// A scenario that retrieves the partner's Microsoft Partner Agreement signature status
+    /// </summary>
     public class GetAgreementSignatureStatus: BasePartnerScenario
     {
         /// <summary>
