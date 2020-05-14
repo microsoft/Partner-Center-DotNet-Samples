@@ -6,39 +6,31 @@
 
 namespace CSPApplication.Utilities
 {
+    using System;
     using System.Configuration;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Microsoft.Azure.KeyVault;
-    using Microsoft.Azure.KeyVault.Models;
-    using Newtonsoft.Json.Linq;
+    using Azure.Identity;
+    using Azure.Security.KeyVault.Secrets;
 
     /// <summary>
     /// Provider for accessing secrets from the Azure KeyVault
     /// </summary>
     public class KeyVaultProvider
     {
-        private readonly string KeyVaultClientId = ConfigurationManager.AppSettings["ida:KeyVaultClientId"];
-        private readonly string KeyVaultClientSecret = ConfigurationManager.AppSettings["ida:KeyVaultClientSecret"];
-        private readonly string BaseUrl = ConfigurationManager.AppSettings["KeyVaultEndpoint"];
-
-        /// <summary>
-        /// The client used to perform HTTP operations.
-        /// </summary>
-        private static readonly HttpClient httpClient = new HttpClient();
+        private readonly string keyVaultUrl = ConfigurationManager.AppSettings["ida:keyVaultUrl"];
+        private readonly string tenantId = ConfigurationManager.AppSettings["ida:KeyVaultTenantId"];
+        private readonly string clientId = ConfigurationManager.AppSettings["ida:KeyVaultClientId"];
+        private readonly string clientSecret = ConfigurationManager.AppSettings["ida:KeyVaultClientSecret"];
 
         public async Task<string> GetSecretAsync(string key)
         {
-            KeyVaultClient keyVault = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken), httpClient);
+            ClientSecretCredential credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
-            SecretBundle secret = await keyVault.GetSecretAsync(BaseUrl, key.Replace("@", string.Empty).Replace(".", string.Empty));
+            SecretClient client = new SecretClient(new Uri(keyVaultUrl), credential);
+            KeyVaultSecret secret = await client.GetSecretAsync(key);
+
             return secret.Value;
-        }
-
-        private async Task<string> GetToken(string authority, string resource, string scope)
-        {
-            JObject tokenResult = await AuthorizationUtilities.GetADAppToken(authority, resource, KeyVaultClientId, KeyVaultClientSecret);
-            return tokenResult["access_token"].ToString();
         }
     }
 }
