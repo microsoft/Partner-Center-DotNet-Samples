@@ -6,11 +6,11 @@
 
 namespace PartnerConsent.Utilities
 {
+    using Azure.Identity;
+    using Azure.Security.KeyVault.Secrets;
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Azure.Identity;
-    using Azure.Security.KeyVault.Secrets;
 
 
     /// <summary>
@@ -28,12 +28,12 @@ namespace PartnerConsent.Utilities
         /// </summary>
         /// <param name="key">key name</param>
         /// <returns>key value in string format</returns>
-        public async Task<string> GetSecretAsync(string key)
+        public async Task<string> GetSecretAsync(string keyName)
         {
             ClientSecretCredential credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
             SecretClient client = new SecretClient(new Uri(keyVaultUrl), credential);
-            KeyVaultSecret secret = await client.GetSecretAsync(key);
+            KeyVaultSecret secret = await client.GetSecretAsync(keyName);
 
             return secret.Value;
         }
@@ -44,12 +44,12 @@ namespace PartnerConsent.Utilities
         /// <param name="key">key name</param>
         /// <param name="value">secret value</param>
         /// <returns></returns>
-        public async Task AddSecretAsync(string key, string value)
+        public async Task AddSecretAsync(string keyName, string KeyValue)
         {
             ClientSecretCredential credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
             SecretClient client = new SecretClient(new Uri(keyVaultUrl), credential);
-            KeyVaultSecret secret = await client.SetSecretAsync(key, value);
+            KeyVaultSecret secret = await client.SetSecretAsync(keyName, KeyValue);
         }
     }
 }

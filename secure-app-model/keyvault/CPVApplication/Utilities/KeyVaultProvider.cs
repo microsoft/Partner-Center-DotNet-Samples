@@ -6,11 +6,11 @@
 
 namespace CPVApplication.Utilities
 {
+    using Azure.Identity;
+    using Azure.Security.KeyVault.Secrets;
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Azure.Identity;
-    using Azure.Security.KeyVault.Secrets;
 
     /// <summary>
     /// Provider for accessing secrets from the Azure KeyVault
@@ -56,9 +56,9 @@ namespace CPVApplication.Utilities
         /// </summary>
         /// <param name="key">Identifier of the entity to be retrieved.</param>
         /// <returns>The value retrieved from the vault.</returns>
-        public async Task<string> GetSecretAsync(string key)
+        public async Task<string> GetSecretAsync(string keyName)
         {
-            KeyVaultSecret secret = await secretClient.GetSecretAsync(key);
+            KeyVaultSecret secret = await secretClient.GetSecretAsync(keyName);
             return secret.Value;
         }
     }
