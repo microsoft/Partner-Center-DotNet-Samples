@@ -35,7 +35,7 @@ namespace CSPApplication
          * The following code assumes that the context of the partner is pre-determined by some external process.
          */
 
-        private static readonly string AADInstance = ConfigurationManager.AppSettings["AADInstance"];
+        private static readonly string AADInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         private static readonly string CSPApplicationId = ConfigurationManager.AppSettings["ida:CSPApplicationId"];
         private static readonly string CSPApplicationSecret = ConfigurationManager.AppSettings["ida:CSPApplicationSecret"];
 
@@ -48,8 +48,8 @@ namespace CSPApplication
         private static async Task RunAsync()
         {
             // The following properties indicate which partner and customer context the calls are going to be made.
-            string PartnerId = "<Partner tenant id>";
-            string CustomerId = "<Customer tenant id>";
+            string PartnerId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
+            string CustomerId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
             Console.WriteLine(" ===================== Partner Center operations ============================", DateTime.Now);
             IAggregatePartner ops = await GetUserPartnerOperationsAsync(PartnerId);

@@ -17,7 +17,7 @@ namespace CSPApplication.Utilities
     /// </summary>
     public class KeyVaultProvider
     {
-        private readonly string keyVaultUrl = ConfigurationManager.AppSettings["ida:keyVaultUrl"];
+        private readonly string keyVaultUrl = ConfigurationManager.AppSettings["KeyVaultUrl"];
         private readonly string tenantId = ConfigurationManager.AppSettings["ida:KeyVaultTenantId"];
         private readonly string clientId = ConfigurationManager.AppSettings["ida:KeyVaultClientId"];
         private readonly string clientSecret = ConfigurationManager.AppSettings["ida:KeyVaultClientSecret"];
