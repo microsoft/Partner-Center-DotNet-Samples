@@ -241,11 +241,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceIncidents\GetServiceIncidents.cs" />
-    <Compile Include="ServiceRequests\CreatePartnerServiceRequest.cs" />
     <Compile Include="ServiceRequests\GetCustomerServiceRequests.cs" />
     <Compile Include="ServiceRequests\GetPagedPartnerServiceRequests.cs" />
     <Compile Include="ServiceRequests\GetPartnerServiceRequestDetails.cs" />
-    <Compile Include="ServiceRequests\GetServiceRequestSupportTopics.cs" />
     <Compile Include="ServiceRequests\UpdatePartnerServiceRequest.cs" />
     <Compile Include="Subscriptions\ActivateSandboxThirdPartySubscription.cs" />
     <Compile Include="Subscriptions\CancelSaaSSubscription.cs" />
