@@ -316,17 +316,6 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         }
 
         /// <summary>
-        /// Gets the configured support topic ID for creating new service request.
-        /// </summary>
-        public string DefaultSupportTopicId
-        {
-            get
-            {
-                return this.ConfigurationSection["DefaultSupportTopicId"];
-            }
-        }
-
-        /// <summary>
         /// Gets the configured agreement template ID for create new customer agreements.
         /// </summary>
         public string DefaultAgreementTemplateId

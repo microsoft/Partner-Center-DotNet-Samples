@@ -392,11 +392,9 @@ namespace Microsoft.Store.PartnerCenter.Samples
         {
             var serviceRequestsScenarios = new IPartnerScenario[]
             {
-                new CreatePartnerServiceRequest(context),
                 new GetCustomerServiceRequests(context),
                 new GetPagedPartnerServiceRequests(context, context.Configuration.Scenario.ServiceRequestPageSize),
                 new GetPartnerServiceRequestDetails(context),
-                new GetServiceRequestSupportTopics(context),
                 new UpdatePartnerServiceRequest(context)
             };
 

@@ -84,7 +84,6 @@ The following settings can be updated, if left blank information will need to be
 - **DefaultInvoiceId**: The invoice ID to use in invoice scenarios.
 - **PartnerMpnId**: The partner MPN ID to use in indirect partner scenarios.
 - **DefaultServiceRequestId**: The service request ID to use in service request scenarios.
-- **DefaultSupportTopicId**: The support topic ID to use in service request scenarios.
 - **DefaultOfferId**: The offer ID to use in offer scenarios.
 - **DefaultOrderId**: The order ID to use in order scenarios.
 - **DefaultSubscriptionId**: The subscription ID to use in subscription scenarios.
