@@ -35,7 +35,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             {
                 CompanyProfile = new CustomerCompanyProfile()
                 {
-                    Domain = string.Format(CultureInfo.InvariantCulture, "SampleApplication{0}.{1}", new Random().Next(), this.Context.Configuration.Scenario.CustomerDomainSuffix)
+                    Domain = string.Format(CultureInfo.InvariantCulture, "SampleApplication{0}.{1}", new Random().Next(), this.Context.Configuration.Scenario.CustomerDomainSuffix),
+                    //// OrganizationRegistrationNumber = "123456" // Please add if in specific country that requires
                 },
                 BillingProfile = new CustomerBillingProfile()
                 {
@@ -46,6 +47,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
                     DefaultAddress = new Address()
                     {
                         FirstName = "Gena",
+                        MiddleName = "MiddleName",
                         LastName = "Soto",
                         AddressLine1 = "4567 Main Street",
                         City = "Redmond",
@@ -57,14 +59,14 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
                 }
             };
 
-            this.Context.ConsoleHelper.WriteObject(customerToCreate, "New user Information");
-            this.Context.ConsoleHelper.StartProgress("Creating user");
+            this.Context.ConsoleHelper.WriteObject(customerToCreate, "New customer Information");
+            this.Context.ConsoleHelper.StartProgress("Creating customer");
 
             var newCustomer = partnerOperations.Customers.Create(customerToCreate);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.Success("Success!");
-            this.Context.ConsoleHelper.WriteObject(newCustomer, "Created user Information");
+            this.Context.ConsoleHelper.WriteObject(newCustomer, "Created customer Information");
         }
     }
 }
