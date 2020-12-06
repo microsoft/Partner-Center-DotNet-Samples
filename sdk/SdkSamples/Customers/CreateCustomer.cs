@@ -36,7 +36,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
                 CompanyProfile = new CustomerCompanyProfile()
                 {
                     Domain = string.Format(CultureInfo.InvariantCulture, "SampleApplication{0}.{1}", new Random().Next(), this.Context.Configuration.Scenario.CustomerDomainSuffix),
-                    //// OrganizationRegistrationNumber = "123456" // Please add if in specific country that requires
+                    //// OrganizationRegistrationNumber = "123456" // Please add if in specific country that requires.
                 },
                 BillingProfile = new CustomerBillingProfile()
                 {
