@@ -1,28 +1,51 @@
+strategy:
+  matrix:
+    Linux:
+      imageName: 'ubuntu-latest'
+    macOS:
+      imageName: 'macOS-latest'
+    Windows:
+      imageName: 'windows-latest'
+      
 trigger:
 - master
 
 pool:
-  vmImage: 'Windows-2019'
+  vmImage: $(imageName)
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@0
-
-- task: NuGetCommand@2
+- task: CredScan@2
+  displayName: CredScan
   inputs:
-    restoreSolution: '$(solution)'
+    toolMajorVersion: 'V2'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
-- task: VSBuild@1
+- task: PoliCheck@1
+  displayName: PoliCheck
   inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    inputType: 'Basic'
+    targetType: 'F'
+    targetArgument: '$(Build.SourcesDirectory)'
+    result: 'PoliCheck.xml'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: custom
+    custom: msbuild
+    arguments: 'build.proj /t:Build /p:Configuration=$(buildConfiguration)'
+    
+- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0 
+  displayName: 'Component Detection'
+  
+- task: BinSkim@3
+  displayName: BinSkim
+  inputs:
+    InputType: 'Basic'
+    Function: 'analyze'
+    AnalyzeTarget: 'artifacts\$(buildConfiguration)\*.dll;'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
