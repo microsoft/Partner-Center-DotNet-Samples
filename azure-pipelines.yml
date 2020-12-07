@@ -53,5 +53,5 @@ steps:
   inputs:
     InputType: 'Basic'
     Function: 'analyze'
-    AnalyzeTarget: 'artifacts\$(buildConfiguration)\*.dll;'
+    AnalyzeTarget: 'sdk\SdkSamples\bin\$(buildConfiguration)\*.dll;'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
