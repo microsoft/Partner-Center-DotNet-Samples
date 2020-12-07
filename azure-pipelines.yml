@@ -1,9 +1,5 @@
 strategy:
   matrix:
-    Linux:
-      imageName: 'ubuntu-latest'
-    macOS:
-      imageName: 'macOS-latest'
     Windows:
       imageName: 'windows-latest'
       
@@ -14,6 +10,8 @@ pool:
   vmImage: $(imageName)
 
 variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
@@ -32,12 +30,20 @@ steps:
     result: 'PoliCheck.xml'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
-- task: DotNetCoreCLI@2
-  displayName: Build
+- task: NuGetToolInstaller@1
+  displayName: Use NuGet 5.4.0
   inputs:
-    command: custom
-    custom: msbuild
-    arguments: './sdk/SdkSamples.sln /t:Build /p:Configuration=$(buildConfiguration)'
+    versionSpec: 5.4.0
+      
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+    
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
     
 - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0 
   displayName: 'Component Detection'
