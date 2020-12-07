@@ -21,6 +21,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Entitlements;
     using IndirectModel;
     using Invoice;
+    using Microsoft.Store.PartnerCenter.Samples.SelfServePolicies;
     using Models.Auditing;
     using Models.Customers;
     using Models.Query;
@@ -78,7 +79,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetCartScenarios(context),
                 Program.GetCartWithAddonItemsScenarios(context),
                 Program.GetEntitlementScenarios(context),
-                Program.GetComplianceScenarios(context)
+                Program.GetComplianceScenarios(context),
+                Program.GetSelfServePoliciesScenarios(context)
             };
 
             // run the main scenario
@@ -447,6 +449,23 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Partner profile samples", profileScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the self serve policies scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context.</param>
+        /// <returns>The self serve policyes scenarios.</returns>
+        private static IPartnerScenario GetSelfServePoliciesScenarios(IScenarioContext context)
+        {
+            var profileScenarios = new IPartnerScenario[]
+            {
+                new GetSelfServePolicies(context),
+                new CreateSelfServePolicies(context),
+                new DeleteSelfServePolicies(context)
+            };
+
+            return new AggregatePartnerScenario("Self Serve Policies samples", profileScenarios, context);
         }
 
         /// <summary>

@@ -8,7 +8,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -89,7 +91,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
                                 return;
                             }
                         }
-                        
+
                         // Erase dots.
                         Console.SetCursorPosition(initialCursorPositionX, initialCursorPositionY);
                         for (int i = 0; i < dotCounter; ++i)
@@ -244,7 +246,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Helpers
 
                 foreach (PropertyInfo property in properties)
                 {
-                    this.WriteObject(property.GetValue(@object), property.Name, indent + 1);
+                    if (property.PropertyType.IsArray)
+                    {
+                        IEnumerable<object> objectList = (IEnumerable<object>)property.GetValue(@object);
+                        foreach (object obj in objectList)
+                        {
+                            this.WriteObject(obj, property.Name, indent + 1);
+                        }
+
+                    }
+                    else
+                    {
+                        this.WriteObject(property.GetValue(@object), property.Name, indent + 1);
+                    }
                 }
 
                 if (indent == 0 && !string.IsNullOrWhiteSpace(title))
