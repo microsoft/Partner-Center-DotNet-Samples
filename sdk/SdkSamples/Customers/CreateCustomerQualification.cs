@@ -32,7 +32,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             var partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Creating customer qualification");
 
-            var customerQualification = new V2.CustomerQualification { Qualification = "education" };
+            var customerQualification = new Models.Customers.V2.CustomerQualification { Qualification = "education" };
 
             var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualification);
 

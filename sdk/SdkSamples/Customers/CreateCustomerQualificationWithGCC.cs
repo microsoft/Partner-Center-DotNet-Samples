@@ -7,6 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Customers
 {
     using Microsoft.Store.PartnerCenter.Models.Customers;
+    using Microsoft.Store.PartnerCenter.Models.ValidationCodes;
 
     /// <summary>
     /// Creates a GCC qualification for a customer.
@@ -58,7 +59,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
 
             this.Context.ConsoleHelper.StartProgress("Creating customer qualification with GCC");
 
-            var customerQualification = new V2.CustomerQualification { Qualification = "GovernmentCommunityCloud" };
+            var customerQualification = new Models.Customers.V2.CustomerQualification { Qualification = "GovernmentCommunityCloud" };
 
             var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualification, code);
 
