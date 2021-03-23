@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CreateCustomerQualification.cs" company="Microsoft">
+// <copyright file="CreateCustomerQualificationWithGCC.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -23,7 +23,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         }
 
         /// <summary>
-        /// Executes the create customer qualification scenario.
+        /// Executes the create customer qualification with GCC scenario.
         /// </summary>
         protected override void RunScenario()
         {
