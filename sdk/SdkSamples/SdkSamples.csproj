@@ -45,14 +45,14 @@
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.5.2.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.16.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.16.3\lib\netstandard2.0\Microsoft.Store.PartnerCenter.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.17.0\lib\netstandard2.0\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.16.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.16.3\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.17.0\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.16.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.16.3\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.1.17.0\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -94,6 +94,7 @@
     <Compile Include="Agreements\GetAgreementDetails.cs" />
     <Compile Include="Agreements\GetAllCustomersAgreements.cs" />
     <Compile Include="Agreements\GetCustomerAgreements.cs" />
+    <Compile Include="Agreements\GetDirectSignedCustomerAgreementStatus.cs" />
     <Compile Include="Agreements\ImportCustomersAgreement.cs" />
     <Compile Include="Analytics\GetPartnerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetPartnerLicensesUsageAnalytics.cs" />
@@ -132,8 +133,11 @@
     <Compile Include="CustomerSubscribedSkus\GetCustomerSubscribedSkus.cs" />
     <Compile Include="Analytics\GetCustomerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetCustomerLicensesUsageAnalytics.cs" />
+    <Compile Include="Customers\CreateCustomerQualification.cs" />
+    <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
     <Compile Include="Customers\GetCustomerQualification.cs" />
+    <Compile Include="Customers\GetCustomerQualifications.cs" />
     <Compile Include="Customers\UpdateCustomerQualification.cs" />
     <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
     <Compile Include="Customers\GetCustomerManagedServices.cs" />
