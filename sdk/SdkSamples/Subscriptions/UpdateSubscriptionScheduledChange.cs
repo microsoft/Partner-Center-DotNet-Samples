@@ -12,7 +12,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
     using System.Linq;
 
     /// <summary>
-    /// A scenario that upgrades a customer subscription to a higher skew.
+    /// A scenario that updates a customer subscription scheduled change.
     /// </summary>
     public class UpdateSubscriptionScheduledChange : BasePartnerScenario
     {
@@ -87,7 +87,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                     string quantity = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the scheduled change quantity", "Scheduled change term quantity can't be empty");
                     var changeToQuantity = int.Parse(quantity);
 
-                    this.Context.ConsoleHelper.StartProgress("Updating subscription");
+                    this.Context.ConsoleHelper.StartProgress("Updating subscription scheduled change");
                     selectedSubscription.ScheduledNextTermInstructions = new ScheduledNextTermInstructions
                     {
                         Product = new ProductTerm
@@ -103,7 +103,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 
                     var updatedSubscription = subscriptionOperations.Patch(selectedSubscription);
                     this.Context.ConsoleHelper.StopProgress();
-                    this.Context.ConsoleHelper.WriteObject(updatedSubscription, "Updated subscription");
+                    this.Context.ConsoleHelper.WriteObject(updatedSubscription, "Updated subscription scheduled change");
                 }
             }
         }
