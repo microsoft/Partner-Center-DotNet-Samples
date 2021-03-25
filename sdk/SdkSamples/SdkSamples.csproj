@@ -94,6 +94,7 @@
     <Compile Include="Agreements\GetAgreementDetails.cs" />
     <Compile Include="Agreements\GetAllCustomersAgreements.cs" />
     <Compile Include="Agreements\GetCustomerAgreements.cs" />
+    <Compile Include="Agreements\GetDirectSignedCustomerAgreementStatus.cs" />
     <Compile Include="Agreements\ImportCustomersAgreement.cs" />
     <Compile Include="Analytics\GetPartnerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetPartnerLicensesUsageAnalytics.cs" />
@@ -132,8 +133,11 @@
     <Compile Include="CustomerSubscribedSkus\GetCustomerSubscribedSkus.cs" />
     <Compile Include="Analytics\GetCustomerLicensesDeploymentAnalytics.cs" />
     <Compile Include="Analytics\GetCustomerLicensesUsageAnalytics.cs" />
+    <Compile Include="Customers\CreateCustomerQualification.cs" />
+    <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
     <Compile Include="Customers\GetCustomerQualification.cs" />
+    <Compile Include="Customers\GetCustomerQualifications.cs" />
     <Compile Include="Customers\UpdateCustomerQualification.cs" />
     <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
     <Compile Include="Customers\GetCustomerManagedServices.cs" />
@@ -253,6 +257,7 @@
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionTransitions.cs" />
     <Compile Include="Subscriptions\GetSubscriptionsByOrder.cs" />
     <Compile Include="Subscriptions\GetSubscriptions.cs" />
     <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
@@ -260,6 +265,7 @@
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\TransitionSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionScheduledChange.cs" />
     <Compile Include="Subscriptions\UpgradeSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscription.cs" />
