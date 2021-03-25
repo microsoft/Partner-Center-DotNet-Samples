@@ -159,6 +159,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerAgreements(context),
                 new GetAllCustomersAgreements(context),
                 new CreateCustomerAgreement(context),
+                new GetDirectSignedCustomerAgreementStatus(context),
                 new ImportCustomersAgreement(context)
             };
 
@@ -238,8 +239,11 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new AggregatePartnerScenario("Customer filtering", customerFilteringScenarios, context),
                 new GetCustomerDetails(context),
                 new GetCustomerQualification(context),
+                new GetCustomerQualifications(context),
                 new UpdateCustomerQualification(context),
                 new UpdateCustomerQualificationWithGCC(context),
+                new CreateCustomerQualification(context),
+                new CreateCustomerQualificationWithGCC(context),
                 new DeleteCustomerFromTipAccount(context),
                 new GetCustomerManagedServices(context),
                 new GetCustomerRelationshipRequest(context),
