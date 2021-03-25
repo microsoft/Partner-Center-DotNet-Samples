@@ -363,6 +363,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new UpgradeSubscription(context),
                 new AddSubscriptionAddOn(context),
                 new ConvertTrialSubscription(context),
+                new UpdateSubscriptionScheduledChange(context),
                 new CancelSaaSSubscription(context),
                 new ToggleSubscriptionAutoRenew(context),
                 new ActivateSandboxThirdPartySubscription(context),
