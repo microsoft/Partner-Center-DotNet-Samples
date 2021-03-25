@@ -17,7 +17,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
     public class UpdateSubscriptionScheduledChange : BasePartnerScenario
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpgradeSubscription"/> class.
+        /// Initializes a new instance of the <see cref="UpdateSubscriptionScheduledChange"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
         public UpdateSubscriptionScheduledChange(IScenarioContext context) : base("Update customer subscription scheduled change", context)
