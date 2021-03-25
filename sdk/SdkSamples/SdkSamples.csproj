@@ -257,6 +257,7 @@
     <Compile Include="Subscriptions\ConvertTrialSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscription.cs" />
     <Compile Include="Subscriptions\GetSubscriptionProvisioningStatus.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionTransitions.cs" />
     <Compile Include="Subscriptions\GetSubscriptionsByOrder.cs" />
     <Compile Include="Subscriptions\GetSubscriptions.cs" />
     <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\TransitionSubscription.cs" />
     <Compile Include="Subscriptions\UpgradeSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscription.cs" />
     <Compile Include="Subscriptions\AddSubscriptionAddOn.cs" />
