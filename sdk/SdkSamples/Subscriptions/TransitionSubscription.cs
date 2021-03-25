@@ -10,7 +10,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
     using System.Linq;
 
     /// <summary>
-    /// A scenario that upgrades a customer subscription to a higher skew.
+    /// A scenario that transitions a customer subscription to a higher skew.
     /// </summary>
     public class TransitionSubscription : BasePartnerScenario
     {

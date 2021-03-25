@@ -7,7 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
     /// <summary>
-    /// A scenario that retrieves a customer subscription.
+    /// A scenario that retrieves a customer subscription transitions.
     /// </summary>
     public class GetSubscriptionTransitions : BasePartnerScenario
     {
@@ -29,11 +29,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to find transtions for");
             var subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
 
-            this.Context.ConsoleHelper.StartProgress("Retrieving customer subscription Transitions");
+            this.Context.ConsoleHelper.StartProgress("Retrieving customer subscription transitions");
             var transitions = subscriptionOperations.Transitions.Get();
             this.Context.ConsoleHelper.StopProgress();
 
-            this.Context.ConsoleHelper.WriteObject(transitions, "Customer Subscription Transitions");
+            this.Context.ConsoleHelper.WriteObject(transitions, "Customer subscription transitions");
         }
     }
 }
