@@ -7,6 +7,8 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Validations
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text;
     using Models;
 
     /// <summary>
@@ -41,32 +43,30 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
             };
 
             this.Context.ConsoleHelper.StartProgress("Validating address");
+            var addressValidationResult = partnerOperations.Validations.IsAddressValid(address);
+            this.Context.ConsoleHelper.StopProgress();
 
-            try
+            Console.WriteLine($"Status: {addressValidationResult.Status}");
+            Console.WriteLine($"Original Address:\n{this.DisplayAddress(addressValidationResult.OriginalAddress)}");
+            Console.WriteLine($"Validation Message Returned: {addressValidationResult.ValidationMessage ?? "No message returned."}");
+            Console.WriteLine($"Suggested Addresses Returned: {addressValidationResult.SuggestedAddresses?.Count ?? "None."}");
+
+            if (addressValidationResult.SuggestedAddresses != null && addressValidationResult.SuggestedAddresses.Any())
             {
-                // Validate the address
-                var validationResult = partnerOperations.Validations.IsAddressValidAsync(address).Result;
-                this.Context.ConsoleHelper.StopProgress();
-                Console.WriteLine(validationResult ? "The address is valid." : "Invalid address");
+                addressValidationResult.SuggestedAddresses.ForEach(a => Console.WriteLine(this.DisplayAddress(a)));
             }
-            catch (Exception exception)
+        }
+
+        private string DisplayAddress(Address address)
+        {
+            StringBuilder sb = new StringBuilder();
+            
+            foreach (var property in address.GetType().GetProperties())
             {
-                this.Context.ConsoleHelper.StopProgress();
-                Console.WriteLine("Address is invalid");
-                var innerException = exception.InnerException;
-                if (innerException != null)
-                {
-                    while (innerException != null)
-                    {
-                        this.Context.ConsoleHelper.WriteObject(innerException.Message);
-                        innerException = innerException.InnerException;
-                    }
-                }
-                else if (!string.IsNullOrWhiteSpace(exception.Message))
-                {
-                    this.Context.ConsoleHelper.WriteObject(exception.Message);
-                }
+                sb.AppendLine($"{property.Name}: {property.GetValue(address) ?? "None to Display."}");
             }
+
+            return sb.ToString();
         }
     }
 }
