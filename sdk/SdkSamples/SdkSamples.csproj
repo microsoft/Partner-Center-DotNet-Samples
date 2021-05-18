@@ -136,9 +136,7 @@
     <Compile Include="Customers\CreateCustomerQualification.cs" />
     <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
-    <Compile Include="Customers\GetCustomerQualification.cs" />
     <Compile Include="Customers\GetCustomerQualifications.cs" />
-    <Compile Include="Customers\UpdateCustomerQualification.cs" />
     <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
     <Compile Include="Customers\GetCustomerManagedServices.cs" />
     <Compile Include="Customers\FilterCustomers.cs" />
@@ -148,7 +146,6 @@
     <Compile Include="Customers\GetCustomerDetails.cs" />
     <Compile Include="Customers\CheckDomainAvailability.cs" />
     <Compile Include="Customers\CreateCustomer.cs" />
-    <Compile Include="Customers\UpdateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\ValidateCustomerAddress.cs" />
     <Compile Include="CustomerUser\CreateCustomerUser.cs" />
     <Compile Include="CustomerUser\CustomerUserAssignedGroup1AndGroup2Licenses.cs" />
