@@ -8,6 +8,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using Models;
 
@@ -49,7 +50,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Validations
             Console.WriteLine($"Status: {addressValidationResult.Status}");
             Console.WriteLine($"Original Address:\n{this.DisplayAddress(addressValidationResult.OriginalAddress)}");
             Console.WriteLine($"Validation Message Returned: {addressValidationResult.ValidationMessage ?? "No message returned."}");
-            Console.WriteLine($"Suggested Addresses Returned: {addressValidationResult.SuggestedAddresses?.Count ?? "None."}");
+            Console.WriteLine($"Suggested Addresses Returned: {addressValidationResult.SuggestedAddresses?.Count}");
 
             if (addressValidationResult.SuggestedAddresses != null && addressValidationResult.SuggestedAddresses.Any())
             {
