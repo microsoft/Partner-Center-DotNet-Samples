@@ -33,11 +33,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             this.Context.ConsoleHelper.StartProgress("Creating customer qualification");
 
             /* This variable can be set to any allowed qualification, for example:
-             * (1) "education"
+             * (1) "Education"
              * (2) "GovernmentCommunityCloud" <- this has to be paired with a ValidationCode, see sample in "CreateCustomerQualificationWithGCC.cs"
              * (3) "StateOwnedEntity"
              */ 
-            var qualificationToCreate = "education";
+            var qualificationToCreate = "Education";
             
             var customerQualification = new Models.Customers.V2.CustomerQualification { Qualification = qualificationToCreate };
 
