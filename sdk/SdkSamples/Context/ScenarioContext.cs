@@ -7,11 +7,12 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Context
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Configuration;
     using Extensions;
     using Helpers;
-    using IdentityModel.Clients.ActiveDirectory;
+    using Identity.Client;
 
     /// <summary>
     /// Scenario context implementation class.
@@ -91,7 +92,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
                 {
                     this.ConsoleHelper.StartProgress("Authenticating user");
 
-                    AuthenticationResult aadAuthenticationResult = this.LoginUserToAad();
+                    AuthenticationResult aadAuthenticationResult = Task.Run(() => this.LoginUserToAad()).Result;
 
                     // Authenticate by user context with the partner service
                     IPartnerCredentials userCredentials = PartnerCredentials.Instance.GenerateByUserCredentials(
@@ -103,7 +104,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
                         {
                             // token has expired, re-Login to Azure Active Directory
                             this.ConsoleHelper.StartProgress("Token expired. Re-authenticating user");
-                            AuthenticationResult aadToken = this.LoginUserToAad();
+                            AuthenticationResult aadToken = Task.Run(() => this.LoginUserToAad()).Result;
                             this.ConsoleHelper.StopProgress();
 
                             // give the partner SDK the new add token information
@@ -124,21 +125,47 @@ namespace Microsoft.Store.PartnerCenter.Samples.Context
         /// Logs in to AAD as a user and obtains the user authentication token.
         /// </summary>
         /// <returns>The user authentication result.</returns>
-        private AuthenticationResult LoginUserToAad()
+        private async Task<AuthenticationResult> LoginUserToAad()
         {
-            UriBuilder addAuthority = new UriBuilder(this.Configuration.PartnerService.AuthenticationAuthorityEndpoint)
+            var tenantDomain = string.IsNullOrWhiteSpace(Configuration.UserAuthentication.Domain) ? this.Configuration.PartnerService.CommonDomain : this.Configuration.UserAuthentication.Domain;
+
+            var scopes = new string[] { $"{Configuration.UserAuthentication.ResourceUrl.OriginalString}/.default" };
+            AuthenticationResult result = null;
+
+            var app = PublicClientApplicationBuilder.Create(Configuration.UserAuthentication.ApplicationId)
+                .WithAuthority(this.Configuration.PartnerService.AuthenticationAuthorityEndpoint.OriginalString, tenantDomain, true)
+                .WithRedirectUri(this.Configuration.UserAuthentication.RedirectUrl.OriginalString)
+                .Build();
+
+            var accounts = await app.GetAccountsAsync();
+
+            try
             {
-                Path = this.Configuration.PartnerService.CommonDomain
-            };
+                result = await app.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                       .ExecuteAsync();
+            }
+            catch (MsalUiRequiredException ex)
+            {
+                // A MsalUiRequiredException happened on AcquireTokenSilent.
+                // This indicates you need to call AcquireTokenInteractive to acquire a token
+                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
 
-            AuthenticationContext authContext = new AuthenticationContext(addAuthority.Uri.AbsoluteUri);
+                try
+                {
+                    result = await app.AcquireTokenInteractive(scopes)
+                          .ExecuteAsync();
+                }
+                catch (MsalException msalex)
+                {
+                    throw msalex;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            return Task.Run(() => authContext.AcquireTokenAsync(
-                Configuration.UserAuthentication.ResourceUrl.OriginalString,
-                Configuration.UserAuthentication.ApplicationId,
-                redirectUri,
-                new PlatformParameters(PromptBehavior.Always),
-                UserIdentifier.AnyUser)).Result;
+            return result;
         }
     }
 }
