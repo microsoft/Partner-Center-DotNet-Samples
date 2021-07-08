@@ -37,8 +37,11 @@ Perform the following task to correctly configure the Azure AD application for u
 4. Sign in to the [Azure management portal](https://portal.azure.com) using the same credentials from step 1.
 5. Click on the _Azure Active Directory_ icon in the toolbar.
 6. Click _App registrations_ -> Select _All apps_ from the drop down -> Click on the application created in step 3.
-7. Click _Settings_ and then click _Redirect URIs_
-8. Add **urn:ietf:wg:oauth:2.0:oob** as one of the available Redirect URIs. Be sure to click the _Save_ button to ensure the changes are saved.  
+7. Click _Authentication_ from left menu blade and then click _Add Platform_
+8. In the Right popup blade, Click on _Mobile and Desktop Applications_
+8. Select **https://login.microsoftonline.com/common/oauth2/nativeclient** as one of the available Redirect URIs ( You need to add a custom redirectUri too. Add **http://localhost** but we will be using the one added earlier ).
+9. Click _Configure_. Your set of redirect Uris will be added under Platform **Mobile and Desktop Applications**.
+10. Be sure to click the _Save_ button to ensure the changes are saved.  
 
 ## What to Change
 
@@ -65,6 +68,7 @@ The following settings must be modified, so that each scenario functions as exce
 The following settings must be updated, so that each scenario functions as expected
 
 - **ApplicationId**: Your Azure Active Directory application identifier, used for authentication
+- **Domain**: The Azure Active Directory domain where the Azure AD application was created
 
 Do not change the following configurations
 
