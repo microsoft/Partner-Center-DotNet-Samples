@@ -33,6 +33,17 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         }
 
         /// <summary>
+        /// Gets AAD Domain which hosts the application.
+        /// </summary>
+        public string Domain
+        {
+            get
+            {
+                return this.ConfigurationSection["Domain"];
+            }
+        }
+
+        /// <summary>
         /// Gets the resource the application is attempting to access, i.e. the partner API service.
         /// </summary>
         public Uri ResourceUrl

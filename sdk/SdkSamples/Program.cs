@@ -159,6 +159,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerAgreements(context),
                 new GetAllCustomersAgreements(context),
                 new CreateCustomerAgreement(context),
+                new GetDirectSignedCustomerAgreementStatus(context),
                 new ImportCustomersAgreement(context)
             };
 
@@ -237,9 +238,9 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetPagedCustomers(context, context.Configuration.Scenario.CustomerPageSize),
                 new AggregatePartnerScenario("Customer filtering", customerFilteringScenarios, context),
                 new GetCustomerDetails(context),
-                new GetCustomerQualification(context),
-                new UpdateCustomerQualification(context),
-                new UpdateCustomerQualificationWithGCC(context),
+                new GetCustomerQualifications(context),
+                new CreateCustomerQualification(context),
+                new CreateCustomerQualificationWithGCC(context),
                 new DeleteCustomerFromTipAccount(context),
                 new GetCustomerManagedServices(context),
                 new GetCustomerRelationshipRequest(context),
@@ -359,9 +360,12 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new UpgradeSubscription(context),
                 new AddSubscriptionAddOn(context),
                 new ConvertTrialSubscription(context),
+                new UpdateSubscriptionScheduledChange(context),
                 new CancelSaaSSubscription(context),
                 new ToggleSubscriptionAutoRenew(context),
                 new ActivateSandboxThirdPartySubscription(context),
+                new TransitionSubscription(context),
+                new GetSubscriptionTransitions(context),
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
