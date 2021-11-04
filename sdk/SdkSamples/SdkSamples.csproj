@@ -137,6 +137,7 @@
     <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
     <Compile Include="Customers\GetCustomerQualifications.cs" />
+    <Compile Include="Customers\GetValidationStatus.cs" />
     <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
     <Compile Include="Customers\GetCustomerManagedServices.cs" />
     <Compile Include="Customers\FilterCustomers.cs" />
