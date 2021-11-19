@@ -36,6 +36,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Subscriptions;
     using Utilization;
     using Validations;
+    using ValidationStatus;
 
     /// <summary>
     /// The main program class for the partner center .NET SDK samples.
@@ -241,6 +242,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerQualifications(context),
                 new CreateCustomerQualification(context),
                 new CreateCustomerQualificationWithGCC(context),
+                new GetValidationStatus(context),
                 new DeleteCustomerFromTipAccount(context),
                 new GetCustomerManagedServices(context),
                 new GetCustomerRelationshipRequest(context),

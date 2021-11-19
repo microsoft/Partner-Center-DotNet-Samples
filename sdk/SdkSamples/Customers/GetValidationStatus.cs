@@ -3,8 +3,11 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+
 namespace Microsoft.Store.PartnerCenter.Samples.Customers
 {
+    using Microsoft.Store.PartnerCenter.Models.ValidationStatus.Enums;
+
     /// <summary>
     /// A scenario that showcases retrieving a customer's validation status.
     /// </summary>
@@ -27,6 +30,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
 
             var partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress($"Retrieving customer's validation status for type: {ValidationType.Account}");
+
+            var validationTypeToFetch = ValidationType.Account;
 
             var customerValidationStatus = partnerOperations.Customers.ById(customerIdToRetrieve).ValidationStatus.GetValidationStatus(validationTypeToFetch);
 
