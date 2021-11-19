@@ -215,6 +215,8 @@
     <Compile Include="Products\GetAvailabilities.cs" />
     <Compile Include="Products\GetAvailability.cs" />
     <Compile Include="Products\CheckInventory.cs" />
+    <Compile Include="Products\GetProductPromotion.cs" />
+    <Compile Include="Products\GetProductPromotions.cs" />
     <Compile Include="Products\GetSku.cs" />
     <Compile Include="Products\GetProduct.cs" />
     <Compile Include="Products\GetSkusByTargetSegment.cs" />

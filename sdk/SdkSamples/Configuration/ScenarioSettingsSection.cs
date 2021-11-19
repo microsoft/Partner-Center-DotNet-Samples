@@ -250,6 +250,17 @@ namespace Microsoft.Store.PartnerCenter.Samples.Configuration
         }
 
         /// <summary>
+        /// Gets the configured product promotion ID.
+        /// </summary>
+        public string DefaultProductPromotionId
+        {
+            get
+            {
+                return this.ConfigurationSection["DefaultProductPromotionId"];
+            }
+        }
+
+        /// <summary>
         /// Gets the configured SKU ID.
         /// </summary>
         public string DefaultSkuId
