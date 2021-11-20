@@ -59,15 +59,41 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                 }
                 else
                 {
-                    // the selected transition is eligible, go ahead and perform the transition
-                    this.Context.ConsoleHelper.StartProgress("Transtioning subscription");
-
                     var targetTransition = new Transition()
                     {
                         ToCatalogItemId = selectedEligibility.CatalogItemId,
-                        Quantity = selectedEligibility.Quantity,
                         TransitionType = selectedEligibility.Eligibilities.FirstOrDefault(detail => detail.IsEligible == true).TransitionType
                     };
+
+                    string targetQuantity = this.Context.ConsoleHelper.ReadOptionalString("Enter a quantity to transition or leave blank to transition all existing seats");
+
+                    targetTransition.Quantity = !string.IsNullOrWhiteSpace(targetQuantity) ? int.Parse(targetQuantity) : selectedEligibility.Quantity;
+
+                    string updateToSubscriptionsId = this.Context.ConsoleHelper.ReadOptionalString("Would you like to transition into an existing subscription? [y/n]");
+
+                    if (string.Equals(updateToSubscriptionsId, "y", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        targetTransition.ToSubscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to set as target subscription for the transition (Must match same catalogItemId)");
+                    }
+                    else
+                    {
+                        string targetTermDuration = this.Context.ConsoleHelper.ReadOptionalString("Enter a new term duration to apply during the transition, leave blank to keep the same [example: P1Y, P1M]");
+
+                        if (!string.IsNullOrWhiteSpace(targetTermDuration))
+                        {
+                            targetTransition.TermDuration = targetTermDuration;
+
+                            string targetBillingCycle = this.Context.ConsoleHelper.ReadOptionalString("Enter a new billing cycle to apply during the transition, leave blank to keep the same [example: Annual or Monthly]");
+
+                            if (!string.IsNullOrWhiteSpace(targetBillingCycle))
+                            {
+                                targetTransition.BillingCycle = targetBillingCycle;
+                            }
+                        }
+                    }
+
+                    // the selected transition is eligible, go ahead and perform the transition
+                    this.Context.ConsoleHelper.StartProgress("Transtioning subscription");
 
                     var transitionResult = subscriptionOperations.Transitions.Create(targetTransition);
                     this.Context.ConsoleHelper.StopProgress();
