@@ -366,6 +366,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new ActivateSandboxThirdPartySubscription(context),
                 new TransitionSubscription(context),
                 new GetSubscriptionTransitions(context),
+                new UpdateOverage(context),
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
