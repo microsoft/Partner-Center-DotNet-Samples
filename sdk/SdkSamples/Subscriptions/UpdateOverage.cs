@@ -95,7 +95,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 
             var newPhoneOverage = newOverage.Items.FirstOrDefault(o => o.Type == "PhoneServices");
 
-            if (!string.Equals(updatedOverage.AzureEntitlementId, newPhoneOverage.AzureEntitlementId))
+            if (!string.Equals(updatedOverage.AzureEntitlementId, newPhoneOverage?.AzureEntitlementId))
             {
                 this.Context.ConsoleHelper.WriteColored("The Overage update process hasn't completed yet.", ConsoleColor.Yellow);
             }
