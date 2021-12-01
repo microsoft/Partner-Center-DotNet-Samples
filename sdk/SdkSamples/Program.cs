@@ -283,6 +283,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
         {
             var productScenarios = new IPartnerScenario[]
             {
+                new GetProductPromotions(context),
+                new GetProductPromotion(context),
                 new GetProducts(context),
                 new GetProductsByTargetSegment(context),
                 new GetProduct(context),
