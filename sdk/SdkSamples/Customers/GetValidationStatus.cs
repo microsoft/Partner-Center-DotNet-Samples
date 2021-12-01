@@ -26,7 +26,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
         /// </summary>
         protected override void RunScenario()
         {
-            string customerIdToRetrieve = this.ObtainCustomerId("Enter the ID of the customer to retrieve the validation status for:");
+            string customerIdToRetrieve = this.ObtainCustomerId("Enter the customer ID to retrieve the validation status for:");
 
             var partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress($"Retrieving customer's validation status for type: {ValidationType.Account}");
