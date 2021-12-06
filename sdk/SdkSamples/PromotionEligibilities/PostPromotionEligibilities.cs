@@ -17,7 +17,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.PromotionEligibilities
     public class PostPromotionEligibilities : BasePartnerScenario
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckoutCart"/> class.
+        /// Initializes a new instance of the <see cref="PostPromotionEligibilities"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
         public PostPromotionEligibilities(IScenarioContext context) : base("Post promotion eligibilities", context)
