@@ -29,6 +29,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Orders;
     using Products;
     using Profile;
+    using PromotionEligibilities;
     using RateCards;
     using RatedUsage;
     using ServiceIncidents;
@@ -80,7 +81,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetCartWithAddonItemsScenarios(context),
                 Program.GetEntitlementScenarios(context),
                 Program.GetComplianceScenarios(context),
-                Program.GetSelfServePoliciesScenarios(context)
+                Program.GetSelfServePoliciesScenarios(context),
+                Program.PostPromotionEligibilitiesScenarios(context)
             };
 
             // run the main scenario
@@ -647,6 +649,21 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Cart With Addon Items Scenarios", cartScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the post promotion eligibilities scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context</param>
+        /// <returns>The post promotion eligibilities scenarios.</returns>
+        private static IPartnerScenario PostPromotionEligibilitiesScenarios(IScenarioContext context)
+        {
+            var postPromotionEligibilitiesScenarios = new IPartnerScenario[]
+            {
+                new PostPromotionEligibilities(context)
+            };
+
+            return new AggregatePartnerScenario("Post Promotion Eligibilities Scenarios", postPromotionEligibilitiesScenarios, context);
         }
     }
 }
