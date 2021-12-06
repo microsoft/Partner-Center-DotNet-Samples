@@ -264,6 +264,7 @@
     <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
+    <Compile Include="Subscriptions\UpdateOverage.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\TransitionSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionScheduledChange.cs" />
