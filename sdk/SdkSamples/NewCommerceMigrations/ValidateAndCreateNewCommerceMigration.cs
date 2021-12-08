@@ -4,10 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Microsoft.Store.PartnerCenter.Models.NewCommerceMigrations;
-
 namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 {
+    using Microsoft.Store.PartnerCenter.Models.NewCommerceMigrations;
+
     /// <summary>
     /// A scenario that validates a New-Commerce migration and then creates it.
     /// </summary>
