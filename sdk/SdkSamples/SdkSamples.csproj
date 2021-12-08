@@ -198,6 +198,7 @@
     <Compile Include="Invoice\GetPagedInvoices.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForClosePeriodPaging.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForOpenPeriodPaging.cs" />
+    <Compile Include="NewCommerceMigrations\ValidateAndCreateNewCommerceMigration.cs" />
     <Compile Include="Offers\GetCustomerOfferCategories.cs" />
     <Compile Include="Offers\GetCustomerOffers.cs" />
     <Compile Include="Offers\GetOffer.cs" />
