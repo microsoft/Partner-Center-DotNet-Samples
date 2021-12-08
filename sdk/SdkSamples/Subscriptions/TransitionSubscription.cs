@@ -6,8 +6,8 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
-    using Microsoft.Store.PartnerCenter.Models.Subscriptions;
     using System.Linq;
+    using Microsoft.Store.PartnerCenter.Models.Subscriptions;
 
     /// <summary>
     /// A scenario that transitions a customer subscription to a higher sku.

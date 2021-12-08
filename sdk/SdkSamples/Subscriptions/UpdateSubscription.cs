@@ -4,11 +4,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Microsoft.Store.PartnerCenter.Models.Offers;
-using System;
-
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
+    using System;
+    using Microsoft.Store.PartnerCenter.Models.Offers;
+
     /// <summary>
     /// A scenario that updates an existing customer subscription.
     /// </summary>
