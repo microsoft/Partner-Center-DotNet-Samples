@@ -25,6 +25,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Models.Auditing;
     using Models.Customers;
     using Models.Query;
+    using NewCommerceMigrations;
     using Offers;
     using Orders;
     using Products;
@@ -83,7 +84,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetEntitlementScenarios(context),
                 Program.GetComplianceScenarios(context),
                 Program.GetSelfServePoliciesScenarios(context),
-                Program.PostPromotionEligibilitiesScenarios(context)
+                Program.PostPromotionEligibilitiesScenarios(context),
+                Program.GetNewCommerceMigrationScenarios(context)
             };
 
             // run the main scenario
@@ -669,6 +671,21 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Post Promotion Eligibilities Scenarios", postPromotionEligibilitiesScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the New-Commerce migration scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context.</param>
+        /// <returns>The New-Commerce migration scenarios.</returns>
+        private static IPartnerScenario GetNewCommerceMigrationScenarios(IScenarioContext context)
+        {
+            var profileScenarios = new IPartnerScenario[]
+            {
+                new ValidateAndCreateNewCommerceMigration(context),
+            };
+
+            return new AggregatePartnerScenario("New-Commerce migration samples", profileScenarios, context);
         }
     }
 }
