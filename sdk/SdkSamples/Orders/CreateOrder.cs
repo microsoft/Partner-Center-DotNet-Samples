@@ -36,10 +36,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             
             string termDuration = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a term duration [example: P1Y, P1M]", "Term duration is required");
             
-            string billingCycleString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a billing cycle [example: Annual or Monthly]", "Billing cycle is required");
+            string billingCycleString = this.ObtainBillingCycle("Enter a billing cycle [example: Annual or Monthly]");
             var billingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
             
-            string quantityString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a quantity", "Quantity is required");
+            string quantityString = this.ObtainQuantity();
             var quantity = int.Parse(quantityString);
             
             string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
