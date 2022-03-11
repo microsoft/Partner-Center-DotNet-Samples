@@ -40,11 +40,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             var billingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
             
             string quantityString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a quantity", "Quantity is required");
-            var quantity = int.Parse(quantity);
+            var quantity = int.Parse(quantityString);
             
             string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
             DateTime? customTermEndDate = null;
-            if (!string.IsNullOrWhiteSpace(customTermEndDate)) {
+            if (!string.IsNullOrWhiteSpace(customTermEndDateString)) {
                 customTermEndDate = DateTime.Parse(customTermEndDateString);
             }
             
