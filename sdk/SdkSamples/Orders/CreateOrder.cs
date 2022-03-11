@@ -32,6 +32,20 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string offerId = this.ObtainOfferId("Enter the ID of the offer to purchase");
             
+            string termDuration = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a term duration [example: P1Y, P1M]", "Term duration is required");
+            
+            string billingCycleString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a billing cycle [example: Annual or Monthly]", "Billing cycle is required");
+            var billingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
+            
+            string quantityString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a quantity", "Quantity is required");
+            var changeToQuantity = int.Parse(quantity);
+            
+            string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
+            DateTime? customTermEndDate = null;
+            if (!string.IsNullOrWhiteSpace(customTermEndDate)) {
+                customTermEndDate = DateTime.Parse(customTermEndDateString);
+            }
+            
             var order = new Order()
             {
                 ReferenceCustomerId = customerId,
