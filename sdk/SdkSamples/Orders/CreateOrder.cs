@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="CreateOrder.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -6,8 +6,10 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
+    using System;
     using System.Collections.Generic;
     using Store.PartnerCenter.Models.Orders;
+    using Microsoft.Store.PartnerCenter.Models.Offers;
 
     /// <summary>
     /// A scenario that creates a new order for a customer.
