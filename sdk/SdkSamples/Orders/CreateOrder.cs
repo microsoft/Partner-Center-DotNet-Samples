@@ -38,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             var billingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
             
             string quantityString = this.Context.ConsoleHelper.ReadNonEmptyString("Enter a quantity", "Quantity is required");
-            var changeToQuantity = int.Parse(quantity);
+            var quantity = int.Parse(quantity);
             
             string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
             DateTime? customTermEndDate = null;
@@ -49,13 +49,16 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             var order = new Order()
             {
                 ReferenceCustomerId = customerId,
+                BillingCycle = billingCycle,
                 LineItems = new List<OrderLineItem>()
                 {
                     new OrderLineItem()
                     {
                         OfferId = offerId,
                         FriendlyName = "new offer purchase",
-                        Quantity = 5
+                        Quantity = quantity,
+                        TermDuration = termDuration,
+                        CustomTermEndDate = customTermEndDate
                     }
                 }
             };
