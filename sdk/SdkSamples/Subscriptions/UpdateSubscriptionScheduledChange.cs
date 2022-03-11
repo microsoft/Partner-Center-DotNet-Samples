@@ -107,7 +107,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                             TermDuration = changeToTermDuration,
                         },
                         Quantity = changeToQuantity,
-                        CustomTermEndDate = changeToCustomTermEndDate,
+                        CustomTermEndDate = changeToCustomTermEndDate
                     };
 
                     var updatedSubscription = subscriptionOperations.Patch(selectedSubscription);
