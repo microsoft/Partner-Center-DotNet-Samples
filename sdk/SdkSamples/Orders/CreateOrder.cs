@@ -8,7 +8,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
     using System;
     using System.Collections.Generic;
-    using Store.PartnerCenter.Models.Orders;
+    using Microsoft.Store.PartnerCenter.Models.Orders;
     using Microsoft.Store.PartnerCenter.Models.Offers;
 
     /// <summary>
