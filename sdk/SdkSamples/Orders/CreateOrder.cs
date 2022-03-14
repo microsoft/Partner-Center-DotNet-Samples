@@ -35,7 +35,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             string offerId = this.ObtainOfferId("Enter the ID of the offer to purchase");
             
             string termDuration = this.Context.ConsoleHelper.ReadOptionalString("Enter a term duration [example: P1Y, P1M] if applicable");
-            if (!string.IsNullOrWhiteSpace(termDuration)) {
+            if (string.IsNullOrWhiteSpace(termDuration)) {
                 termDuration = null;
             }
                        
