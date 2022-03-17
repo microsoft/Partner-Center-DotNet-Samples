@@ -16,12 +16,12 @@ products:
 1. [Introduction](#Introduction)
 2. [Experience Summary](#Experience-Summary)
 3. [Software Pre-requisites](#Software-Pre-Requisites)
-4. [Begin running the Tool and Authenticate Your Account](#Begin-running-the-Tool-and-Authenticate-your-Account)
 5. [Step-by-step flow for migrating a batch](#Step-by-step-flow-of-migrating-a-batch)
-6. [Load and run Application](#Load-and-run-Application)
-7. [Filter by customer](#Filter-by-customer)
-8. [Access subscriptions for select customers](#Access-subscriptions-for-select-customers)
-9. [Determine subscription migration eligibility](#Determine-subscription-migration-eligibility)
+4. [Begin running the Tool and Authenticate Your Account](#Begin-running-the-Tool-and-Authenticate-your-Account)
+6. [Load .NET console app ](#Load-.NET-console-app)
+7. [Export customers](#Export-customers)
+8. [Export subscriptions for customers with migration eligibility](#Export-subscriptions-for-customers-with-migration-eligibility)
+9. [Determine which subscriptions will be migrated and how](#Determine-which-subscriptions-will-be-migrated-and-how)
 10. [Submitting a batch of subscriptions for migration](#Submitting-a-batch-of-subscriptions-for-migration)
 11. [Checking migration status](#Checking-migration-status)
 12. [Exporting a list of New Commerce Experience subscriptions](#Exporting-a-list-of-New-Commerce-Experience-subscriptions)
@@ -104,7 +104,7 @@ View exported customers in the file “customers.csv”. For each customer under
 
 ![Exported customer CSV example](assets/images/ExportedCustomersExample.png "Exported customer CSV example")
 
-## Export subscriptions with migration eligibility 
+## Export subscriptions for customers with migration eligibility 
 
 In the downloaded “customers.csv” file, the user can remove rows for the customers whose subscriptions they do not want to export in the next file download. The remaining customers on the file represent customers whose subscriptions will be validated for migration eligibility during the next step in the BAM tool’s flow. 
 
@@ -169,7 +169,7 @@ For a subscription to start a new term in NCE, please change the Start New Term 
 
 **Please do not change values outside of the Start New Term, Term, Billing Plan, and Seat Count columns.**
 
-## Submitting a batch for migration 
+## Submitting a batch of subscriptions for migration 
 
 Once a batch has been determined (subscriptions for migration have been filtered through and have updated NCE values if desired), save your updated “subscriptions.csv” file in the “subscriptions” folder nested in the “input” folder. Each file saved in the ”subscriptions” folder represents a batch to migrate. 
 
