@@ -1,4 +1,10 @@
-﻿global using System.Net.Http.Headers;
+﻿// -----------------------------------------------------------------------
+// <copyright file="GlobalUsing.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+global using System.Net.Http.Headers;
 global using System.Net.Http.Json;
 global using System.Text;
 global using System.Text.Json;

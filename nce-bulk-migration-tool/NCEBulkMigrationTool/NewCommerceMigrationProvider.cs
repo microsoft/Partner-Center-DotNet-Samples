@@ -1,16 +1,28 @@
-﻿using System.Threading;
+﻿// -----------------------------------------------------------------------
+// <copyright file="NewCommerceMigrationProvider.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace NCEBulkMigrationTool;
 
 internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 {
+    /// <summary>
+    /// The token provider.
+    /// </summary>
     private readonly ITokenProvider tokenProvider;
 
+    /// <summary>
+    /// The NewCommerceMigrationProvider constructor.
+    /// </summary>
+    /// <param name="tokenProvider">The token provider.</param>
     public NewCommerceMigrationProvider(ITokenProvider tokenProvider)
     {
         this.tokenProvider = tokenProvider;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> UploadNewCommerceMigrationsAsync()
     {
         var csvProvider = new CsvProvider();
@@ -86,6 +98,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> ExportNewCommerceMigrationStatusAsync()
     {
         var csvProvider = new CsvProvider();
@@ -168,6 +181,13 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return true;
     }
 
+    /// <summary>
+    /// Gets the New Commerce Migration by MigrationId.
+    /// </summary>
+    /// <param name="httpClient">The httpClient.</param>
+    /// <param name="migrationResult">The migrationResult.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The migration result.</returns>
     private async Task<(MigrationResult BaseMigrationResult, IEnumerable<NewCommerceMigration> AddOnMigrationsResult)> GetNewCommerceMigrationByMigrationIdAsync(HttpClient httpClient, MigrationResult migrationResult, CancellationToken cancellationToken)
     {
         // Validate that the migration result has a migrationId, if a migration didn't initiate the migrationId will be empty.
@@ -209,6 +229,15 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return (result, migration?.AddOnMigrations);
     }
 
+    /// <summary>
+    /// Posts a New Commerce Migration via Partner Center API.
+    /// </summary>
+    /// <param name="httpClient">The httpClient.</param>
+    /// <param name="migrationRequest">The migration request.</param>
+    /// <param name="addOnMigrationRequests">The add on migration requests.</param>
+    /// <param name="batchId">The batchId.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The migration result.</returns>
     private async Task<List<MigrationResult>> PostNewCommerceMigrationAsync(HttpClient httpClient, MigrationRequest migrationRequest, IEnumerable<MigrationRequest> addOnMigrationRequests, string batchId, CancellationToken cancellationToken)
     {
         var newCommerceMigrationRequest = new HttpRequestMessage(HttpMethod.Post, string.Format(Routes.PostNewCommerceMigration, migrationRequest.CustomerTenantId));
@@ -262,6 +291,12 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return this.PrepareMigrationResult(migrationRequest, addOnMigrationRequests, batchId, migration, migrationError);
     }
 
+    /// <summary>
+    /// Gets the add on migrations.
+    /// </summary>
+    /// <param name="currentSubscriptionId">The current subscriptionId.</param>
+    /// <param name="addOnMigrationRequests">The add on migration requests.</param>
+    /// <returns>The add on migrations.</returns>
     private static IEnumerable<NewCommerceMigration> GetAddOnMigrations(string currentSubscriptionId, IEnumerable<MigrationRequest> addOnMigrationRequests)
     {
         if (!addOnMigrationRequests.Any())
@@ -317,6 +352,15 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return migrationResults;
     }
 
+    /// <summary>
+    /// Prepares the add on migration result.
+    /// </summary>
+    /// <param name="addOnMigrationRequests">The add on migration requests.</param>
+    /// <param name="batchId">The batchId.</param>
+    /// <param name="newCommerceMigration">The new commerce migration.</param>
+    /// <param name="newCommerceMigrationError">The new commerce migration error.</param>
+    /// <param name="migrationResults">The migration results.</param>
+    /// <returns>The add on migration results.</returns>
     private List<MigrationResult> PrepareAddOnMigrationResult(IEnumerable<MigrationRequest> addOnMigrationRequests, string batchId, NewCommerceMigration? newCommerceMigration, NewCommerceMigrationError? newCommerceMigrationError, List<MigrationResult> migrationResults)
     {
         foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
@@ -330,6 +374,14 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         return migrationResults;
     }
 
+    /// <summary>
+    /// Prepares the migration result.
+    /// </summary>
+    /// <param name="migrationRequest">The migration request.</param>
+    /// <param name="batchId">The batchId.</param>
+    /// <param name="newCommerceMigration">The new commerce migration.</param>
+    /// <param name="newCommerceMigrationError">The new commerce migration error.</param>
+    /// <param name="migrationResults">The migration results.</param>
     private static void PrepareMigrationResult(MigrationRequest migrationRequest, string batchId, NewCommerceMigration? newCommerceMigration, NewCommerceMigrationError? newCommerceMigrationError, List<MigrationResult> migrationResults)
     {
         if (newCommerceMigrationError != null)

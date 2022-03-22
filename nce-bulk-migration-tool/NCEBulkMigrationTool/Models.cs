@@ -1,4 +1,10 @@
-﻿namespace NCEBulkMigrationTool;
+﻿// -----------------------------------------------------------------------
+// <copyright file="Models.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace NCEBulkMigrationTool;
 
 internal record ResourceCollection<T>(IEnumerable<T> Items, int TotalCount, string ContinuationToken);
 

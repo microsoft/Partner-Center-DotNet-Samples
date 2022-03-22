@@ -1,5 +1,14 @@
-﻿namespace NCEBulkMigrationTool;
+﻿// -----------------------------------------------------------------------
+// <copyright file="SubscriptionProvider.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
+namespace NCEBulkMigrationTool;
+
+/// <summary>
+/// The SubscriptionProvider class.
+/// </summary>
 internal class SubscriptionProvider : ISubscriptionProvider
 {
 
@@ -7,11 +16,16 @@ internal class SubscriptionProvider : ISubscriptionProvider
     private readonly ITokenProvider tokenProvider;
     private long subscriptionsCntr = 0;
 
+    /// <summary>
+    /// SubscriptionProvider constructor.
+    /// </summary>
+    /// <param name="tokenProvider"></param>
     public SubscriptionProvider(ITokenProvider tokenProvider)
     {
         this.tokenProvider = tokenProvider;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> ExportLegacySubscriptionsAsync()
     {
         var csvProvider = new CsvProvider();
@@ -69,6 +83,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> ExportModernSubscriptionsAsync()
     {
         var csvProvider = new CsvProvider();
@@ -123,6 +138,13 @@ internal class SubscriptionProvider : ISubscriptionProvider
         return true;
     }
 
+    /// <summary>
+    /// Gets legacy subscriptions for a given customer.
+    /// </summary>
+    /// <param name="httpClient">The httpClient.</param>
+    /// <param name="customer">The customer.</param>
+    /// <param name="cancellationToken">The cancellationToken.</param>
+    /// <returns>Legacy subscriptions.</returns>
     private async Task<IEnumerable<Subscription>> GetLegacySubscriptionsAsync(HttpClient httpClient, CompanyProfile customer, CancellationToken cancellationToken)
     {
         var allSubscriptions = await this.GetSubscriptionsAsync(httpClient, customer, cancellationToken).ConfigureAwait(false);
@@ -140,6 +162,13 @@ internal class SubscriptionProvider : ISubscriptionProvider
         return modernSubscriptions;
     }
 
+    /// <summary>
+    /// Gets subscriptions for a given customer.
+    /// </summary>
+    /// <param name="httpClient">The htppClient.</param>
+    /// <param name="customer">The customer.</param>
+    /// <param name="cancellationToken">The cancellationToken.</param>
+    /// <returns>Subscriptions associated with the given customer.</returns>
     private async Task<IEnumerable<Subscription>> GetSubscriptionsAsync(HttpClient httpClient, CompanyProfile customer, CancellationToken cancellationToken)
     {
         var subscriptionRequest = new HttpRequestMessage(HttpMethod.Get, string.Format(Routes.GetSubscriptions, customer.TenantId));
@@ -165,6 +194,14 @@ internal class SubscriptionProvider : ISubscriptionProvider
         return subscriptionCollection!.Items;
     }
 
+    /// <summary>
+    /// Validates migration eligibility for a given customer and subscriptions.
+    /// </summary>
+    /// <param name="customer">The customer.</param>
+    /// <param name="httpClient">The httpClient.</param>
+    /// <param name="options">The ParallelOptions.</param>
+    /// <param name="subscriptions">The subscriptions.</param>
+    /// <returns>The migration eligibility.</returns>
     private async Task<ConcurrentBag<MigrationRequest>> ValidateMigrationEligibility(CompanyProfile customer, HttpClient httpClient, ParallelOptions options, IEnumerable<Subscription> subscriptions)
     {
         var baseSubscriptions = subscriptions.Where(s => string.IsNullOrWhiteSpace(s.ParentSubscriptionId));
@@ -223,6 +260,13 @@ internal class SubscriptionProvider : ISubscriptionProvider
         return migrationRequests;
     }
 
+    /// <summary>
+    /// Prepares the migration request for CSV output.
+    /// </summary>
+    /// <param name="companyProfile">The company profile.</param>
+    /// <param name="subscription">The subscription.</param>
+    /// <param name="newCommerceEligibility">The new commerce eligibility.</param>
+    /// <returns>The migration request.</returns>
     private static MigrationRequest PrepareMigrationRequest(CompanyProfile companyProfile, Subscription subscription, NewCommerceEligibility newCommerceEligibility)
     {
         return new MigrationRequest
@@ -252,6 +296,12 @@ internal class SubscriptionProvider : ISubscriptionProvider
         };
     }
 
+    /// <summary>
+    /// Prepares the modern subscription for CSV output.
+    /// </summary>
+    /// <param name="companyProfile">The company profile.</param>
+    /// <param name="subscription">The subscription.</param>
+    /// <returns>The Modern Subscription.</returns>
     private static ModernSubscription PrepareModernSubscription(CompanyProfile companyProfile, Subscription subscription)
     {
         return new ModernSubscription

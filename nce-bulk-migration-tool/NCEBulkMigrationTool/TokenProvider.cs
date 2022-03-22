@@ -1,7 +1,20 @@
-﻿namespace NCEBulkMigrationTool;
+﻿// -----------------------------------------------------------------------
+// <copyright file="TokenProvider.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
+namespace NCEBulkMigrationTool;
+
+/// <summary>
+/// The TokenProvider class.
+/// </summary>
 internal class TokenProvider : ITokenProvider
 {
+    /// <summary>
+    /// TokenProvider constructor.
+    /// </summary>
+    /// <param name="appSettings">The app settings.</param>
     public TokenProvider(AppSettings appSettings)
     {
         this.appSettings = appSettings;
@@ -10,6 +23,7 @@ internal class TokenProvider : ITokenProvider
     private readonly AppSettings appSettings;
     private AuthenticationResult? authenticationResult;
 
+    /// <inheritdoc/>
     public async Task<AuthenticationResult> GetTokenAsync()
     {
         if (authenticationResult != null && authenticationResult.ExpiresOn > DateTimeOffset.UtcNow.AddMinutes(5))

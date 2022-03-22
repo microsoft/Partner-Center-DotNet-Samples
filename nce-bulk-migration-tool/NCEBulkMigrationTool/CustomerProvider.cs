@@ -1,14 +1,31 @@
-﻿namespace NCEBulkMigrationTool;
+﻿// -----------------------------------------------------------------------
+// <copyright file="CustomerProvider.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
+namespace NCEBulkMigrationTool;
+
+/// <summary>
+/// The CustomerProvider class.
+/// </summary>
 internal class CustomerProvider : ICustomerProvider
 {
+    /// <summary>
+    /// The token provider.
+    /// </summary>
     private readonly ITokenProvider tokenProvider;
 
+    /// <summary>
+    /// CustomerProvider constructor.
+    /// </summary>
+    /// <param name="tokenProvider">The token provider.</param>
     public CustomerProvider(ITokenProvider tokenProvider)
     {
         this.tokenProvider = tokenProvider;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> ExportCustomersAsync()
     {
         Console.WriteLine("Generating token...");
