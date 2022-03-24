@@ -10,7 +10,7 @@ pool:
   vmImage: $(imageName)
 
 variables:
-  solution: '$(Build.SourcesDirectory)/**/sdk/*.sln'
+  solution: '$(Build.SourcesDirectory)/**/sdk/*.sln;$(Build.SourcesDirectory)/**/secure-app-model/**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
