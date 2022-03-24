@@ -7,6 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 {
     using Microsoft.Store.PartnerCenter.Models.NewCommerceMigrations;
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -33,6 +34,12 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to be migrated to New-Commerce");
 
             string addOnSubscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the add-on subscription to be migrated to New-Commerce");
+
+            // Get the add-on subscription and display information.
+            var addOnSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(addOnSubscriptionId).Get();
+            this.Context.ConsoleHelper.WriteObject(addOnSubscription, "Add-on Subscriptions");
+            Console.WriteLine();
+
             string addOnSubscriptionTermDuration = this.ObtainRenewalTermDuration("Enter a term duration for the add-on subscription [example: P1Y, P1M]");
             string addOnSubscriptionBillingCycle = this.ObtainBillingCycle("Enter a billing cycle for the add-on subscription [example: Annual or Monthly]");
             string addOnSubscriptionQuantityString = this.ObtainQuantity("Enter the quantity for the add-on subscription");
