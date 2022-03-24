@@ -10,8 +10,7 @@ pool:
   vmImage: $(imageName)
 
 variables:
-  solution: '**\*.sln
-  !**\NCEBulkMigrationTool.sln'
+  solution: '**\SdkSamples.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
