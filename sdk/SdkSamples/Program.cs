@@ -683,6 +683,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
             var profileScenarios = new IPartnerScenario[]
             {
                 new ValidateAndCreateNewCommerceMigration(context),
+                new ValidateAndCreateNewCommerceMigrationWithAddOn(context),
             };
 
             return new AggregatePartnerScenario("New-Commerce migration samples", profileScenarios, context);
