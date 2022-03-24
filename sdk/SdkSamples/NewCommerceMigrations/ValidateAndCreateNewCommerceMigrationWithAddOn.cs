@@ -34,10 +34,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
             
             string addOnSubscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the add-on subscription to be migrated to New-Commerce");
             
-            string addOnSubscriptionTermDuration = this.ObtainTermDurati("Enter a term duration for the add-on subscription [example: P1Y, P1M]");
+            string addOnSubscriptionTermDuration = this.ObtainTermDuration("Enter a term duration for the add-on subscription [example: P1Y, P1M]");
                         
             string addOnSubscriptionBillingCycleString = this.ObtainBillingCycle("Enter a billing cycle for the add-on subscription [example: Annual or Monthly]")
-            var addOnSubscriptionBillingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
+            var addOnSubscriptionBillingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), addOnSubscriptionBillingCycleString);
             
             string addOnSubscriptionQuantityString = this.ObtainQuantity("Enter the quantity for the add-on subscription");
             var addOnSubscriptionQuantity = int.Parse(addOnSubscriptionQuantityString);
