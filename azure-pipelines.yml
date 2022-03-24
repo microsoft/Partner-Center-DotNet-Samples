@@ -10,7 +10,7 @@ pool:
   vmImage: $(imageName)
 
 variables:
-  solution: '**\sdk\*.sln'
+  solution: '$(Build.SourcesDirectory)/**/sdk/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
