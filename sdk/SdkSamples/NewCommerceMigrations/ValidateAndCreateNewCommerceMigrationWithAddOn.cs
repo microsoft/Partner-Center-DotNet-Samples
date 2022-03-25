@@ -37,7 +37,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 
             // Get the add-on subscription and display information.
             var addOnSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(addOnSubscriptionId).Get();
-            this.Context.ConsoleHelper.WriteObject(addOnSubscription, "Add-on Subscriptions");
+            this.Context.ConsoleHelper.WriteObject(addOnSubscription, "Add-on Subscription");
             Console.WriteLine();
 
             string addOnSubscriptionTermDuration = this.ObtainRenewalTermDuration("Enter a term duration for the add-on subscription [example: P1Y, P1M]");
