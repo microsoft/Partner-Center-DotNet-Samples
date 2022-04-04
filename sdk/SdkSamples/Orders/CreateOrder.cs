@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="CreateOrder.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -6,8 +6,10 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
+    using System;
     using System.Collections.Generic;
-    using Store.PartnerCenter.Models.Orders;
+    using Microsoft.Store.PartnerCenter.Models.Orders;
+    using Microsoft.Store.PartnerCenter.Models.Offers;
 
     /// <summary>
     /// A scenario that creates a new order for a customer.
@@ -32,16 +34,36 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string offerId = this.ObtainOfferId("Enter the ID of the offer to purchase");
             
+            string termDuration = this.Context.ConsoleHelper.ReadOptionalString("Enter a term duration [example: P1Y, P1M] if applicable");
+            if (string.IsNullOrWhiteSpace(termDuration)) {
+                termDuration = null;
+            }
+                       
+            string billingCycleString = this.ObtainBillingCycle("Enter a billing cycle [example: Annual or Monthly]");
+            var billingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycleString);
+            
+            string quantityString = this.ObtainQuantity();
+            var quantity = int.Parse(quantityString);
+            
+            string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
+            DateTime? customTermEndDate = null;
+            if (!string.IsNullOrWhiteSpace(customTermEndDateString)) {
+                customTermEndDate = DateTime.Parse(customTermEndDateString);
+            }
+            
             var order = new Order()
             {
                 ReferenceCustomerId = customerId,
+                BillingCycle = billingCycle,
                 LineItems = new List<OrderLineItem>()
                 {
                     new OrderLineItem()
                     {
                         OfferId = offerId,
                         FriendlyName = "new offer purchase",
-                        Quantity = 5
+                        Quantity = quantity,
+                        TermDuration = termDuration,
+                        CustomTermEndDate = customTermEndDate
                     }
                 }
             };
