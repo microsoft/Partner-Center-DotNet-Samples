@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Program.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -683,6 +683,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
             var profileScenarios = new IPartnerScenario[]
             {
                 new ValidateAndCreateNewCommerceMigration(context),
+                new ValidateAndCreateNewCommerceMigrationWithAddOn(context),
             };
 
             return new AggregatePartnerScenario("New-Commerce migration samples", profileScenarios, context);
