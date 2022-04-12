@@ -6,7 +6,10 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Store.PartnerCenter.Models.PromotionEligibilities;
     using Microsoft.Store.PartnerCenter.Models.Subscriptions;
 
     /// <summary>
@@ -89,11 +92,105 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                             {
                                 targetTransition.BillingCycle = targetBillingCycle;
                             }
+                            else
+                            {
+                                var sourceSubscription = subscriptionOperations.Get();
+                                targetTransition.BillingCycle = sourceSubscription.BillingCycle.ToString();
+                            }
+                        }
+                        else
+                        {
+                            var sourceSubscription = subscriptionOperations.Get();
+                            targetTransition.TermDuration = sourceSubscription.TermDuration;
+                            targetTransition.BillingCycle = sourceSubscription.BillingCycle.ToString();
+                        }
+
+                        string updatePromoId = this.Context.ConsoleHelper.ReadOptionalString("Would you like to set target promotion id? [y/n]");
+
+                        if (string.Equals(updatePromoId, "y", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            string promotionCountry = this.Context.ConsoleHelper.ReadOptionalString("Enter promotion country, leave blank to default to US");
+
+                            if (string.IsNullOrWhiteSpace(promotionCountry))
+                            {
+                                promotionCountry = "US";
+                            }
+
+                            string promotionSegment = this.Context.ConsoleHelper.ReadOptionalString("Enter promotion segment, leave blank to default to Commercial");
+
+                            if (string.IsNullOrWhiteSpace(promotionSegment))
+                            {
+                                promotionSegment = "Commercial";
+                            }
+
+                            // Get available promotions
+                            this.Context.ConsoleHelper.StartProgress("Retrieving available promotions");
+                            var availablePromotions = partnerOperations.ProductPromotions.ByCountry(promotionCountry).BySegment(promotionSegment).Get();
+                            this.Context.ConsoleHelper.StopProgress();
+
+                            var psaArray = targetTransition.ToCatalogItemId.Split(':');
+
+                            var availablePromotionsByTargetTransition = availablePromotions.Items.FirstOrDefault(
+                                item => item.RequiredProducts.Any(
+                                            eligibleItem =>
+                                            string.Equals(eligibleItem.ProductId, psaArray[0], StringComparison.InvariantCultureIgnoreCase) &&
+                                            string.Equals(eligibleItem.SkuId, psaArray[1], StringComparison.InvariantCultureIgnoreCase) &&
+                                            string.Equals(eligibleItem.Term.Duration, targetTransition.TermDuration, StringComparison.InvariantCultureIgnoreCase) &&
+                                            string.Equals(eligibleItem.Term.BillingCycle, targetTransition.BillingCycle, StringComparison.InvariantCultureIgnoreCase)));
+
+                            this.Context.ConsoleHelper.WriteObject(availablePromotionsByTargetTransition, "Available promotion based on target product, term and billing frequency");
+
+                            // prompt the user to enter the promotion ID of the desired promotion
+                            string targetPromotionId = this.Context.ConsoleHelper.ReadOptionalString("Enter the promotion ID");
+
+                            if (!string.IsNullOrWhiteSpace(targetPromotionId))
+                            {
+                                targetTransition.PromotionId = targetPromotionId;
+
+                                Enum.TryParse<Models.PromotionEligibilities.Enums.BillingCycleType>(targetTransition.BillingCycle, true, out var targetBillingCycle);
+
+                                // Build the promotion elibities request.
+                                var promotionEligibilitiesRequest = new PromotionEligibilitiesRequest()
+                                {
+                                    Items = new List<PromotionEligibilitiesRequestItem>()
+                                    {
+                                        new PromotionEligibilitiesRequestItem()
+                                        {
+                                            Id = 0,
+                                            CatalogItemId = targetTransition.ToCatalogItemId,
+                                            TermDuration = targetTransition.TermDuration,
+                                            BillingCycle = targetBillingCycle,
+                                            Quantity = targetTransition.Quantity,
+                                            PromotionId = targetTransition.PromotionId,
+                                        },
+                                    },
+                                };
+
+                                this.Context.ConsoleHelper.StartProgress("Retrieving promotion eligibilities");
+                                var promotionEligibilities = partnerOperations.Customers.ById(customerId).PromotionEligibilities.Post(promotionEligibilitiesRequest);
+                                this.Context.ConsoleHelper.StopProgress();
+
+                                foreach (var eligibility in promotionEligibilities.Items)
+                                {
+                                    Console.Out.WriteLine("Eligibility result for CatalogItemId: {0}", eligibility.CatalogItemId);
+                                    Console.Out.WriteLine("IsCustomerEligible: {0}", eligibility.Eligibilities.First().IsEligible.ToString());
+
+                                    if (!eligibility.Eligibilities.First().IsEligible)
+                                    {
+                                        Console.Out.WriteLine("Reasons for ineligibility:");
+                                        foreach (var error in eligibility.Eligibilities.First().Errors)
+                                        {
+                                            Console.Out.WriteLine("Type: {0}", error.Type);
+                                            Console.Out.WriteLine("Description: {0}", error.Description);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
                     // the selected transition is eligible, go ahead and perform the transition
-                    this.Context.ConsoleHelper.StartProgress("Transtioning subscription");
+                    this.Context.ConsoleHelper.StartProgress("Transitioning subscription");
 
                     var transitionResult = subscriptionOperations.Transitions.Create(targetTransition);
                     this.Context.ConsoleHelper.StopProgress();
