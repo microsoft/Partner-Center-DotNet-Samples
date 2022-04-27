@@ -237,7 +237,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
 
             migrationResponse.EnsureSuccessStatusCode();
             var newCommerceEligibility = await migrationResponse.Content.ReadFromJsonAsync<NewCommerceEligibility>().ConfigureAwait(false);
-            if (newCommerceEligibility.AddOnMigrations.Any())
+            if (newCommerceEligibility!.AddOnMigrations.Any())
             {
                 addOnEligibilityList.Add(newCommerceEligibility.AddOnMigrations);
             }
@@ -279,6 +279,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             LegacySubscriptionName = subscription.FriendlyName,
             LegacyProductName = subscription.OfferName,
             ExpirationDate = subscription.CommitmentEndDate,
+            AutoRenewEnabled = subscription.AutoRenewEnabled,
             MigrationEligible = newCommerceEligibility.IsEligible,
             NcePsa = newCommerceEligibility.CatalogItemId,
             CurrentTerm = subscription.TermDuration,
