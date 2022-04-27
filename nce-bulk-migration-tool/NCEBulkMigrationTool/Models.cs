@@ -40,6 +40,8 @@ internal record Subscription
 
     public ItemType ProductType { get; init; } = new ItemType();
 
+    public bool AutoRenewEnabled { get; init; }
+
     public NewCommerceEligibility MigrationEligibility { get; set; } = new NewCommerceEligibility();
 
     public string MigratedFromSubscriptionId { get; init; } = string.Empty;
@@ -62,6 +64,8 @@ internal record MigrationRequest
     public string LegacyProductName { get; init; } = string.Empty;
 
     public DateTime ExpirationDate { get; init; }
+
+    public bool AutoRenewEnabled { get; init; }
 
     public bool MigrationEligible { get; set; }
 
