@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Program.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -25,10 +25,12 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Models.Auditing;
     using Models.Customers;
     using Models.Query;
+    using NewCommerceMigrations;
     using Offers;
     using Orders;
     using Products;
     using Profile;
+    using PromotionEligibilities;
     using RateCards;
     using RatedUsage;
     using ServiceIncidents;
@@ -36,6 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Subscriptions;
     using Utilization;
     using Validations;
+    using ValidationStatus;
 
     /// <summary>
     /// The main program class for the partner center .NET SDK samples.
@@ -80,7 +83,9 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 Program.GetCartWithAddonItemsScenarios(context),
                 Program.GetEntitlementScenarios(context),
                 Program.GetComplianceScenarios(context),
-                Program.GetSelfServePoliciesScenarios(context)
+                Program.GetSelfServePoliciesScenarios(context),
+                Program.PostPromotionEligibilitiesScenarios(context),
+                Program.GetNewCommerceMigrationScenarios(context)
             };
 
             // run the main scenario
@@ -241,6 +246,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerQualifications(context),
                 new CreateCustomerQualification(context),
                 new CreateCustomerQualificationWithGCC(context),
+                new GetValidationStatus(context),
                 new DeleteCustomerFromTipAccount(context),
                 new GetCustomerManagedServices(context),
                 new GetCustomerRelationshipRequest(context),
@@ -281,6 +287,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
         {
             var productScenarios = new IPartnerScenario[]
             {
+                new GetProductPromotions(context),
+                new GetProductPromotion(context),
                 new GetProducts(context),
                 new GetProductsByTargetSegment(context),
                 new GetProduct(context),
@@ -366,6 +374,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new ActivateSandboxThirdPartySubscription(context),
                 new TransitionSubscription(context),
                 new GetSubscriptionTransitions(context),
+                new UpdateOverage(context),
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
@@ -647,6 +656,37 @@ namespace Microsoft.Store.PartnerCenter.Samples
             };
 
             return new AggregatePartnerScenario("Cart With Addon Items Scenarios", cartScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the post promotion eligibilities scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context</param>
+        /// <returns>The post promotion eligibilities scenarios.</returns>
+        private static IPartnerScenario PostPromotionEligibilitiesScenarios(IScenarioContext context)
+        {
+            var postPromotionEligibilitiesScenarios = new IPartnerScenario[]
+            {
+                new PostPromotionEligibilities(context)
+            };
+
+            return new AggregatePartnerScenario("Post Promotion Eligibilities Scenarios", postPromotionEligibilitiesScenarios, context);
+        }
+
+        /// <summary>
+        /// Gets the New-Commerce migration scenarios.
+        /// </summary>
+        /// <param name="context">A scenario context.</param>
+        /// <returns>The New-Commerce migration scenarios.</returns>
+        private static IPartnerScenario GetNewCommerceMigrationScenarios(IScenarioContext context)
+        {
+            var profileScenarios = new IPartnerScenario[]
+            {
+                new ValidateAndCreateNewCommerceMigration(context),
+                new ValidateAndCreateNewCommerceMigrationWithAddOn(context),
+            };
+
+            return new AggregatePartnerScenario("New-Commerce migration samples", profileScenarios, context);
         }
     }
 }

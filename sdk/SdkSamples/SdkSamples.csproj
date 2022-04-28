@@ -15,6 +15,21 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,21 +60,21 @@
     <Reference Include="Microsoft.Identity.Client, Version=4.31.0.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Identity.Client.4.31.0\lib\net461\Microsoft.Identity.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.2.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.3.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.2.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Extensions, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.3.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Store.PartnerCenter.2.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
+    <Reference Include="Microsoft.Store.PartnerCenter.Models, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Store.PartnerCenter.3.0.1\lib\netstandard2.0\Microsoft.Store.PartnerCenter.Models.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -137,6 +152,7 @@
     <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
     <Compile Include="Customers\GetCustomerQualifications.cs" />
+    <Compile Include="Customers\GetValidationStatus.cs" />
     <Compile Include="Customers\UpdateCustomerBillingProfile.cs" />
     <Compile Include="Customers\GetCustomerManagedServices.cs" />
     <Compile Include="Customers\FilterCustomers.cs" />
@@ -197,6 +213,8 @@
     <Compile Include="Invoice\GetPagedInvoices.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForClosePeriodPaging.cs" />
     <Compile Include="Invoice\GetUsageLineItemsForOpenPeriodPaging.cs" />
+    <Compile Include="NewCommerceMigrations\ValidateAndCreateNewCommerceMigration.cs" />
+    <Compile Include="NewCommerceMigrations\ValidateAndCreateNewCommerceMigrationWithAddOn.cs" />
     <Compile Include="Offers\GetCustomerOfferCategories.cs" />
     <Compile Include="Offers\GetCustomerOffers.cs" />
     <Compile Include="Offers\GetOffer.cs" />
@@ -215,6 +233,8 @@
     <Compile Include="Products\GetAvailabilities.cs" />
     <Compile Include="Products\GetAvailability.cs" />
     <Compile Include="Products\CheckInventory.cs" />
+    <Compile Include="Products\GetProductPromotion.cs" />
+    <Compile Include="Products\GetProductPromotions.cs" />
     <Compile Include="Products\GetSku.cs" />
     <Compile Include="Products\GetProduct.cs" />
     <Compile Include="Products\GetSkusByTargetSegment.cs" />
@@ -230,6 +250,7 @@
     <Compile Include="Profile\UpdateLegalBusinessProfile.cs" />
     <Compile Include="Profile\UpdateOrganizationProfile.cs" />
     <Compile Include="Profile\UpdateSupportProfile.cs" />
+    <Compile Include="PromotionEligibilities\PostPromotionEligibilities.cs" />
     <Compile Include="RateCards\GetAzureRateCard.cs" />
     <Compile Include="RateCards\GetAzureSharedRateCard.cs" />
     <Compile Include="RatedUsage\GetCustomerSubscriptionsUsage.cs" />
@@ -261,6 +282,7 @@
     <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
+    <Compile Include="Subscriptions\UpdateOverage.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
     <Compile Include="Subscriptions\TransitionSubscription.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionScheduledChange.cs" />
@@ -278,6 +300,17 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

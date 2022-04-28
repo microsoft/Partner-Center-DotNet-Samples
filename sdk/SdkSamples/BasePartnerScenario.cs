@@ -285,6 +285,20 @@ namespace Microsoft.Store.PartnerCenter.Samples
         }
 
         /// <summary>
+        /// Obtains a product promotion ID to work with from the configuration if set there or prompts the user to enter it.
+        /// </summary>
+        /// <param name="promptMessage">An optional custom prompt message.</param>
+        /// <returns>The product promotion ID.</returns>
+        protected string ObtainProductPromotionId(string promptMessage = default(string))
+        {
+            return this.ObtainValue(
+                this.Context.Configuration.Scenario.DefaultProductPromotionId,
+                "Product Promotion Id",
+                string.IsNullOrWhiteSpace(promptMessage) ? "Enter the product promotion ID" : promptMessage,
+                "The Product Promotion ID can't be empty");
+        }
+
+        /// <summary>
         /// Obtains a SKU ID to work with from the configuration if set there or prompts the user to enter it.
         /// </summary>
         /// <param name="promptMessage">An optional custom prompt message.</param>

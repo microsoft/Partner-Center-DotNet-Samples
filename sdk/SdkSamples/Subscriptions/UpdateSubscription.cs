@@ -6,6 +6,9 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
 {
+    using System;
+    using Microsoft.Store.PartnerCenter.Models.Offers;
+
     /// <summary>
     /// A scenario that updates an existing customer subscription.
     /// </summary>
@@ -33,8 +36,26 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(existingSubscription, "Existing subscription");
 
-            this.Context.ConsoleHelper.StartProgress("Incrementing subscription quantity");
-            existingSubscription.Quantity++;
+            string targetQuantity = this.Context.ConsoleHelper.ReadOptionalString("Enter target quantity or leave blank to keep quantity the same");
+            if (!string.IsNullOrWhiteSpace(targetQuantity)) {
+                existingSubscription.Quantity = int.Parse(targetQuantity);
+            }
+
+            string targetTermDuration = this.Context.ConsoleHelper.ReadOptionalString("Enter a new term duration or leave blank to keep the same [example: P1Y, P1M]");
+
+            if (!string.IsNullOrWhiteSpace(targetTermDuration))
+            {
+                existingSubscription.TermDuration = targetTermDuration;
+
+                string targetBillingCycle = this.Context.ConsoleHelper.ReadOptionalString("Enter a new billing cycle or leave blank to keep the same [example: Annual or Monthly]");
+
+                if (!string.IsNullOrWhiteSpace(targetBillingCycle))
+                {
+                    existingSubscription.BillingCycle = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), targetBillingCycle, true);
+                }
+            }
+
+            this.Context.ConsoleHelper.StartProgress("Updating subscription");
             var updatedSubscription = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId).Patch(existingSubscription);
             this.Context.ConsoleHelper.StopProgress();
 
