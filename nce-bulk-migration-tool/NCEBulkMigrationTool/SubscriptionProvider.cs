@@ -76,8 +76,8 @@ internal class SubscriptionProvider : ISubscriptionProvider
         if (failedCustomersBag.Count > 0)
         {
             Console.WriteLine("Exporting failed customers");
-            await csvProvider.ExportCsv(failedCustomersBag, "failedCustomers.csv");
-            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/failedCustomers.csv");
+            await csvProvider.ExportCsv(failedCustomersBag, $"{Constants.OutputFolderPath}/failedCustomers.csv");
+            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/{Constants.OutputFolderPath}/failedCustomers.csv");
         }
 
         return true;
