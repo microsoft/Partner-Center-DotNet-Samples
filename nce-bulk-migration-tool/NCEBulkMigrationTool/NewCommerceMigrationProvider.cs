@@ -38,9 +38,9 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             using var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture, leaveOpen: true);
             var inputMigrationRequests = csvReader.GetRecords<MigrationRequest>().ToList();
 
-            if (inputMigrationRequests.Count > 100)
+            if (inputMigrationRequests.Count > 200)
             {
-                Console.WriteLine($"There are too many migration requests in the file: {fileName}. The maximum limit for migration uploads per file is 100. Please fix the input file to continue...");
+                Console.WriteLine($"There are too many migration requests in the file: {fileName}. The maximum limit for migration uploads per file is 200. Please fix the input file to continue...");
                 continue;
             }
 
