@@ -46,14 +46,13 @@ Below is a high-level workflow of the console app experience and batch migration
  ![Batch Migration Workflow](assets/images/BatchMigrationWorkflow.png "Batch Migration Workflow")
  
 
-## Software Pre-Requisites 
-
-In order to build and run the BAM tool, .NET 6.0 SDK software is required. 
+## Pre-Requisites 
+* In order to build and run the BAM tool, .NET 6.0 SDK is required.
+* AAD AppId that is onboarded to access Partner Center Apis. The batch migration (BAM) tool is not configured for multitenant apps. When registering the App please use single tenant app.
 
 ## Step-by-step flow of migrating a batch 
 
 ### Begin Running the Tool and Authenticate your Account 
-
 Steps for tool setup: 
 
 * Open command prompt and navigate to the folder where NCEBulkMigrationTool.sln is located.
@@ -70,11 +69,6 @@ Steps to run the tool:
 * In command prompt run the following command: 
 ```
 .\NCEBulkMigrationTool.exe <AppId> <Upn> 
-```
-
-* If a previous version of the tool was installed, enter the following command in the Command Prompt to uninstall the older version: 
-```
-dotnet tool uninstall ncebulkmigrationtool -g 
 ```
 * NOTE: If multiple users are running at the same time from the same folder then files can be overwritten or access can be denied. It is better to copy the tool to multiple folders and each user can operate on a separate instance of the tool 
  
@@ -224,6 +218,16 @@ To export NCE subscriptions, enter command 5. The exported list will show up in 
 ![Export NCE subscriptions console example](assets/images/NceBulkMigrationToolLoaded.png "Export NCE subscriptions console example")
  
  ![Export NCE subscriptions CSV file output](assets/images/ExportNceSubscriptionsCsvOutput.png "Export NCE subscriptions CSV file output")
+
+ ## Key Scenarios
+In the case a user wants to migrate more than 100 subscriptions (the maximum batch size recommendation), multiple batches can be uploaded into the BAM tool. Users can organize folders by a variety of fields to reduce the size of the files they would like to upload to be migrated; users may organize subscriptions to be migrated by indirect reseller, product name, subscription name, and more. If a batch file, which the user has organized, exceeds the maximum recommendation of 100 subscriptions, users may separate one CSV into multiple by effectively copying over subscriptions to new files to maintain the 100 subscription maximum of each batch. For example, if a user would like to migrate 325 subscriptions, this can be split into four separate files (three files can each contain 100 subscriptions and the last one can contain 25).  
+
+Multiple files can be uploaded into the batch tool at once; the tool will read migration requests one batch file and a time and will automatically begin reading in other batch files saved to the input directory (in the case multiple batches have been added). The tool will read in batches one-by-one and call the [Create Migration API](https://docs.microsoft.com/en-us/partner-center/develop/create-migration) on each subscription individually. Users would not need to wait for one batch file to be finished executing to add additional batch files to the input directory.  
+
+The anticipated timelines for each batch to complete is zero to six hours; exceptions will be seen in cases where Partner Center is receiving a high volume of migration requests from multiple users in a short timeframe. More details regarding expected migration timelines are available [here](https://docs.microsoft.com/en-us/partner-center/migrate-subscriptions-to-new-commerce#expected-migration-timelines). 
+
+ ## Known Issues
+ * If you receive a 409 error when exporting the subscription list, please wait 5 minutes and retry this step. This error primarily happens in cases where the tool is making parallel calls while the system is still taking action on previous call
 
 ## Additional notes and resources 
 
