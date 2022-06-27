@@ -56,8 +56,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 
                 this.Context.ConsoleHelper.StartProgress("Getting migration events");
                 newCommerceMigrationEvents = newCommerceMigrationOperations.GetEvents(newCommerceMigration.Id, null).Get();
-                this.Context.ConsoleHelper.WriteObject(newCommerceMigrationEvents, "New-Commerce migration events")
-                this.Context.ConsoleHelper.StopProgress();s
+                this.Context.ConsoleHelper.WriteObject(newCommerceMigrationEvents, "New-Commerce migration events");
+                this.Context.ConsoleHelper.StopProgress();
             }
             else
             {
