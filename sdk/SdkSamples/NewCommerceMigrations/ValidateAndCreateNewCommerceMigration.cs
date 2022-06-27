@@ -53,11 +53,21 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
                 newCommerceMigration = newCommerceMigrationOperations.ById(newCommerceMigration.Id).Get();
                 this.Context.ConsoleHelper.WriteObject(newCommerceMigration, "Final New-Commerce migration");
                 this.Context.ConsoleHelper.StopProgress();
+
+                this.Context.ConsoleHelper.StartProgress("Getting migration events");
+                newCommerceMigrationEvents = newCommerceMigrationOperations.GetEvents(newCommerceMigration.Id, null).Get();
+                this.Context.ConsoleHelper.WriteObject(newCommerceMigrationEvents, "New-Commerce migration events")
+                this.Context.ConsoleHelper.StopProgress();s
             }
             else
             {
                 this.Context.ConsoleHelper.Warning("The specified subscription is not eligibile for migrating to New-Commerce.");
             }
+
+            this.Context.ConsoleHelper.StartProgress("Getting all New-Commerce migrations");
+            newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null);
+            this.Context.ConsoleHelper.WriteObject(newCommerceMigrations, "New-Commerce migrations");
+            this.Context.ConsoleHelper.StopProgress();
         }
     }
 }
