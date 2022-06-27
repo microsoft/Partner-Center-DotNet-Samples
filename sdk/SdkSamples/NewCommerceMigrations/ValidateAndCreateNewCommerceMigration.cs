@@ -65,7 +65,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
             }
 
             this.Context.ConsoleHelper.StartProgress("Getting all New-Commerce migrations");
-            newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null);
+            newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null).Get();
             this.Context.ConsoleHelper.WriteObject(newCommerceMigrations, "New-Commerce migrations");
             this.Context.ConsoleHelper.StopProgress();
         }
