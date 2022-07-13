@@ -55,7 +55,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
                 this.Context.ConsoleHelper.StopProgress();
 
                 this.Context.ConsoleHelper.StartProgress("Getting migration events");
-                newCommerceMigrationEvents = newCommerceMigrationOperations.GetEvents(newCommerceMigration.Id, null).Get();
+                var newCommerceMigrationEvents = newCommerceMigrationOperations.GetEvents(newCommerceMigration.Id, null);
                 this.Context.ConsoleHelper.WriteObject(newCommerceMigrationEvents, "New-Commerce migration events");
                 this.Context.ConsoleHelper.StopProgress();
             }
@@ -65,7 +65,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
             }
 
             this.Context.ConsoleHelper.StartProgress("Getting all New-Commerce migrations");
-            newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null).Get();
+            var newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null);
             this.Context.ConsoleHelper.WriteObject(newCommerceMigrations, "New-Commerce migrations");
             this.Context.ConsoleHelper.StopProgress();
         }
