@@ -38,9 +38,9 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             using var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture, leaveOpen: true);
             var inputMigrationRequests = csvReader.GetRecords<MigrationRequest>().ToList();
 
-            if (inputMigrationRequests.Count > 100)
+            if (inputMigrationRequests.Count > 200)
             {
-                Console.WriteLine($"There are too many migration requests in the file: {fileName}. The maximum limit for migration uploads per file is 100. Please fix the input file to continue...");
+                Console.WriteLine($"There are too many migration requests in the file: {fileName}. The maximum limit for migration uploads per file is 200. Please fix the input file to continue...");
                 continue;
             }
 
@@ -226,7 +226,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         }
 
         var result = this.PrepareMigrationResult(migrationResult, migrationResult.BatchId, migration, migrationError);
-        return (result, migration?.AddOnMigrations);
+        return (result!, migration?.AddOnMigrations ?? Enumerable.Empty<NewCommerceMigration>());
     }
 
     /// <summary>
@@ -363,12 +363,18 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
     /// <returns>The add on migration results.</returns>
     private List<MigrationResult> PrepareAddOnMigrationResult(IEnumerable<MigrationRequest> addOnMigrationRequests, string batchId, NewCommerceMigration? newCommerceMigration, NewCommerceMigrationError? newCommerceMigrationError, List<MigrationResult> migrationResults)
     {
-        foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
+        if(newCommerceMigration != null)
         {
-            var addOnMigrationRequest = addOnMigrationRequests.SingleOrDefault(n => n.LegacySubscriptionId.Equals(addOnMigrationResponse.CurrentSubscriptionId, StringComparison.OrdinalIgnoreCase));
-            addOnMigrationResponse.Status = newCommerceMigration.Status;
-            addOnMigrationResponse.Id = newCommerceMigration.Id;
-            PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
+            foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
+            {
+                var addOnMigrationRequest = addOnMigrationRequests.SingleOrDefault(n => n.LegacySubscriptionId.Equals(addOnMigrationResponse.CurrentSubscriptionId, StringComparison.OrdinalIgnoreCase));
+                if(addOnMigrationRequest != null)
+                {
+                    addOnMigrationResponse.Status = newCommerceMigration.Status;
+                    addOnMigrationResponse.Id = newCommerceMigration.Id;
+                    PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
+                }
+            }
         }
 
         return migrationResults;
