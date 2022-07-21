@@ -25,8 +25,8 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
         protected override void RunScenario()
         {
             var partnerOperations = this.Context.UserPartnerOperations;
-            string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their Subscriptions");
-            string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to find transtions for");
+            string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their subscriptions");
+            string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to find transitions for");
             var subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer subscription transitions");

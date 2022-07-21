@@ -150,6 +150,7 @@
     <Compile Include="Analytics\GetCustomerLicensesUsageAnalytics.cs" />
     <Compile Include="Customers\CreateCustomerQualification.cs" />
     <Compile Include="Customers\CreateCustomerQualificationWithGCC.cs" />
+    <Compile Include="Customers\DeletePartnerCustomerDap.cs" />
     <Compile Include="Customers\DeletePartnerCustomerRelationship.cs" />
     <Compile Include="Customers\GetCustomerQualifications.cs" />
     <Compile Include="Customers\GetValidationStatus.cs" />

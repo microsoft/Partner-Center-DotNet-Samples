@@ -61,6 +61,7 @@ static async Task RunAsync(IServiceProvider serviceProvider)
     Directory.CreateDirectory($"{Constants.InputFolderPath}/migrations/processed");
     Directory.CreateDirectory(Constants.OutputFolderPath);
 
+    ShowOptions:
     Console.WriteLine("Please choose an option");
 
     Console.WriteLine("1. Export customers");
@@ -68,14 +69,21 @@ static async Task RunAsync(IServiceProvider serviceProvider)
     Console.WriteLine("3. Upload migrations");
     Console.WriteLine("4. Export migration status");
     Console.WriteLine("5. Export NCE subscriptions");
+    Console.WriteLine("6. Exit");
 
 SelectOption:
     var option = Console.ReadLine();
 
-    if (!short.TryParse(option, out short input) || !(input >= 1 && input <= 5))
+    if (!short.TryParse(option, out short input) || !(input >= 1 && input <= 6))
     {
-        Console.WriteLine("Invalid input, Please try again! Possible values are {1, 2, 3, 4, 5}");
+        Console.WriteLine("Invalid input, Please try again! Possible values are {1, 2, 3, 4, 5, 6}");
         goto SelectOption;
+    }
+
+    if(input == 6)
+    {
+        Console.WriteLine("Exiting the app!");
+        Environment.Exit(Environment.ExitCode);
     }
 
     Stopwatch stopwatch = Stopwatch.StartNew();
@@ -91,5 +99,8 @@ SelectOption:
     };
 
     stopwatch.Stop();
-    Console.WriteLine($"Completed the operation in {stopwatch.Elapsed}");
+    Console.WriteLine($"Completed the operation {input} in {stopwatch.Elapsed}");
+    Console.WriteLine("========================================================");
+
+    goto ShowOptions;
 }
