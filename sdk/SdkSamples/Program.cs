@@ -252,7 +252,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetCustomerRelationshipRequest(context),
                 new UpdateCustomerBillingProfile(context),
                 new ValidateCustomerAddress(context),
-                new DeletePartnerCustomerRelationship(context)
+                new DeletePartnerCustomerRelationship(context),
+                new DeletePartnerCustomerDap(context)
             };
 
             return new AggregatePartnerScenario("Customer samples", customerScenarios, context);

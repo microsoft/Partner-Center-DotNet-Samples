@@ -76,8 +76,8 @@ internal class SubscriptionProvider : ISubscriptionProvider
         if (failedCustomersBag.Count > 0)
         {
             Console.WriteLine("Exporting failed customers");
-            await csvProvider.ExportCsv(failedCustomersBag, "failedCustomers.csv");
-            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/failedCustomers.csv");
+            await csvProvider.ExportCsv(failedCustomersBag, $"{Constants.OutputFolderPath}/failedCustomers.csv");
+            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/{Constants.OutputFolderPath}/failedCustomers.csv");
         }
 
         return true;
@@ -237,7 +237,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
 
             migrationResponse.EnsureSuccessStatusCode();
             var newCommerceEligibility = await migrationResponse.Content.ReadFromJsonAsync<NewCommerceEligibility>().ConfigureAwait(false);
-            if (newCommerceEligibility.AddOnMigrations.Any())
+            if (newCommerceEligibility!.AddOnMigrations.Any())
             {
                 addOnEligibilityList.Add(newCommerceEligibility.AddOnMigrations);
             }
@@ -279,6 +279,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             LegacySubscriptionName = subscription.FriendlyName,
             LegacyProductName = subscription.OfferName,
             ExpirationDate = subscription.CommitmentEndDate,
+            AutoRenewEnabled = subscription.AutoRenewEnabled,
             MigrationEligible = newCommerceEligibility.IsEligible,
             NcePsa = newCommerceEligibility.CatalogItemId,
             CurrentTerm = subscription.TermDuration,
