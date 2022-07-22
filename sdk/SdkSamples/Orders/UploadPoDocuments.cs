@@ -35,23 +35,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their orders");
             string orderId = this.ObtainOrderID("Enter the ID of order to retrieve");
-
-            this.Context.ConsoleHelper.StartProgress("Retrieving customer order to upload the attachments");
-            var customerOrder = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Get();
-            this.Context.ConsoleHelper.StopProgress();
-
-            var formData = new MultipartFormDataContent();
-
-            // Create a dummy file to upload
-            var fileContent = System.Text.Encoding.UTF8.GetBytes("This is a test file1 for PO content");
+            var fileName = this.ObtainFileName("Enter the file path");
 
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
-            var streamContent = new ByteArrayContent(fileContent);
-            var fileName = "PO_Customer_ABC.pdf";
+            FileStream fs = File.OpenRead(fileName);
+            var streamContent = new StreamContent(fs);
             streamContent.Headers.Add("Content-Type", "application/pdf");
-            streamContent.Headers.Add("Content-Disposition", "form-data; name=\"POFiles\"; filename=\"" + fileName + "\"");
-            multiContent.Add(streamContent, "POFiles", fileName);
+            streamContent.Headers.Add("Content-Disposition", "form-data; name=\"POFiles\"; filename=\"" + Path.GetFileName(fileName) + "\"");
+            multiContent.Add(streamContent, "POFiles", Path.GetFileName(fileName));
 
             var attachmentMetadata = new AttachmentMetadata()
             {
@@ -66,9 +58,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             multiContent.Add(stringContent, "metadata");
 
             this.Context.ConsoleHelper.StartProgress("Uploading PO documents to the customer order");
-            var uploadedAttachments = partnerOperations.Customers.ById(customerId).Orders.ById(customerOrder.Id).Attachments.Upload(formData);           
+            var uploadedAttachments = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Attachments.Upload(multiContent);           
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(uploadedAttachments, "Uploaded documents to customer order");
+        }
+
+        /// <summary>
+        /// Obtain an order ID to work with the configuration if set there or prompts the user to enter it.
+        /// </summary>
+        /// <param name="promptMessage">An optional custom prompt message</param>
+        /// <returns>The order ID</returns>
+        protected string ObtainFileName(string promptMessage = default(string))
+        {
+            return this.Context.ConsoleHelper.ReadNonEmptyString(promptMessage, "");
         }
     }
 }
