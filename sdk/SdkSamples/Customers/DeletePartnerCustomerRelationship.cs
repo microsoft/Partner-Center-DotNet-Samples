@@ -57,12 +57,9 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
                 RelationshipToPartner = CustomerPartnerRelationship.None
             };
 
-            customer = partnerOperations.Customers.ById(customerIdToDeleteRelationshipOf).Patch(customer);
+            partnerOperations.Customers.ById(customerIdToDeleteRelationshipOf).Patch(customer);
 
-            if (customer.RelationshipToPartner == CustomerPartnerRelationship.None)
-            {
-                this.Context.ConsoleHelper.Success("Customer Partner Relationship successfully deleted");
-            }
+            this.Context.ConsoleHelper.Success("Customer Partner Relationship successfully deleted");
 
             this.Context.ConsoleHelper.StopProgress();
         }
