@@ -6,12 +6,10 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
+    using System.IO;
+    using System.Net.Http;
     using Microsoft.Store.PartnerCenter.Models.Orders;
     using Newtonsoft.Json;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Windows.Forms;
 
     /// <summary>
     /// A scenario that updates a customer order by uploading PO attachments.

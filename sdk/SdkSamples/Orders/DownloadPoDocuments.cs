@@ -1,25 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="UploadPoDocuments.cs" company="Microsoft">
+// <copyright file="DownloadPoDocuments.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
-    using Microsoft.Store.PartnerCenter.Models.Orders;
-    using Newtonsoft.Json;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Windows.Forms;
-
     /// <summary>
     /// A scenario that updates a customer order by uploading PO attachments.
     /// </summary>
     public class DownloadPoDocuments : BasePartnerScenario
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UploadPoDocuments"/> class.
+        /// Initializes a new instance of the <see cref="DownloadPoDocuments"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
         public DownloadPoDocuments(IScenarioContext context) : base("Download PO documents of a customer order", context)
