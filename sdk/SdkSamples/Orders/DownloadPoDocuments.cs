@@ -7,7 +7,7 @@
 namespace Microsoft.Store.PartnerCenter.Samples.Orders
 {
     /// <summary>
-    /// A scenario that updates a customer order by uploading PO attachments.
+    /// A scenario that updates a customer order by downloading PO attachment.
     /// </summary>
     public class DownloadPoDocuments : BasePartnerScenario
     {
@@ -34,7 +34,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
 
             var attachment = partnerOperations.Customers.ById(customerId).Orders.ById(orderId).Attachments.ById(attachmentId).Download(); 
             this.Context.ConsoleHelper.StopProgress();
-            this.Context.ConsoleHelper.WriteObject(attachment, "Uploaded documents to customer order");
+            this.Context.ConsoleHelper.WriteObject(attachment, "The document that was uploaded to customer order");
         }
     }
 }
