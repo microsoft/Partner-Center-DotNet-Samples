@@ -344,7 +344,9 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetOrdersByBillingCycleType(context),
                 new GetOrderProvisioningStatus(context),
                 new UpdateOrder(context),
-                new GetLineItemActivationLink(context)
+                new GetLineItemActivationLink(context),
+                new UploadPoDocuments(context),
+                new DownloadPoDocuments(context),
             };
 
             return new AggregatePartnerScenario("Order samples", orderScenarios, context);
