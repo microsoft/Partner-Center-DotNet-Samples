@@ -46,7 +46,10 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
             var migrations = new ConcurrentBag<IEnumerable<MigrationResult>>();
 
-            var httpClient = new HttpClient();
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(Routes.BaseUrl)
+            };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
             httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -87,10 +90,10 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
             Console.WriteLine("Exporting migrations");
             await csvProvider.ExportCsv(migrations.SelectMany(m => m), $"{Constants.OutputFolderPath}/migrations/{processedFileName}_{batchId}.csv");
-            
+
             File.Move(fileName, $"{Constants.InputFolderPath}/subscriptions/processed/{processedFileName}", true);
 
-            await Task.Delay(1000 * 60);
+            await Task.Delay(1000);
 
             Console.WriteLine($"Exported migrations at {Environment.CurrentDirectory}/{Constants.OutputFolderPath}/migrations/{processedFileName}_{batchId}.csv");
         }
@@ -115,7 +118,10 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
             var migrations = new ConcurrentBag<MigrationResult>();
 
-            var httpClient = new HttpClient();
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(Routes.BaseUrl)
+            };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
 
             var options = new ParallelOptions()
@@ -173,7 +179,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
             File.Move(fileName, $"{Constants.InputFolderPath}/migrations/processed/{processedFileName}", true);
 
-            await Task.Delay(1000 * 60);
+            await Task.Delay(1000);
 
             Console.WriteLine($"Exported migration status at {Environment.CurrentDirectory}/{Constants.OutputFolderPath}/migrationstatus/{processedFileName}.csv");
         }
@@ -226,7 +232,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         }
 
         var result = this.PrepareMigrationResult(migrationResult, migrationResult.BatchId, migration, migrationError);
-        return (result!, migration?.AddOnMigrations ?? Enumerable.Empty<NewCommerceMigration>());
+        return (result, migration?.AddOnMigrations);
     }
 
     /// <summary>
@@ -251,6 +257,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             BillingCycle = migrationRequest.BillingPlan,
             TermDuration = migrationRequest.Term,
             ExternalReferenceId = batchId,
+            CustomTermEndDate = migrationRequest.CustomTermEndDate,
         };
 
         // If they want to start a new term, then we should take the input from the file.
@@ -317,6 +324,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 BillingCycle = request.BillingPlan,
                 TermDuration = request.Term,
                 PurchaseFullTerm = request.StartNewTermInNce,
+                CustomTermEndDate = request.CustomTermEndDate,
             });
 
             allAddOnMigrations.AddRange(addOnNewCommerceMigrations);
@@ -363,18 +371,12 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
     /// <returns>The add on migration results.</returns>
     private List<MigrationResult> PrepareAddOnMigrationResult(IEnumerable<MigrationRequest> addOnMigrationRequests, string batchId, NewCommerceMigration? newCommerceMigration, NewCommerceMigrationError? newCommerceMigrationError, List<MigrationResult> migrationResults)
     {
-        if(newCommerceMigration != null)
+        foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
         {
-            foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
-            {
-                var addOnMigrationRequest = addOnMigrationRequests.SingleOrDefault(n => n.LegacySubscriptionId.Equals(addOnMigrationResponse.CurrentSubscriptionId, StringComparison.OrdinalIgnoreCase));
-                if(addOnMigrationRequest != null)
-                {
-                    addOnMigrationResponse.Status = newCommerceMigration.Status;
-                    addOnMigrationResponse.Id = newCommerceMigration.Id;
-                    PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
-                }
-            }
+            var addOnMigrationRequest = addOnMigrationRequests.SingleOrDefault(n => n.LegacySubscriptionId.Equals(addOnMigrationResponse.CurrentSubscriptionId, StringComparison.OrdinalIgnoreCase));
+            addOnMigrationResponse.Status = newCommerceMigration.Status;
+            addOnMigrationResponse.Id = newCommerceMigration.Id;
+            PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
         }
 
         return migrationResults;
@@ -407,6 +409,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 NCETermDuration = migrationRequest.Term,
                 NCEBillingPlan = migrationRequest.BillingPlan,
                 NCESeatCount = migrationRequest.SeatCount,
+                CustomTermEndDate = migrationRequest.CustomTermEndDate,
                 ErrorCode = newCommerceMigrationError.Code,
                 ErrorReason = newCommerceMigrationError.Description,
             };
@@ -432,6 +435,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 NCETermDuration = newCommerceMigration.TermDuration,
                 NCEBillingPlan = newCommerceMigration.BillingCycle,
                 NCESeatCount = newCommerceMigration.Quantity,
+                CustomTermEndDate = newCommerceMigration.CustomTermEndDate,
                 NCESubscriptionId = newCommerceMigration.NewCommerceSubscriptionId,
                 BatchId = batchId,
                 MigrationId = newCommerceMigration.Id,
@@ -469,6 +473,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 NCETermDuration = migrationResult.NCETermDuration,
                 NCEBillingPlan = migrationResult.NCEBillingPlan,
                 NCESeatCount = migrationResult.NCESeatCount,
+                CustomTermEndDate = migrationResult.CustomTermEndDate,
                 ErrorCode = newCommerceMigrationError.Code,
                 ErrorReason = newCommerceMigrationError.Description,
             };
@@ -491,6 +496,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 NCETermDuration = newCommerceMigration.TermDuration,
                 NCEBillingPlan = newCommerceMigration.BillingCycle,
                 NCESeatCount = newCommerceMigration.Quantity,
+                CustomTermEndDate = newCommerceMigration.CustomTermEndDate,
                 NCESubscriptionId = newCommerceMigration.NewCommerceSubscriptionId,
                 BatchId = batchId,
                 MigrationId = newCommerceMigration.Id,

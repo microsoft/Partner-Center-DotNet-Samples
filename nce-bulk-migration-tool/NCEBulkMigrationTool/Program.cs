@@ -15,7 +15,7 @@ if (args.Length == 2)
 }
 else
 {
-    AppId:
+AppId:
     Console.WriteLine("Enter AppId");
     appId = Console.ReadLine();
 
@@ -25,7 +25,7 @@ else
         goto AppId;
     }
 
-    Upn:
+Upn:
     Console.WriteLine("Enter Upn");
     upn = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(upn))
@@ -49,6 +49,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ICustomerProvider, CustomerProvider>();
         services.AddSingleton<ISubscriptionProvider, SubscriptionProvider>();
         services.AddSingleton<INewCommerceMigrationProvider, NewCommerceMigrationProvider>();
+        services.AddSingleton<INewCommerceMigrationScheduleProvider, NewCommerceMigrationScheduleProvider>();
     }).Build();
 
 await RunAsync(host.Services);
@@ -57,11 +58,7 @@ await host.RunAsync();
 
 static async Task RunAsync(IServiceProvider serviceProvider)
 {
-    Directory.CreateDirectory($"{Constants.InputFolderPath}/subscriptions/processed");
-    Directory.CreateDirectory($"{Constants.InputFolderPath}/migrations/processed");
-    Directory.CreateDirectory(Constants.OutputFolderPath);
-
-    ShowOptions:
+ShowOptions:
     Console.WriteLine("Please choose an option");
 
     Console.WriteLine("1. Export customers");
@@ -69,22 +66,32 @@ static async Task RunAsync(IServiceProvider serviceProvider)
     Console.WriteLine("3. Upload migrations");
     Console.WriteLine("4. Export migration status");
     Console.WriteLine("5. Export NCE subscriptions");
-    Console.WriteLine("6. Exit");
+    Console.WriteLine("6. Export subscriptions with migration eligibility to schedule migrations");
+    Console.WriteLine("7. Upload migration schedules");
+    Console.WriteLine("8. Export schedule migrations");
+    Console.WriteLine("9. Cancel schedule migrations");
+    Console.WriteLine("10. Exit");
 
 SelectOption:
     var option = Console.ReadLine();
 
-    if (!short.TryParse(option, out short input) || !(input >= 1 && input <= 6))
+    if (!short.TryParse(option, out short input) || !(input >= 1 && input <= 10))
     {
-        Console.WriteLine("Invalid input, Please try again! Possible values are {1, 2, 3, 4, 5, 6}");
+        Console.WriteLine("Invalid input, Please try again! Possible values are {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}");
         goto SelectOption;
     }
 
-    if(input == 6)
+    if (input == 10)
     {
         Console.WriteLine("Exiting the app!");
         Environment.Exit(Environment.ExitCode);
     }
+
+    Directory.CreateDirectory($"{Constants.InputFolderPath}/subscriptions/processed");
+    Directory.CreateDirectory($"{Constants.InputFolderPath}/migrations/processed");
+    Directory.CreateDirectory($"{Constants.InputFolderPath}/subscriptionsforschedule/processed");
+    Directory.CreateDirectory($"{Constants.InputFolderPath}/cancelschedulemigrations/processed");
+    Directory.CreateDirectory(Constants.OutputFolderPath);
 
     Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -95,6 +102,10 @@ SelectOption:
         3 => await serviceProvider.GetRequiredService<INewCommerceMigrationProvider>().UploadNewCommerceMigrationsAsync(),
         4 => await serviceProvider.GetRequiredService<INewCommerceMigrationProvider>().ExportNewCommerceMigrationStatusAsync(),
         5 => await serviceProvider.GetRequiredService<ISubscriptionProvider>().ExportModernSubscriptionsAsync(),
+        6 => await serviceProvider.GetRequiredService<INewCommerceMigrationScheduleProvider>().ValidateAndGetSubscriptionsToScheduleMigrationAsync(),
+        7 => await serviceProvider.GetRequiredService<INewCommerceMigrationScheduleProvider>().UploadNewCommerceMigrationSchedulesAsync(),
+        8 => await serviceProvider.GetRequiredService<INewCommerceMigrationScheduleProvider>().ExportNewCommerceMigrationSchedulesAsync(),
+        9 => await serviceProvider.GetRequiredService<INewCommerceMigrationScheduleProvider>().CancelNewCommerceMigrationSchedulesAsync(),
         _ => throw new InvalidOperationException("Invalid input")
     };
 

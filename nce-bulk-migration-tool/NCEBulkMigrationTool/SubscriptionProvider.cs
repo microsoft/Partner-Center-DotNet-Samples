@@ -40,7 +40,10 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
         partnerTenantId = authenticationResult.TenantId;
 
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Routes.BaseUrl)
+        };
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
         httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -98,7 +101,10 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
         partnerTenantId = authenticationResult.TenantId;
 
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Routes.BaseUrl)
+        };
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
         httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -182,7 +188,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
             httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
-            subscriptionRequest = new HttpRequestMessage(HttpMethod.Get, Routes.GetCustomers);
+            subscriptionRequest = new HttpRequestMessage(HttpMethod.Get, string.Format(Routes.GetSubscriptions, customer.TenantId));
             subscriptionRequest.Headers.Add("MS-CorrelationId", Guid.NewGuid().ToString());
 
             subscriptionResponse = await httpClient.SendAsync(subscriptionRequest).ConfigureAwait(false);
@@ -229,7 +235,10 @@ internal class SubscriptionProvider : ISubscriptionProvider
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
                 httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
-                migrationRequest = new HttpRequestMessage(HttpMethod.Get, Routes.GetCustomers);
+                migrationRequest = new HttpRequestMessage(HttpMethod.Post, string.Format(Routes.ValidateMigrationEligibility, customer.TenantId))
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
+                };
                 migrationRequest.Headers.Add("MS-CorrelationId", Guid.NewGuid().ToString());
 
                 migrationResponse = await httpClient.SendAsync(migrationRequest).ConfigureAwait(false);
@@ -237,7 +246,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
 
             migrationResponse.EnsureSuccessStatusCode();
             var newCommerceEligibility = await migrationResponse.Content.ReadFromJsonAsync<NewCommerceEligibility>().ConfigureAwait(false);
-            if (newCommerceEligibility!.AddOnMigrations.Any())
+            if (newCommerceEligibility.AddOnMigrations.Any())
             {
                 addOnEligibilityList.Add(newCommerceEligibility.AddOnMigrations);
             }
@@ -289,6 +298,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             Term = subscription.TermDuration,
             BillingPlan = subscription.BillingCycle.ToString(),
             SeatCount = subscription.Quantity,
+            CustomTermEndDate = newCommerceEligibility.CustomTermEndDate,
             AddOn = !string.IsNullOrWhiteSpace(subscription.ParentSubscriptionId),
             BaseSubscriptionId = subscription.ParentSubscriptionId,
             MigrationIneligibilityReason = newCommerceEligibility.Errors.Any() ?
