@@ -1,3 +1,18 @@
+---
+page_type: sample
+languages:
+- csharp
+name: New Commerce Experience Batch Migration Tool (BAM)
+description: Learn how to use the New Commerce Experience Batch Migration Tool to migrate your customer's subscription's to NCE.
+products:
+- azure
+- ms-graph
+---
+
+# New Commerce Experience Batch Migration Tool (BAM) 
+
+## Table of Contents 
+
 1. [Introduction](#introduction)
 2. [Experience Summary](#experience-summary)
 3. [Software Pre-requisites](#software-prerequisites)
