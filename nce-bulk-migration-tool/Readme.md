@@ -143,7 +143,7 @@ The following fields can be viewed for each subscription.
 * Add On (True or False) 
 * Base Subscription (if an add-on) 
 * Migration Ineligibility Reason (if subscription is not eligible for migration)
-* Customer Term End Date 
+* Custom Term End Date 
 
 ## Determine which subscriptions will be migrated and how 
 
