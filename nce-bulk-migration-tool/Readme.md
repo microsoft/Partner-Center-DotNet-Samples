@@ -85,7 +85,7 @@ Steps to run the tool:
 
 Follow the above section to get the tool running. 
 
-![NCE Batch Migration Tool Running](media/NceBulkMigrationToolLoaded.png "NCE Batch Migration Tool Running")
+![NCE Batch Migration Tool Running](assets/images/NceBulkMigrationToolLoaded.png "NCE Batch Migration Tool Running")
 
 Once the tool is running and the account is authenticated a partner can perform the above actions using the BAM tool.
 
@@ -93,11 +93,11 @@ Once the tool is running and the account is authenticated a partner can perform 
 
 To export a list of customers, enter command “1”. This will produce a CSV similar to the below example. 
 
-![Exported customers CSV](media/ExportedCustomersExample.png "Exported customers CSV")
+![Exported customers CSV](assets/images/ExportedCustomersExample.png "Exported customers CSV")
  
 The exported list of customers will be available in the “output” file of the tool’s folders. 
 
-![Input output folder example](media/InputOutputFolderExample.png "Input output folder example")
+![Input output folder example](assets/images/InputOutputFolderExample.png "Input output folder example")
 
 View exported customers in the file “customers.csv”. For each customer under a partner tenant ID, users can view customer tenant ID, customer domain, and customer company name. 
 
@@ -109,19 +109,19 @@ Please save the updated “customers.csv” in the “input” folder in order t
 
 Run the BAM tool and enter command “2” to export subscriptions with migration eligibility. 
 
- ![Export customer subscriptions](media/ExportSubscriptionsExample.png "Export customer subscriptions")
+ ![Export customer subscriptions](assets/images/ExportSubscriptionsExample.png "Export customer subscriptions")
 
 The console app will indicate subscriptions are being validated for eligibility, as seen in the screenshot above. 
 
- ![Export customer subscriptions in progress](media/ExportSubscriptionsToolOutput.png "Export customer subscriptions in progress")
+ ![Export customer subscriptions in progress](assets/images/ExportSubscriptionsToolOutput.png "Export customer subscriptions in progress")
 
 Once export is complete, the list of subscriptions for the specified customers will be available in the output folder as “subscriptions.csv”. 
 
- ![Export customer subscriptions result file](media/SubscriptionsOutput.png "Export customer subscriptions result file")
+ ![Export customer subscriptions result file](assets/images/SubscriptionsOutput.png "Export customer subscriptions result file")
 
 The “subscriptions.csv” file will provide a list of all legacy subscriptions (both active and suspended) under the customers previously specified. 
 
-![Export customer subscriptions result CSV content](media/OutputSubscriptionsResult.png "Export customer subscriptions result CSV content")
+![Export customer subscriptions result CSV content](assets/images/OutputSubscriptionsResult.png "Export customer subscriptions result CSV content")
 
 The following fields can be viewed for each subscription. 
 * Partner tenant ID 
@@ -174,19 +174,19 @@ Once a batch has been determined (subscriptions for migration have been filtered
 
 Once all batch files have been added to the folder run the console app and select option 3, upload migrations, for the app to begin reading in batch files in the “subscriptions” folder and executing migration requests. 
 
-![Upload migrations selection in console](media/UploadMigrationsExample.png "Upload migrations selection in console")
+![Upload migrations selection in console](assets/images/UploadMigrationsExample.png "Upload migrations selection in console")
 
 The console will indicate that the migration requests are being processed. 
 
-![Upload migrations tool output](media/UploadMigrationsToolOutput.png "Upload migrations tool output")
+![Upload migrations tool output](assets/images/UploadMigrationsToolOutput.png "Upload migrations tool output")
 
 Once a file from the “subscriptions” folder has been processed for migration, the tool will move that file into the nested “processed” folder, indicating that migration requests for that batch have been executed. Partners do not need to manually move files into the “processed” folder themselves; files in the “processed” folder will not be read by the app to execute migration on (as they have already been handled). 
 
-![Migrations output folder example](media/MigrationsFolderOutputExample.png "Migrations output folder example")
+![Migrations output folder example](assets/images/MigrationsFolderOutputExample.png "Migrations output folder example")
 
 A file for each batch containing the migration IDs will be exported (available in the “migrations” folder nested in the “output” folder). The exported files will be labelled “[batchId].csv”. 
 
- ![Uploaded migrations CSV output file example](media/UploadedMigrationsCsvOutput.png "Uploaded migrations CSV output file example")
+ ![Uploaded migrations CSV output file example](assets/images/UploadedMigrationsCsvOutput.png "Uploaded migrations CSV output file example")
 
 This file will possess the same fields as the input “subscriptions.csv” file with 2 additional columns labeled Batch ID and Migration ID. The Batch ID will be the same for all subscriptions in the file, indicating these subscriptions belong to the same batch or set of migration requests that were processed together. The Batch ID is also reflected in the name of this csv file. 
 
@@ -200,19 +200,19 @@ To be able to retrieve a refreshed status file for a batch, the exported “[bat
 
 Then, a partner must run the console app and select to check migration status. Status files will not be automatically updated. To retrieve updated statuses, a new request must be made each time (see below). 
 
-![Check migration status console example](media/CheckMigrationStatusExample.png "Check migration status console example")
+![Check migration status console example](assets/images/CheckMigrationStatusExample.png "Check migration status console example")
 
 To retrieve updated migration statuses, run the console app and enter command “4”. 
 
- ![Check migration status console output](media/CheckMigrationStatusToolOutput.png "Check migration status console output")
+ ![Check migration status console output](assets/images/CheckMigrationStatusToolOutput.png "Check migration status console output")
 
 The console app will indicate migration status is being looked up and that a file has been exported to the "migrationstatus” folder. The names of the exported migration status files represent the batch ID of subscriptions contained in the CSVs. 
 
- ![Check migration status file output example](media/CheckMigrationStatusFileOutput.png "Check migration status file output example")
+ ![Check migration status file output example](assets/images/CheckMigrationStatusFileOutput.png "Check migration status file output example")
 
 Select the “[batchID].csv” file in the "migrationstatus” folder. 
 
-![Check migration status CSV file example](media/CheckMigrationStatusCsvOutput.png "Check migration status CSV file example")
+![Check migration status CSV file example](assets/images/CheckMigrationStatusCsvOutput.png "Check migration status CSV file example")
 
 This file will provide updated statuses for migration requests that have been processed. If more than one batch is represented in the file, use the Batch Id column to filter to access statuses of requests in a particular batch. 
 
@@ -220,9 +220,9 @@ This file will provide updated statuses for migration requests that have been pr
 
 To export NCE subscriptions, enter command 5. The exported list will show up in your “output” folder and will include the fields displayed in the example file below. 
 
-![Export NCE subscriptions console example](media/NceBulkMigrationToolLoaded.png "Export NCE subscriptions console example")
+![Export NCE subscriptions console example](assets/images/NceBulkMigrationToolLoaded.png "Export NCE subscriptions console example")
  
- ![Export NCE subscriptions CSV file output](media/ExportNceSubscriptionsCsvOutput.png "Export NCE subscriptions CSV file output")
+ ![Export NCE subscriptions CSV file output](assets/images/ExportNceSubscriptionsCsvOutput.png "Export NCE subscriptions CSV file output")
 
  ## Schedule Migration 
 
