@@ -32,7 +32,10 @@ internal class CustomerProvider : ICustomerProvider
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
         Console.WriteLine("Token generated...");
 
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Routes.BaseUrl)
+        };
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
         httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -52,7 +55,7 @@ internal class CustomerProvider : ICustomerProvider
                 route = $"{Routes.GetCustomers}&seekOperation=next";
             }
 
-            request.RequestUri = new Uri(route);
+            request.RequestUri = new Uri(route, UriKind.Relative);
 
             var response = await httpClient.SendAsync(request).ConfigureAwait(false);
             if (response.StatusCode == HttpStatusCode.BadRequest)
