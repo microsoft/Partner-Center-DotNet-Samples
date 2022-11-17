@@ -59,9 +59,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
 
             this.Context.ConsoleHelper.StartProgress("Creating customer qualification with GCC");
 
-            var customerQualification = new Models.Customers.V2.CustomerQualification { Qualification = "GovernmentCommunityCloud" };
+            var customerQualificationRequest = new Models.Customers.V2.CustomerQualificationRequest 
+            {
+                Qualification = "GovernmentCommunityCloud",
+                ValidationCode = code.ValidationId,
+            };
 
-            var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualification, code);
+            var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualificationRequest);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(createCustomerQualification, "Customer Qualification with GCC");
