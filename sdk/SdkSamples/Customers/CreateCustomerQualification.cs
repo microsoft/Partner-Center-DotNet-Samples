@@ -32,16 +32,20 @@ namespace Microsoft.Store.PartnerCenter.Samples.Customers
             var partnerOperations = this.Context.UserPartnerOperations;
             this.Context.ConsoleHelper.StartProgress("Creating customer qualification");
 
-            /* This variable can be set to any allowed qualification, for example:
-             * (1) "Education"
-             * (2) "GovernmentCommunityCloud" <- this has to be paired with a ValidationCode, see sample in "CreateCustomerQualificationWithGCC.cs"
+            /* The qualification value can be set to any allowed qualification, for example:
+             * (1) "Education" <- this has to be paired with an education segment, and an optional website
+             * (2) "GovernmentCommunityCloud" <- this has to be paired with a validation code, see sample in "CreateCustomerQualificationWithGCC.cs"
              * (3) "StateOwnedEntity"
              */ 
-            var qualificationToCreate = "Education";
             
-            var customerQualification = new Models.Customers.V2.CustomerQualification { Qualification = qualificationToCreate };
+            var customerQualificationRequest = new Models.Customers.V2.CustomerQualificationRequest
+            {
+                Qualification = "Education",
+                EducationSegment = "HigherEducation", // can also be "K12"
+                Website = "example.edu"
+            };
 
-            var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualification);
+            var createCustomerQualification = partnerOperations.Customers.ById(customerIdToRetrieve).Qualification.CreateQualifications(customerQualificationRequest);
 
             this.Context.ConsoleHelper.StopProgress();
             this.Context.ConsoleHelper.WriteObject(createCustomerQualification, "Customer Qualification");
