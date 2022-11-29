@@ -45,11 +45,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Orders
             string quantityString = this.ObtainQuantity();
             var quantity = int.Parse(quantityString);
             
-            string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString("Enter a custom term end date or leave blank to keep default");
-            DateTime? customTermEndDate = null;
-            if (!string.IsNullOrWhiteSpace(customTermEndDateString)) {
-                customTermEndDate = DateTime.Parse(customTermEndDateString);
-            }
+            DateTime? customTermEndDate = this.ObtainCustomTermEndDate();
             
             var order = new Order()
             {
