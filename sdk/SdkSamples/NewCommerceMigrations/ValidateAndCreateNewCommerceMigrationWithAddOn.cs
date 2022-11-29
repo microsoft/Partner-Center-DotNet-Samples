@@ -30,7 +30,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
         {
             var partnerOperations = this.Context.UserPartnerOperations;
 
-            string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");       
+            string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to be migrated to New-Commerce");
             string subscriptionTermDuration = this.ObtainRenewalTermDuration("Enter a term duration for the subscription [example: P1Y, P1M]");
             string subscriptionBillingCycle = this.ObtainBillingCycle("Enter a billing cycle for the subscription [example: Annual or Monthly]");
