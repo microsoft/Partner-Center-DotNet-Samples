@@ -96,12 +96,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                     var changeToQuantity = int.Parse(quantity);
                     
                     // prompt the user to enter the custom term end date for the scheduled change
-                    string customTermEndDate = this.Context.ConsoleHelper.ReadOptionalString("Enter the scheduled change custom term end date or leave blank to keep the current term end date");
-                    DateTime? changeToCustomTermEndDate = null;
-                    
-                    if (!string.IsNullOrWhiteSpace(customTermEndDate)) {
-                        changeToCustomTermEndDate = DateTime.Parse(customTermEndDate);
-                    }
+                    DateTime? changeToCustomTermEndDate = this.ObtainCustomTermEndDate("Enter the scheduled change custom term end date or leave blank to keep the current term end date");
                     
                     this.Context.ConsoleHelper.StartProgress("Updating subscription scheduled change");
                     selectedSubscription.ScheduledNextTermInstructions = new ScheduledNextTermInstructions
