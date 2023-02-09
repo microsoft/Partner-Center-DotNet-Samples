@@ -6,8 +6,8 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.Customers
 {
-    using Microsoft.Store.PartnerCenter.Models.Customers;
     using Microsoft.Store.PartnerCenter.Models.ValidationCodes;
+    using Microsoft.Store.PartnerCenter.Models.Customers;
 
     /// <summary>
     /// Creates a GCC qualification for a customer.
