@@ -117,6 +117,8 @@
     <Compile Include="Auditing\SearchAuditRecords.cs" />
     <Compile Include="Auditing\SearchAuditRecordsByCustomerId.cs" />
     <Compile Include="Auditing\SearchAuditRecordsByResourceType.cs" />
+    <Compile Include="AzureEntitlement\CancelAzureEntitlement.cs" />
+    <Compile Include="AzureEntitlement\GetAzureEntitlement.cs" />
     <Compile Include="Carts\CheckoutCart.cs" />
     <Compile Include="Carts\CreateCart.cs" />
     <Compile Include="Carts\CreateCartAddonWithExistingSubscription.cs" />
