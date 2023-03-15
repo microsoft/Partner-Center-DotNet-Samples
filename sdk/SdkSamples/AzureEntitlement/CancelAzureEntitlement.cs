@@ -6,6 +6,8 @@
 
 namespace Microsoft.Store.PartnerCenter.Samples.AzureEntitlement
 {
+    using Microsoft.Store.PartnerCenter.Models.Subscriptions;
+
     /// <summary>
     /// Cancel an Azure entitlement.
     /// </summary>
@@ -36,7 +38,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.AzureEntitlement
 
             if (selectedCancellationReasonCode != "compromise")
             {
-                this.Context.ConsoleHelper.Error("Entered cancellation reason code is not supported. Please enter valid cancellation reason code.")
+                this.Context.ConsoleHelper.Error("Entered cancellation reason code is not supported. Please enter valid cancellation reason code.");
             }
 
             var azureEntitlementCancellationRequestContent = new AzureEntitlementCancellationRequestContent
@@ -47,7 +49,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.AzureEntitlement
             this.Context.ConsoleHelper.StartProgress("Canceling customer's Azure entitlement");
             var azureEntitlement = partnerOperations.Customers.ById(customerId)
                         .Subscriptions.ById(subscriptionId)
-                        .AzureEntitlement.ById(azureEntitlementId)
+                        .AzureEntitlements.ById(azureEntitlementId)
                         .Cancel(azureEntitlementCancellationRequestContent);
 
             this.Context.ConsoleHelper.StopProgress();

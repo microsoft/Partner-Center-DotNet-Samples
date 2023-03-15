@@ -33,7 +33,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.AzureEntitlement
             this.Context.ConsoleHelper.StartProgress("Retrieving customer's Azure entitlement");
             var azureEntitlement = partnerOperations.Customers.ById(customerId)
                     .Subscriptions.ById(subscriptionId)
-                    .AzureEntitlement.ById(azureEntitlementId)
+                    .AzureEntitlements.ById(azureEntitlementId)
                     .Get();
 
             this.Context.ConsoleHelper.StopProgress();
