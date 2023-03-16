@@ -64,7 +64,13 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             var inputBaseMigrationRequests = inputMigrationRequests.Where(m => !m.AddOn && m.MigrationEligible);
             var inputAddOnMigrationRequests = inputMigrationRequests.Where(m => m.AddOn && m.MigrationEligible);
 
-            await Parallel.ForEachAsync(inputBaseMigrationRequests, options, async (migrationRequest, cancellationToken) =>
+            var baseSubscriptionIds = inputMigrationRequests.Select(b => b.LegacySubscriptionId).ToList();
+
+            var addOnsWithoutBase = inputAddOnMigrationRequests.Where(a => !baseSubscriptionIds.Contains(a.BaseSubscriptionId));
+
+            var inputMigrationReadyRequests = inputBaseMigrationRequests.Union(addOnsWithoutBase);
+
+            await Parallel.ForEachAsync(inputMigrationReadyRequests, options, async (migrationRequest, cancellationToken) =>
             {
                 try
                 {
@@ -135,7 +141,13 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             var inputBaseMigrationRequests = inputMigrations.Where(m => !m.AddOn);
             var inputAddOnMigrationRequests = inputMigrations.Where(m => m.AddOn);
 
-            await Parallel.ForEachAsync(inputBaseMigrationRequests, options, async (migration, cancellationToken) =>
+            var baseSubscriptionIds = inputBaseMigrationRequests.Select(b => b.LegacySubscriptionId).ToList();
+
+            var addOnsWithoutBase = inputAddOnMigrationRequests.Where(a => !baseSubscriptionIds.Contains(a.BaseSubscriptionId));
+
+            var inputMigrationRequests = inputBaseMigrationRequests.Union(addOnsWithoutBase);
+
+            await Parallel.ForEachAsync(inputMigrationRequests, options, async (migration, cancellationToken) =>
             {
                 try
                 {
@@ -374,9 +386,12 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
         foreach (var addOnMigrationResponse in newCommerceMigration.AddOnMigrations)
         {
             var addOnMigrationRequest = addOnMigrationRequests.SingleOrDefault(n => n.LegacySubscriptionId.Equals(addOnMigrationResponse.CurrentSubscriptionId, StringComparison.OrdinalIgnoreCase));
-            addOnMigrationResponse.Status = newCommerceMigration.Status;
-            addOnMigrationResponse.Id = newCommerceMigration.Id;
-            PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
+            if (addOnMigrationRequest != null)
+            {
+                addOnMigrationResponse.Status = newCommerceMigration.Status;
+                addOnMigrationResponse.Id = newCommerceMigration.Id;
+                PrepareMigrationResult(addOnMigrationRequest, batchId, addOnMigrationResponse, newCommerceMigrationError, migrationResults);
+            }
         }
 
         return migrationResults;
@@ -405,6 +420,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 LegacyProductName = migrationRequest.LegacyProductName,
                 ExpirationDate = migrationRequest.ExpirationDate,
                 AddOn = migrationRequest.AddOn,
+                BaseSubscriptionId = migrationRequest.BaseSubscriptionId,
                 StartedNewTermInNce = migrationRequest.StartNewTermInNce,
                 NCETermDuration = migrationRequest.Term,
                 NCEBillingPlan = migrationRequest.BillingPlan,
@@ -430,6 +446,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 LegacyProductName = migrationRequest.LegacyProductName,
                 ExpirationDate = migrationRequest.ExpirationDate,
                 AddOn = migrationRequest.AddOn,
+                BaseSubscriptionId = migrationRequest.BaseSubscriptionId,
                 MigrationStatus = newCommerceMigration.Status,
                 StartedNewTermInNce = migrationRequest.StartNewTermInNce,
                 NCETermDuration = newCommerceMigration.TermDuration,
@@ -459,7 +476,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
         if (newCommerceMigrationError != null)
         {
-            result = new MigrationResult
+            result = migrationResult with
             {
                 PartnerTenantId = migrationResult.PartnerTenantId,
                 IndirectResellerMpnId = migrationResult.IndirectResellerMpnId,
@@ -481,7 +498,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
 
         if (newCommerceMigration != null)
         {
-            result = new MigrationResult
+            result = migrationResult with
             {
                 PartnerTenantId = migrationResult.PartnerTenantId,
                 IndirectResellerMpnId = migrationResult.IndirectResellerMpnId,
@@ -500,6 +517,8 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
                 NCESubscriptionId = newCommerceMigration.NewCommerceSubscriptionId,
                 BatchId = batchId,
                 MigrationId = newCommerceMigration.Id,
+                ErrorCode = null,
+                ErrorReason = string.Empty,
             };
         }
 
