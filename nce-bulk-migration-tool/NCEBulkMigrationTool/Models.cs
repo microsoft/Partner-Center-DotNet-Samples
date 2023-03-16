@@ -194,6 +194,8 @@ public record MigrationResult
 
     public bool AddOn { get; init; }
 
+    public string BaseSubscriptionId { get; init; } = string.Empty;
+
     public string MigrationStatus { get; init; } = string.Empty;
 
     public bool StartedNewTermInNce { get; init; }
