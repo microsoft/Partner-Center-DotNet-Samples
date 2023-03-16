@@ -5,33 +5,40 @@
 // -----------------------------------------------------------------------
 
 Console.WriteLine("Welcome to NCE Bulk Migration Tool!");
-string? appId;
-string? upn;
+string? appId = null;
+string? upn = null;
 
-if (args.Length == 2)
-{
-    appId = args[0];
-    upn = args[1];
-}
-else
-{
-AppId:
-    Console.WriteLine("Enter AppId");
-    appId = Console.ReadLine();
+var configurationManager = new ConfigurationManager();
+configurationManager.AddJsonFile("appsettings.json");
+var useAppToken = configurationManager.GetValue<bool>("useAppToken");
 
-    if (string.IsNullOrWhiteSpace(appId) || !Guid.TryParse(appId, out _))
+if (!useAppToken)
+{
+    if (args.Length == 2)
     {
-        Console.WriteLine("Invalid input, Please try again!");
-        goto AppId;
+        appId = args[0];
+        upn = args[1];
     }
-
-Upn:
-    Console.WriteLine("Enter Upn");
-    upn = Console.ReadLine();
-    if (string.IsNullOrWhiteSpace(upn))
+    else
     {
-        Console.WriteLine("Invalid input, Please try again!");
-        goto Upn;
+    AppId:
+        Console.WriteLine("Enter AppId");
+        appId = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(appId) || !Guid.TryParse(appId, out _))
+        {
+            Console.WriteLine("Invalid input, Please try again!");
+            goto AppId;
+        }
+
+    Upn:
+        Console.WriteLine("Enter Upn");
+        upn = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(upn))
+        {
+            Console.WriteLine("Invalid input, Please try again!");
+            goto Upn;
+        }
     }
 }
 
@@ -39,11 +46,37 @@ var appSettings = new AppSettings()
 {
     AppId = appId,
     Upn = upn,
+    UseAppToken = useAppToken
 };
 
+bool stopExecution = false;
+
 using IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((services) =>
+    .ConfigureAppConfiguration(c => c.AddJsonFile("appsettings.json"))
+    .ConfigureServices((hostBuilder, services) =>
     {
+        var config = hostBuilder.Configuration;
+        if (appSettings.UseAppToken)
+        {
+            if (string.IsNullOrWhiteSpace(config.GetValue<string>("clientId")))
+            {
+                Console.WriteLine("Please provide clientId in the appsettings file.");
+                stopExecution = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(config.GetValue<string>("clientSecret")))
+            {
+                Console.WriteLine("Please provide clientSecret in the appsettings file.");
+                stopExecution = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(config.GetValue<string>("tenantId")))
+            {
+                Console.WriteLine("Please provide tenantId in the appsettings file.");
+                stopExecution = true;
+            }
+        }
+
         services.AddSingleton(appSettings);
         services.AddSingleton<ITokenProvider, TokenProvider>();
         services.AddSingleton<ICustomerProvider, CustomerProvider>();
@@ -51,6 +84,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<INewCommerceMigrationProvider, NewCommerceMigrationProvider>();
         services.AddSingleton<INewCommerceMigrationScheduleProvider, NewCommerceMigrationScheduleProvider>();
     }).Build();
+
+if (stopExecution)
+{
+    await host.StopAsync();
+    Environment.Exit(Environment.ExitCode);
+}
 
 await RunAsync(host.Services);
 
