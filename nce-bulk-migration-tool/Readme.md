@@ -58,7 +58,7 @@ Note that steps six through nine are only for scheduled migrations.
 
 ## Prerequisites 
 * In order to build and run the BAM tool, .NET 6.0 SDK is required.
-* AAD AppId that is onboarded to access Partner Center Apis. The batch migration (BAM) tool is not configured for multitenant apps. When registering the App please use single tenant app.
+* AAD AppId that is onboarded to access Partner Center Apis.
 * Follow the below steps to create an app if not already exists.
 	1.	Login to Partner Center and navigate to Account Settings.
 	2.	Select App Management and then select “Native App” tab.

@@ -14,15 +14,17 @@ internal class SubscriptionProvider : ISubscriptionProvider
 
     private static string partnerTenantId = string.Empty;
     private readonly ITokenProvider tokenProvider;
+    private readonly IConfiguration configuration;
     private long subscriptionsCntr = 0;
 
     /// <summary>
     /// SubscriptionProvider constructor.
     /// </summary>
     /// <param name="tokenProvider"></param>
-    public SubscriptionProvider(ITokenProvider tokenProvider)
+    public SubscriptionProvider(ITokenProvider tokenProvider, IConfiguration configuration)
     {
         this.tokenProvider = tokenProvider;
+        this.configuration = configuration;
     }
 
     /// <inheritdoc/>
@@ -38,7 +40,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var failedCustomersBag = new ConcurrentBag<CompanyProfile>();
         
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
-        partnerTenantId = authenticationResult.TenantId;
+        partnerTenantId = authenticationResult.TenantId ?? this.configuration.GetValue<string>("tenantId");
 
         var httpClient = new HttpClient
         {
@@ -99,7 +101,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var failedCustomersBag = new ConcurrentBag<CompanyProfile>();
 
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
-        partnerTenantId = authenticationResult.TenantId;
+        partnerTenantId = authenticationResult.TenantId ?? this.configuration.GetValue<string>("tenantId");
 
         var httpClient = new HttpClient
         {

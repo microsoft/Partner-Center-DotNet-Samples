@@ -33,4 +33,9 @@ internal record AppSettings
             return this.Upn[++index..];
         }
     }
+
+    /// <summary>
+    /// Gets or sets a flag indicating whether to use app only token.
+    /// </summary>
+    public bool UseAppToken { get; set; }
 }
