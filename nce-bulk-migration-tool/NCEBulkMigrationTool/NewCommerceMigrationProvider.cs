@@ -141,7 +141,7 @@ internal class NewCommerceMigrationProvider : INewCommerceMigrationProvider
             var inputBaseMigrationRequests = inputMigrations.Where(m => !m.AddOn);
             var inputAddOnMigrationRequests = inputMigrations.Where(m => m.AddOn);
 
-            var baseSubscriptionIds = inputBaseMigrationRequests.Select(b => b.LegacySubscriptionId).ToList();
+            var baseSubscriptionIds = inputMigrations.Select(b => b.LegacySubscriptionId).ToList();
 
             var addOnsWithoutBase = inputAddOnMigrationRequests.Where(a => !baseSubscriptionIds.Contains(a.BaseSubscriptionId));
 
