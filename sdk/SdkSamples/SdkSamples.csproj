@@ -281,6 +281,7 @@
     <Compile Include="RatedUsage\GetSubscriptionUsageRecords.cs" />
     <Compile Include="RatedUsage\GetSubscriptionUsageSummary.cs" />
     <Compile Include="Subscriptions\GetSubscriptionSupportContact.cs" />
+    <Compile Include="Subscriptions\GetSubscriptionTransitionsByOperationId.cs" />
     <Compile Include="Subscriptions\ToggleSubscriptionAutoRenew.cs" />
     <Compile Include="Subscriptions\UpdateOverage.cs" />
     <Compile Include="Subscriptions\UpdateSubscriptionSupportContact.cs" />
