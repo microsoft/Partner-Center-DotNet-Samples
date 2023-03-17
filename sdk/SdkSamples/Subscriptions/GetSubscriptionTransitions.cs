@@ -27,12 +27,10 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
             var partnerOperations = this.Context.UserPartnerOperations;
             string customerId = this.ObtainCustomerId("Enter the ID of the customer whom to retrieve their Subscriptions");
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to find transitions for");
-
             var subscriptionOperations = partnerOperations.Customers.ById(customerId).Subscriptions.ById(subscriptionId);
 
             this.Context.ConsoleHelper.StartProgress("Retrieving customer subscription transitions");
             var transitions = subscriptionOperations.Transitions.Get();
-
             this.Context.ConsoleHelper.StopProgress();
 
             this.Context.ConsoleHelper.WriteObject(transitions, "Customer subscription transitions");
