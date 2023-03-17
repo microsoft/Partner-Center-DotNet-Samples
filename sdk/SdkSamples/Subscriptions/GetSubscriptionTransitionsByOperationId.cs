@@ -9,13 +9,13 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
     /// <summary>
     /// A scenario that retrieves a customer subscription transitions by operation ID.
     /// </summary>
-    public class GetSubscriptionTransitionsyOperationId : BasePartnerScenario
+    public class GetSubscriptionTransitionsByOperationId : BasePartnerScenario
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetSubscriptionTransitions"/> class.
+        /// Initializes a new instance of the <see cref="GetSubscriptionTransitionsByOperationId"/> class.
         /// </summary>
         /// <param name="context">The scenario context.</param>
-        public GetSubscriptionTransitionsyOperationId(IScenarioContext context) : base("Get customer subscription transitions by operation ID", context)
+        public GetSubscriptionTransitionsByOperationId(IScenarioContext context) : base("Get customer subscription transitions by operation ID", context)
         {
         }
 
