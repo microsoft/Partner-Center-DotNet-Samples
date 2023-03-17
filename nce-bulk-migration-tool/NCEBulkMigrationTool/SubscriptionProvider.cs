@@ -14,15 +14,17 @@ internal class SubscriptionProvider : ISubscriptionProvider
 
     private static string partnerTenantId = string.Empty;
     private readonly ITokenProvider tokenProvider;
+    private readonly IConfiguration configuration;
     private long subscriptionsCntr = 0;
 
     /// <summary>
     /// SubscriptionProvider constructor.
     /// </summary>
     /// <param name="tokenProvider"></param>
-    public SubscriptionProvider(ITokenProvider tokenProvider)
+    public SubscriptionProvider(ITokenProvider tokenProvider, IConfiguration configuration)
     {
         this.tokenProvider = tokenProvider;
+        this.configuration = configuration;
     }
 
     /// <inheritdoc/>
@@ -38,9 +40,12 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var failedCustomersBag = new ConcurrentBag<CompanyProfile>();
         
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
-        partnerTenantId = authenticationResult.TenantId;
+        partnerTenantId = authenticationResult.TenantId ?? this.configuration.GetValue<string>("tenantId");
 
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Routes.BaseUrl)
+        };
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
         httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -76,8 +81,8 @@ internal class SubscriptionProvider : ISubscriptionProvider
         if (failedCustomersBag.Count > 0)
         {
             Console.WriteLine("Exporting failed customers");
-            await csvProvider.ExportCsv(failedCustomersBag, "failedCustomers.csv");
-            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/failedCustomers.csv");
+            await csvProvider.ExportCsv(failedCustomersBag, $"{Constants.OutputFolderPath}/failedCustomers.csv");
+            Console.WriteLine($"Exported failed customers at {Environment.CurrentDirectory}/{Constants.OutputFolderPath}/failedCustomers.csv");
         }
 
         return true;
@@ -96,9 +101,12 @@ internal class SubscriptionProvider : ISubscriptionProvider
         var failedCustomersBag = new ConcurrentBag<CompanyProfile>();
 
         var authenticationResult = await this.tokenProvider.GetTokenAsync();
-        partnerTenantId = authenticationResult.TenantId;
+        partnerTenantId = authenticationResult.TenantId ?? this.configuration.GetValue<string>("tenantId");
 
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Routes.BaseUrl)
+        };
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
         httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
 
@@ -182,7 +190,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
             httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
-            subscriptionRequest = new HttpRequestMessage(HttpMethod.Get, Routes.GetCustomers);
+            subscriptionRequest = new HttpRequestMessage(HttpMethod.Get, string.Format(Routes.GetSubscriptions, customer.TenantId));
             subscriptionRequest.Headers.Add("MS-CorrelationId", Guid.NewGuid().ToString());
 
             subscriptionResponse = await httpClient.SendAsync(subscriptionRequest).ConfigureAwait(false);
@@ -229,7 +237,10 @@ internal class SubscriptionProvider : ISubscriptionProvider
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
                 httpClient.DefaultRequestHeaders.Add(Constants.PartnerCenterClientHeader, Constants.ClientName);
-                migrationRequest = new HttpRequestMessage(HttpMethod.Get, Routes.GetCustomers);
+                migrationRequest = new HttpRequestMessage(HttpMethod.Post, string.Format(Routes.ValidateMigrationEligibility, customer.TenantId))
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
+                };
                 migrationRequest.Headers.Add("MS-CorrelationId", Guid.NewGuid().ToString());
 
                 migrationResponse = await httpClient.SendAsync(migrationRequest).ConfigureAwait(false);
@@ -279,6 +290,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             LegacySubscriptionName = subscription.FriendlyName,
             LegacyProductName = subscription.OfferName,
             ExpirationDate = subscription.CommitmentEndDate,
+            AutoRenewEnabled = subscription.AutoRenewEnabled,
             MigrationEligible = newCommerceEligibility.IsEligible,
             NcePsa = newCommerceEligibility.CatalogItemId,
             CurrentTerm = subscription.TermDuration,
@@ -288,6 +300,7 @@ internal class SubscriptionProvider : ISubscriptionProvider
             Term = subscription.TermDuration,
             BillingPlan = subscription.BillingCycle.ToString(),
             SeatCount = subscription.Quantity,
+            CustomTermEndDate = newCommerceEligibility.CustomTermEndDate,
             AddOn = !string.IsNullOrWhiteSpace(subscription.ParentSubscriptionId),
             BaseSubscriptionId = subscription.ParentSubscriptionId,
             MigrationIneligibilityReason = newCommerceEligibility.Errors.Any() ?

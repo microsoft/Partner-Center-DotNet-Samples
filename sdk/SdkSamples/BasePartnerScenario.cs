@@ -534,6 +534,23 @@ namespace Microsoft.Store.PartnerCenter.Samples
         }
 
         /// <summary>
+        /// Obtains a custom term end date to work with by prompting the user to enter it.
+        /// </summary>
+        /// <param name="promptMessage">An optional custom prompt message.</param>
+        /// <returns>The custom term end date.</returns>
+        protected DateTime? ObtainCustomTermEndDate(string promptMessage = default(string))
+        {
+            string customTermEndDateString = this.Context.ConsoleHelper.ReadOptionalString(string.IsNullOrWhiteSpace(promptMessage) ? "Enter a custom term end date or leave blank to keep default" : promptMessage);
+            DateTime? customTermEndDate = null;
+            if (!string.IsNullOrWhiteSpace(customTermEndDateString))
+            {
+                customTermEndDate = DateTime.Parse(customTermEndDateString);
+            }
+
+            return customTermEndDate;
+        }
+
+        /// <summary>
         /// Obtains a value to work with from the configuration if set there or prompts the user to enter it.
         /// </summary>
         /// <param name="configuredValue">The value read from the configuration.</param>

@@ -52,6 +52,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.SelfServePolicies
                     Action = "Purchase",
                     Resource = "AzureReservedInstances",
                     },
+                    new Permission
+                    {
+                    Action = "Purchase",
+                    Resource = "AzureSavingsPlan",
+                    }
                 },
             };
 

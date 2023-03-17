@@ -32,6 +32,11 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to be migrated to New-Commerce");
+            string subscriptionTermDuration = this.ObtainRenewalTermDuration("Enter a term duration for the subscription [example: P1Y, P1M]");
+            string subscriptionBillingCycle = this.ObtainBillingCycle("Enter a billing cycle for the subscription [example: Annual or Monthly]");
+            string subscriptionQuantityString = this.ObtainQuantity("Enter the quantity for the subscription");
+            var subscriptionQuantity = int.Parse(subscriptionQuantityString);
+            var subscriptionCustomTermEndDate = this.ObtainCustomTermEndDate("Enter the custom term end date for the subscription or leave blank to keep default");
 
             string addOnSubscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the add-on subscription to be migrated to New-Commerce");
 
@@ -44,10 +49,15 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
             string addOnSubscriptionBillingCycle = this.ObtainBillingCycle("Enter a billing cycle for the add-on subscription [example: Annual or Monthly]");
             string addOnSubscriptionQuantityString = this.ObtainQuantity("Enter the quantity for the add-on subscription");
             var addOnSubscriptionQuantity = int.Parse(addOnSubscriptionQuantityString);
+            var addonSubscriptionCustomTermEndDate = this.ObtainCustomTermEndDate("Enter the custom term end date for the add-on subscription or leave blank to keep default");
 
             var newCommerceMigration = new NewCommerceMigration
             {
                 CurrentSubscriptionId = subscriptionId,
+                TermDuration = subscriptionTermDuration,
+                BillingCycle = subscriptionBillingCycle,
+                Quantity = subscriptionQuantity,
+                CustomTermEndDate = subscriptionCustomTermEndDate,
                 AddOnMigrations = new List<NewCommerceMigration>
                 {
                     new NewCommerceMigration
@@ -56,6 +66,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
                         TermDuration = addOnSubscriptionTermDuration,
                         BillingCycle = addOnSubscriptionBillingCycle,
                         Quantity = addOnSubscriptionQuantity,
+                        CustomTermEndDate = addonSubscriptionCustomTermEndDate,
                     }
                 },
             };

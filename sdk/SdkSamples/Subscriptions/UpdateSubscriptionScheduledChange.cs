@@ -83,17 +83,20 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                     // prompt the user to enter the term duration for the scheduled change
                     string changeToTermDuration = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the scheduled change term duration", "Scheduled change term duration can't be empty");
 
+                    // prompt the user to enter the promotion id for the scheduled change
+                    string changeToPromotionId = this.Context.ConsoleHelper.ReadOptionalString("Enter the scheduled promotion id or leave blank to automatically check and fill with an available promotion");
+
+                    if (string.IsNullOrWhiteSpace(changeToPromotionId))
+                    {
+                        changeToPromotionId = null;
+                    }
+                    
                     // prompt the user to enter the quantity for the scheduled change
                     string quantity = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the scheduled change quantity", "Scheduled change term quantity can't be empty");
                     var changeToQuantity = int.Parse(quantity);
                     
                     // prompt the user to enter the custom term end date for the scheduled change
-                    string customTermEndDate = this.Context.ConsoleHelper.ReadOptionalString("Enter the scheduled change custom term end date or leave blank to keep the current term end date");
-                    DateTime? changeToCustomTermEndDate = null;
-                    
-                    if (!string.IsNullOrWhiteSpace(customTermEndDate)) {
-                        changeToCustomTermEndDate = DateTime.Parse(customTermEndDate);
-                    }
+                    DateTime? changeToCustomTermEndDate = this.ObtainCustomTermEndDate("Enter the scheduled change custom term end date or leave blank to keep the current term end date");
                     
                     this.Context.ConsoleHelper.StartProgress("Updating subscription scheduled change");
                     selectedSubscription.ScheduledNextTermInstructions = new ScheduledNextTermInstructions
@@ -105,6 +108,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.Subscriptions
                             AvailabilityId = changeToAvailabilityId,
                             BillingCycle = changeToBillingCycle,
                             TermDuration = changeToTermDuration,
+                            PromotionId = changeToPromotionId,
                         },
                         Quantity = changeToQuantity,
                         CustomTermEndDate = changeToCustomTermEndDate

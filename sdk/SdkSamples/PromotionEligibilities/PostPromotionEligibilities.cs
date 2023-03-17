@@ -37,7 +37,7 @@ namespace Microsoft.Store.PartnerCenter.Samples.PromotionEligibilities
             string termDuration = this.ObtainRenewalTermDuration("Enter the term duration");
             string billingCycle = this.ObtainBillingCycle("Enter the billing cycle");
             var billingCycleType = (BillingCycleType)Enum.Parse(typeof(BillingCycleType), billingCycle, true);
-            var promotionId = this.Context.ConsoleHelper.ReadNonEmptyString("Enter the promotionId", "The promotionId can't be empty");
+            var promotionId = this.Context.ConsoleHelper.ReadOptionalString("Enter the promotionId or leave blank to get eligibility for for all active and applicable promotions");
 
             var promotionEligibilityRequest = new PromotionEligibilitiesRequest()
             {

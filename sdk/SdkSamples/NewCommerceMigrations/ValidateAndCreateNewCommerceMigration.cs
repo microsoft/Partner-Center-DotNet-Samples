@@ -30,10 +30,19 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
 
             string customerId = this.ObtainCustomerId("Enter the ID of the customer making the purchase");
             string subscriptionId = this.ObtainSubscriptionId(customerId, "Enter the ID of the subscription to be migrated to New-Commerce");
+            string termDuration = this.ObtainRenewalTermDuration("Enter a term duration for the subscription [example: P1Y, P1M]");
+            string billingCycle = this.ObtainBillingCycle("Enter a billing cycle for the subscription [example: Annual or Monthly]");
+            string quantityString = this.ObtainQuantity("Enter the quantity for the subscription");
+            var quantity = int.Parse(quantityString);
+            var customTermEndDate = this.ObtainCustomTermEndDate("Enter the custom term end date for the subscription or leave blank to keep default");
 
             var newCommerceMigration = new NewCommerceMigration()
             {
                 CurrentSubscriptionId = subscriptionId,
+                TermDuration = termDuration,
+                BillingCycle = billingCycle,
+                Quantity = quantity,
+                CustomTermEndDate = customTermEndDate,
             };
 
             var newCommerceMigrationOperations = partnerOperations.Customers.ById(customerId).NewCommerceMigrations;
@@ -53,11 +62,21 @@ namespace Microsoft.Store.PartnerCenter.Samples.NewCommerceMigrations
                 newCommerceMigration = newCommerceMigrationOperations.ById(newCommerceMigration.Id).Get();
                 this.Context.ConsoleHelper.WriteObject(newCommerceMigration, "Final New-Commerce migration");
                 this.Context.ConsoleHelper.StopProgress();
+
+                this.Context.ConsoleHelper.StartProgress("Getting migration events");
+                var newCommerceMigrationEvents = newCommerceMigrationOperations.GetEvents(newCommerceMigration.Id, null);
+                this.Context.ConsoleHelper.WriteObject(newCommerceMigrationEvents, "New-Commerce migration events");
+                this.Context.ConsoleHelper.StopProgress();
             }
             else
             {
                 this.Context.ConsoleHelper.Warning("The specified subscription is not eligibile for migrating to New-Commerce.");
             }
+
+            this.Context.ConsoleHelper.StartProgress("Getting all New-Commerce migrations");
+            var newCommerceMigrations = newCommerceMigrationOperations.Get(customerId, null, null, null);
+            this.Context.ConsoleHelper.WriteObject(newCommerceMigrations, "New-Commerce migrations");
+            this.Context.ConsoleHelper.StopProgress();
         }
     }
 }
