@@ -476,7 +476,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 this.Context.ConsoleHelper.StartProgress("Retrieving customer's Azure entitlements.");
                 var azureEntitlements = partnerOperations.Customers.ById(customerId)
                         .Subscriptions.ById(selectedSubscriptionId)
-                        .AzureEntitlement.Get();
+                        .AzureEntitlements.Get();
                 this.Context.ConsoleHelper.StopProgress();
                 this.Context.ConsoleHelper.WriteObject(azureEntitlements, "Customer's Azure entitlements.");
 
