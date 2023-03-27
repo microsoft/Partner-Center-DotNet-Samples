@@ -378,6 +378,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new ActivateSandboxThirdPartySubscription(context),
                 new TransitionSubscription(context),
                 new GetSubscriptionTransitions(context),
+                new GetSubscriptionTransitionsByOperationId(context),
                 new UpdateOverage(context),
                 new GetAzureEntitlement(context),
                 new CancelAzureEntitlement(context),
