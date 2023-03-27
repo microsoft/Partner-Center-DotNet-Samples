@@ -21,6 +21,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
     using Entitlements;
     using IndirectModel;
     using Invoice;
+    using AzureEntitlement;
     using Microsoft.Store.PartnerCenter.Samples.SelfServePolicies;
     using Models.Auditing;
     using Models.Customers;
@@ -379,6 +380,8 @@ namespace Microsoft.Store.PartnerCenter.Samples
                 new GetSubscriptionTransitions(context),
                 new GetSubscriptionTransitionsByOperationId(context),
                 new UpdateOverage(context),
+                new GetAzureEntitlement(context),
+                new CancelAzureEntitlement(context),
             };
 
             return new AggregatePartnerScenario("Subscription samples", subscriptionScenarios, context);
