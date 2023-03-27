@@ -8,6 +8,7 @@ namespace Microsoft.Store.PartnerCenter.Samples
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using ScenarioExecution;
 
     /// <summary>
@@ -453,6 +454,52 @@ namespace Microsoft.Store.PartnerCenter.Samples
             }
 
             return subscriptionId.Trim();
+        }
+
+        /// <summary>
+        /// Obtains the Azure entitlement identifier.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <param name="subscriptionId">The subscription identifier.</param>
+        /// <param name="promptMessage">The prompt message.</param>
+        /// <returns>The Azure entitlement ID.</returns>
+        protected string ObtainAzureEntitlementId(string customerId, string subscriptionId, string promptMessage = default)
+        {
+            var partnerOperations = this.Context.UserPartnerOperations;
+            var azureEntitlementId = default(string);
+
+            var usageRecords = partnerOperations.Customers.ById(customerId).Subscriptions.UsageRecords.Get();
+            var selectedSubscriptionId = usageRecords.Items.FirstOrDefault(i => i.ResourceName == "Azure plan").ResourceId;
+
+            if (!string.IsNullOrWhiteSpace(selectedSubscriptionId))
+            {
+                this.Context.ConsoleHelper.StartProgress("Retrieving customer's Azure entitlements.");
+                var azureEntitlements = partnerOperations.Customers.ById(customerId)
+                        .Subscriptions.ById(selectedSubscriptionId)
+                        .AzureEntitlements.Get();
+                this.Context.ConsoleHelper.StopProgress();
+                this.Context.ConsoleHelper.WriteObject(azureEntitlements, "Customer's Azure entitlements.");
+
+                if (azureEntitlements.TotalCount > 0)
+                {
+                    Console.WriteLine();
+                    azureEntitlementId = this.Context.ConsoleHelper.ReadNonEmptyString(
+                            string.IsNullOrWhiteSpace(promptMessage)
+                            ? "Enter the Azure entitlement ID"
+                            : promptMessage,
+                        "Azure entitlement ID can't be empty");
+                }
+                else
+                {
+                    Console.WriteLine("Azure Plan with Id {0} contains no Azure entitlements!", selectedSubscriptionId);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Provided Azure Plan Id {0} is incorrect", subscriptionId);
+            }
+
+            return azureEntitlementId.Trim();
         }
 
         /// <summary>
