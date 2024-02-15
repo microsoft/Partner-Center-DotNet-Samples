@@ -36,7 +36,7 @@ namespace MCARefreshBulkAttestationCLITool.Models
 
         public string CustomerAccountLink
         {
-            get => $"https://partner.microsoft.com/en-us/dashboard/commerce2/customers/{this.CustomerTenantId}/account";
+            get => $"https://partner.microsoft.com/dashboard/v2/customers/{this.CustomerTenantId}/account";
         }
     }
 }
