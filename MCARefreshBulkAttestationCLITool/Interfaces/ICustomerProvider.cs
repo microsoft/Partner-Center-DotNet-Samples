@@ -17,11 +17,10 @@ namespace MCARefreshBulkAttestationCLITool.Interfaces
 
     public interface ICustomerAgreementsClient
     {
-        [Get("/v1/partners/customeragreementrecords")]
-        Task<FetchCustomerAgreementRecordResponse> GetCustomerAgreementRecords(CancellationToken cancellationToken = default);
+        Task<FetchCustomerAgreementRecordResponse> GetCustomerAgreementRecords(CancellationToken cancellationToken = default) => this.GetCustomerAgreementRecords(null, cancellationToken);
 
-        [Get("/v1/partners/customeragreementrecords?continuationToken={continuationToken}")]
-        Task<FetchCustomerAgreementRecordResponse> GetCustomerAgreementRecords(string continuationToken, CancellationToken cancellationToken = default);
+        [Get("/v1/partners/customeragreementrecords")]
+        Task<FetchCustomerAgreementRecordResponse> GetCustomerAgreementRecords([AliasAs("continuation_token")][Query] string? continuationToken, CancellationToken cancellationToken = default);
 
         [Post("/v1/CreateBulkReAttestation")]
         Task CreateBulkReAttestation(IEnumerable<ReAttestationRequest> request, CancellationToken cancellationToken = default);
